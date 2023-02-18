@@ -32,7 +32,7 @@
   - Change your password
   - Check order's status
 
-## What i used 🤔
+## What i was using and is gonna be using 🤔
 
 - Programming languages: Javascript, Typescript 👩‍💻
 
