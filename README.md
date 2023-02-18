@@ -56,6 +56,8 @@
 
 - Self-testing and unit-testing applied 🔧
 
+- _And many more ..._
+
 ## Setting up the project
 
 Cuz we're not using **Create-React-App 🐢** but **Vite 🐇**, so we must install and configurate ESLint by ourselves. Here are the list of devDeps you have to install:
