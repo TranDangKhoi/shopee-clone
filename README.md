@@ -94,7 +94,7 @@ For pnpm users:
 I do not want to talk to you
 ```
 
-## Cấu hình ESLint
+## ESLint Configuration
 
 Create a new file called `.eslintrc.cjs` in the root folder
 
@@ -112,7 +112,7 @@ module.exports = {
     "plugin:import/typescript",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
-    // Disable rules that made conflicts between eslint and pretiter
+    // Disable rules that made conflicts between eslint and prettier
     // Put 2 of these below so they override all of the rules above!
     "eslint-config-prettier",
     "prettier",
@@ -187,7 +187,7 @@ node_modules/
 dist/
 ```
 
-Thêm script mới vào `package.json`
+Add new scripts into `package.json`
 
 ```json
   "scripts": {
@@ -209,13 +209,36 @@ indent_size = 2
 indent_style = space
 ```
 
-### Cấu hình tsconfig.json
+### Configuration inside tsconfig.json
 
-Set `"target": "ES2015"` và `"baseUrl": "."` trong `compilerOptions`
+Set `"target": "ES2015"` và `"baseUrl": "."` inside `compilerOptions`
 
-### Cấu hình vite config
+```json
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": "."
+  }
+}
+```
 
-Íntall `@types/node` package to use NodeJS inside of .ts files without bugs
+### Using NodeJS in Vite.config.ts
+
+Install `@types/node` package to use NodeJS inside of .ts files without bugs
 
 ```bash
 yarn add -D @types/node
