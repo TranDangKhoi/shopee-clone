@@ -34,6 +34,8 @@
 
 ## What i used 🤔
 
+- Programming languages: Javascript, Typescript 👩‍💻
+
 - UI / CSS Library: Tailwind 🌊
 
 - State Management: React Query for async state and React Context for other states 🔍
