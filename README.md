@@ -95,7 +95,7 @@ yarn add eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/par
 For pnpm users:
 
 ```bash
-I do not want to talk to you
+Don't talk to me
 ```
 
 ## ESLint Configuration
