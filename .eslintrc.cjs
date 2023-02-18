@@ -25,6 +25,7 @@ module.exports = {
     // Nói ESLint cách xử lý các import
     "import/resolver": {
       node: {
+        // Fix a path bug causing the root directory is not the current project - ESLint bug
         paths: [path.resolve(__dirname, "")],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       },

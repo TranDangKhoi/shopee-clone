@@ -215,13 +215,13 @@ Set `"target": "ES2015"` và `"baseUrl": "."` trong `compilerOptions`
 
 ### Cấu hình vite config
 
-Cài package `@types/node` để sử dụng node js trong file ts không bị lỗi
+Íntall `@types/node` package to use NodeJS inside of .ts files without bugs
 
 ```bash
 yarn add -D @types/node
 ```
 
-file `vite.config.ts`
+In `vite.config.ts`, do as the following code:
 
 ```ts
 import { defineConfig } from "vite";
