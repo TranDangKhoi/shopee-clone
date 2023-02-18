@@ -272,7 +272,7 @@ export default defineConfig({
 });
 ```
 
-### Extensions you should, or should i say MUST install in VSCode
+### Extensions you should, or should i say ... MUST install in VSCode
 
 - ESLint
 
@@ -287,7 +287,7 @@ Vscode Settings Configuration
 
 ## My Notes
 
-Delete all special characters on your keyboard
+Function to delete all special characters
 
 ```ts
 export const removeSpecialCharacter = (str: string) =>
