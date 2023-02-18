@@ -156,14 +156,14 @@ module.exports = {
 };
 ```
 
-Tạo file `.eslintignore`
+Create a new file called `.eslintignore` with the following content:
 
 ```json
 node_modules/
 dist/
 ```
 
-Tạo file `.prettierrc`
+And also `.prettierrc` with the following content:
 
 ```json
 {
@@ -180,7 +180,7 @@ Tạo file `.prettierrc`
 }
 ```
 
-Tạo file `.prettierignore`
+Last but not least, `.prettierignore` with the following content:
 
 ```json
 node_modules/
@@ -201,7 +201,7 @@ Add new scripts into `package.json`
 
 ### Cài editorconfig
 
-Tạo file `.editorconfig` ở thư mục root
+Create a file called `.editorconfig` in the root folder (outside the src folder)
 
 ```EditorConfig
 [*]
