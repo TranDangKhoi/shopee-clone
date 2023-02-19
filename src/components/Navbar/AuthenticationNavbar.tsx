@@ -8,7 +8,7 @@ const AuthenticationNavbar = () => {
       <div className="mx-auto max-w-7xl px-4">
         <nav className="flex items-end">
           <Link to="/">
-            <ShoppeeLogoIcon fillColor="secondary"></ShoppeeLogoIcon>
+            <ShoppeeLogoIcon fillColor="primary"></ShoppeeLogoIcon>
           </Link>
           <div className="ml-5 text-xl lg:text-2xl">Đăng ký</div>
         </nav>
