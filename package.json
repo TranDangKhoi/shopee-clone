@@ -1,5 +1,5 @@
 {
-  "name": "shoppee-clone",
+  "name": "shopee-clone",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,10 +13,13 @@
     "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\""
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.1",
     "react-router-dom": "^6.8.1",
-    "react-toastify": "^9.1.1"
+    "react-toastify": "^9.1.1",
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.14.0",
