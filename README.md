@@ -203,7 +203,7 @@ Add new scripts into `package.json`
   },
 ```
 
-### Cài editorconfig
+### Config editorconfig
 
 Create a file called `.editorconfig` in the root folder (outside the src folder)
 
