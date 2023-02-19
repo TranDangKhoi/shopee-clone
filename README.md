@@ -305,3 +305,7 @@ Add this into your `settings.json` (VSCode version)
   "tailwindCSS.experimental.classRegex": ["[a-zA-Z]*class[a-zA-Z]*='([^']+)'"]
 }
 ```
+
+## Other stuffs
+
+I have overrided some of the Tailwind's styles, check it out right here: [tailwind.config.cjs](/tailwind.config.cjs)
