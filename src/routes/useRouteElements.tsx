@@ -1,5 +1,5 @@
 import { useRoutes } from "react-router-dom";
-import RegisterLayout from "src/layouts/RegisterLayout";
+import AuthenticationLayout from "src/layouts/AuthenticationLayout";
 import Login from "src/pages/Login";
 import Register from "src/pages/Register";
 import ProductList from "../pages/ProductList";
@@ -13,17 +13,17 @@ export default function useRoutesElement() {
     {
       path: "/login",
       element: (
-        <RegisterLayout>
+        <AuthenticationLayout>
           <Login></Login>
-        </RegisterLayout>
+        </AuthenticationLayout>
       ),
     },
     {
       path: "/register",
       element: (
-        <RegisterLayout>
+        <AuthenticationLayout>
           <Register></Register>
-        </RegisterLayout>
+        </AuthenticationLayout>
       ),
     },
   ]);
