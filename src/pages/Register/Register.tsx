@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { Input } from "src/components/Input";
+import { getSchemas } from "src/utils/schema";
 
 type FormData = {
   email: string;
@@ -12,62 +14,55 @@ const Register = () => {
   const {
     handleSubmit,
     register,
+    getValues,
     formState: { errors },
-  } = useForm<FormData>();
-
+  } = useForm<FormData>({
+    reValidateMode: "onBlur",
+  });
+  const schemas = getSchemas(getValues);
   const handleSignUp = handleSubmit((data) => {
     console.log(data);
   });
 
-  console.log(errors);
   return (
-    <div className="grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10">
+    <div className="grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-24 lg:pr-10">
       <div className="lg:col-span-2 lg:col-start-4">
         <form
           onSubmit={handleSignUp}
           className="rounded bg-white p-10 shadow-sm"
           noValidate
+          autoComplete="on"
         >
-          <div className="text-2xl">Đăng ký</div>
-          <div className="mt-8">
-            <input
-              type="email"
-              className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
-              placeholder="Email"
-              {...register("email", {
-                required: {
-                  value: true,
-                  message: "Không được để trống Email",
-                },
-                pattern: {
-                  value:
-                    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message: "Email không hợp lệ",
-                },
-              })}
-            />
-            <div className="mt-1 min-h-[20px] text-sm text-red-600">{errors.email?.message}</div>
-          </div>
+          <div className="text-2xl">Đăng ký tài khoản</div>
+          <Input
+            type="email"
+            name="email"
+            register={register}
+            rules={schemas.email}
+            containerClassName="mt-8"
+            placeholder="Địa chỉ e-mail"
+            errorMsg={errors.email?.message}
+          ></Input>
+          <Input
+            type="password"
+            name="password"
+            register={register}
+            rules={schemas.password}
+            containerClassName="mt-1"
+            placeholder="Nhập mật khẩu của bạn"
+            errorMsg={errors.password?.message}
+          ></Input>
+          <Input
+            type="password"
+            name="confirm_password"
+            register={register}
+            rules={schemas.confirm_password}
+            containerClassName="mt-1"
+            placeholder="Nhập lại mật khẩu của bạn"
+            errorMsg={errors.confirm_password?.message}
+          ></Input>
           <div className="mt-1">
-            <input
-              type="password"
-              className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
-              placeholder="Password"
-              {...register("password")}
-            />
-            <div className="mt-1 min-h-[1rem] text-sm text-red-600"></div>
-          </div>
-          <div className="mt-1">
-            <input
-              type="password"
-              className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
-              placeholder="Confirm Password"
-              {...register("confirm_password")}
-            />
-            <div className="mt-1 min-h-[1rem] text-sm text-red-600"></div>
-          </div>
-          <div className="mt-1">
-            <button className="w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600">
+            <button className="w-full bg-red-500 py-3 px-2 text-center text-sm uppercase text-white hover:bg-red-600">
               Đăng ký
             </button>
           </div>
