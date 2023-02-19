@@ -10,7 +10,7 @@
 
 - Product List:
 
-  - Searching products
+  - Products Searching
   - Sorting and filtering
   - Pagination
 
@@ -27,10 +27,10 @@
   - CRUD
 
 - User Profile:
-  - Update private information
-  - Upload avatar
+  - User information updating
+  - Avatar uploading
   - Change your password
-  - Check order's status
+  - Order's status checking
 
 ## What i was using and is gonna be using 🤔
 
