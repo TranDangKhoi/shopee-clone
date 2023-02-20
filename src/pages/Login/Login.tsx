@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Input } from "src/components/Input";
-import { getSchemas, loginSchema, LoginSchemaType } from "src/utils/schema";
+import { loginSchema, LoginSchemaType } from "src/utils/schema";
 
 type FormData = LoginSchemaType;
 

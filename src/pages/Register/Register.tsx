@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
@@ -9,6 +8,7 @@ import { registerAccount } from "src/apis/auth.api";
 import { omit } from "lodash";
 import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { ApiResponseType } from "src/types/utils.types";
+import { toast } from "react-toastify";
 
 type FormData = RegisterSchemaType;
 type ErrorForm = Omit<FormData, "confirm_password">;
@@ -28,14 +28,6 @@ const Register = () => {
     mutationFn: (body: Omit<FormData, "confirm_password">) => registerAccount(body),
   });
 
-  // const formError = useMemo(() => {
-  //   const error = registerAccountMutation.error;
-  //   if (isAxiosError<ErrorForm>(error) && error.response?.status === 422) {
-  //     return error.response.data;
-  //   }
-  //   return null;
-  // }, [registerAccountMutation.error]);
-
   const handleSignUp = handleSubmit((data) => {
     const body = omit(data, ["confirm_password"]);
     registerAccountMutation.mutate(body, {
@@ -43,10 +35,7 @@ const Register = () => {
         console.log(data);
       },
       onError: (error) => {
-        if (
-          isAxiosError<ApiResponseType<ErrorForm>>(error) &&
-          isAxiosUnprocessableEntity<ApiResponseType<ErrorForm>>(error)
-        ) {
+        if (isAxiosUnprocessableEntity<ApiResponseType<ErrorForm>>(error)) {
           const formError = error.response?.data.data;
           if (formError) {
             Object.keys(formError).forEach((key) => {
