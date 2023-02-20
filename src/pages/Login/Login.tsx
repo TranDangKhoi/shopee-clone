@@ -1,22 +1,20 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Input } from "src/components/Input";
-import { getSchemas } from "src/utils/schema";
+import { getSchemas, loginSchema, LoginSchemaType } from "src/utils/schema";
 
-type FormData = {
-  email: string;
-  password: string;
-  confirm_password: string;
-};
+type FormData = LoginSchemaType;
 
 const Login = () => {
   const {
-    control,
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormData>({
     mode: "onSubmit",
+    reValidateMode: "onBlur",
+    resolver: yupResolver(loginSchema),
   });
   const schemas = getSchemas();
   const handleLogin = handleSubmit((data) => {
@@ -32,24 +30,22 @@ const Login = () => {
           autoComplete="on"
         >
           <div className="text-2xl">Đăng nhập tài khoản</div>
-          <div className="mt-8">
-            <input
-              type="email"
-              className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
-              placeholder="Email"
-              {...register("email", schemas.email)}
-            />
-            <div className="mt-1 min-h-[1rem] text-sm text-red-600"></div>
-          </div>
-          <div className="mt-3">
-            <input
-              type="password"
-              className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
-              placeholder="Password"
-              {...register("password")}
-            />
-            <div className="mt-1 min-h-[1rem] text-sm text-red-600"></div>
-          </div>
+          <Input
+            type="email"
+            errorMsg={errors.email?.message}
+            name="email"
+            register={register}
+            placeholder="Địa chỉ e-mail"
+            containerClassName="mt-8"
+          ></Input>
+          <Input
+            type="password"
+            errorMsg={errors.password?.message}
+            name="password"
+            register={register}
+            placeholder="Mật khẩu của bạn"
+            containerClassName="mt-1"
+          ></Input>
           <div className="mt-3">
             <button
               type="submit"

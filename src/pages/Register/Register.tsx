@@ -1,14 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
 import { Input } from "src/components/Input";
-import { getSchemas } from "src/utils/schema";
+import { registerSchema, RegisterSchemaType } from "src/utils/schema";
 
-type FormData = {
-  email: string;
-  password: string;
-  confirm_password: string;
-};
+type FormData = RegisterSchemaType;
 
 const Register = () => {
   const {
@@ -18,8 +15,9 @@ const Register = () => {
     formState: { errors },
   } = useForm<FormData>({
     reValidateMode: "onBlur",
+    resolver: yupResolver(registerSchema),
   });
-  const schemas = getSchemas(getValues);
+  // const schemas = getSchemas(getValues);
   const handleSignUp = handleSubmit((data) => {
     console.log(data);
   });
@@ -38,7 +36,7 @@ const Register = () => {
             type="email"
             name="email"
             register={register}
-            rules={schemas.email}
+            // rules={schemas.email}
             containerClassName="mt-8"
             placeholder="Địa chỉ e-mail"
             errorMsg={errors.email?.message}
@@ -47,7 +45,7 @@ const Register = () => {
             type="password"
             name="password"
             register={register}
-            rules={schemas.password}
+            // rules={schemas.password}
             containerClassName="mt-1"
             placeholder="Nhập mật khẩu của bạn"
             errorMsg={errors.password?.message}
@@ -56,7 +54,7 @@ const Register = () => {
             type="password"
             name="confirm_password"
             register={register}
-            rules={schemas.confirm_password}
+            // rules={schemas.confirm_password}
             containerClassName="mt-1"
             placeholder="Nhập lại mật khẩu của bạn"
             errorMsg={errors.confirm_password?.message}
