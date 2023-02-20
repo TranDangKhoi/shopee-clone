@@ -4,6 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
 import { Input } from "src/components/Input";
 import { registerSchema, RegisterSchemaType } from "src/utils/schema";
+import { useMutation } from "@tanstack/react-query";
+import { registerAccount } from "src/apis/auth.api";
+import { omit } from "lodash";
 
 type FormData = RegisterSchemaType;
 
@@ -11,15 +14,21 @@ const Register = () => {
   const {
     handleSubmit,
     register,
-    getValues,
     formState: { errors },
   } = useForm<FormData>({
     reValidateMode: "onBlur",
     resolver: yupResolver(registerSchema),
   });
-  // const schemas = getSchemas(getValues);
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, "confirm_password">) => registerAccount(body),
+  });
   const handleSignUp = handleSubmit((data) => {
-    console.log(data);
+    const body = omit(data, ["confirm_password"]);
+    registerAccountMutation.mutate(body, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    });
   });
 
   return (
