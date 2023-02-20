@@ -16,7 +16,6 @@ const Login = () => {
     reValidateMode: "onBlur",
     resolver: yupResolver(loginSchema),
   });
-  const schemas = getSchemas();
   const handleLogin = handleSubmit((data) => {
     console.log(data);
   });
