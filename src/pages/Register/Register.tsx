@@ -7,26 +7,56 @@ import { registerSchema, RegisterSchemaType } from "src/utils/schema";
 import { useMutation } from "@tanstack/react-query";
 import { registerAccount } from "src/apis/auth.api";
 import { omit } from "lodash";
+import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
+import { ApiResponseType } from "src/types/utils.types";
 
 type FormData = RegisterSchemaType;
+type ErrorForm = Omit<FormData, "confirm_password">;
 
 const Register = () => {
   const {
     handleSubmit,
     register,
+    setError,
     formState: { errors },
   } = useForm<FormData>({
     reValidateMode: "onBlur",
     resolver: yupResolver(registerSchema),
   });
+
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, "confirm_password">) => registerAccount(body),
   });
+
+  // const formError = useMemo(() => {
+  //   const error = registerAccountMutation.error;
+  //   if (isAxiosError<ErrorForm>(error) && error.response?.status === 422) {
+  //     return error.response.data;
+  //   }
+  //   return null;
+  // }, [registerAccountMutation.error]);
+
   const handleSignUp = handleSubmit((data) => {
     const body = omit(data, ["confirm_password"]);
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
         console.log(data);
+      },
+      onError: (error) => {
+        if (
+          isAxiosError<ApiResponseType<ErrorForm>>(error) &&
+          isAxiosUnprocessableEntity<ApiResponseType<ErrorForm>>(error)
+        ) {
+          const formError = error.response?.data.data;
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof ErrorForm, {
+                message: formError[key as keyof ErrorForm],
+                type: "server",
+              });
+            });
+          }
+        }
       },
     });
   });
