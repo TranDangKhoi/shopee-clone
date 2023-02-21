@@ -1,4 +1,13 @@
-import { arrow, FloatingPortal, offset, shift, useClick, useFloating, useInteractions } from "@floating-ui/react";
+import {
+  arrow,
+  FloatingPortal,
+  offset,
+  Placement,
+  shift,
+  useClick,
+  useFloating,
+  useInteractions,
+} from "@floating-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useRef, useState } from "react";
 type PopoverProps = {
@@ -7,12 +16,21 @@ type PopoverProps = {
   className?: string;
   as?: React.ElementType;
   initialOpen?: boolean;
+  placement?: Placement;
 };
-const Popover = ({ children, renderPopover, className, initialOpen = false, as: Element = "div" }: PopoverProps) => {
+const Popover = ({
+  children,
+  renderPopover,
+  className,
+  initialOpen = false,
+  placement = "bottom-end",
+  as: Element = "div",
+}: PopoverProps) => {
   const arrowRef = useRef<HTMLElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(initialOpen);
   const { x, y, strategy, refs, context, middlewareData } = useFloating({
     middleware: [offset(10), shift(), arrow({ element: arrowRef })],
+    placement: placement,
   });
   const click = useClick(context);
   const { getReferenceProps, getFloatingProps } = useInteractions([click]);
