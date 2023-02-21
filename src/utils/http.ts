@@ -12,6 +12,9 @@ class Http {
         "Content-Type": "application/json",
       },
     });
+    // this.instance.interceptors.request.use((response) => {
+
+    // })
     this.instance.interceptors.response.use(
       (response) => {
         return response;

@@ -1,24 +1,52 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { loginAccount } from "src/apis/auth.api";
 import { Input } from "src/components/Input";
+import { ApiResponseType } from "src/types/utils.types";
+import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { loginSchema, LoginSchemaType } from "src/utils/schema";
 
 type FormData = LoginSchemaType;
-
 const Login = () => {
   const {
     handleSubmit,
     register,
+    setError,
     formState: { errors },
   } = useForm<FormData>({
     mode: "onSubmit",
     reValidateMode: "onBlur",
     resolver: yupResolver(loginSchema),
   });
-  const handleLogin = handleSubmit((data) => {
-    console.log(data);
+  const loginAccountMutation = useMutation({
+    mutationFn: (body: FormData) => loginAccount(body),
   });
+
+  const handleLogin = handleSubmit((data) => {
+    loginAccountMutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log(data);
+        localStorage.setItem("access_token", data.data.data?.access_token as string);
+      },
+      onError: (error) => {
+        if (
+          isAxiosError<ApiResponseType<FormData>>(error) &&
+          isAxiosUnprocessableEntity<ApiResponseType<FormData>>(error)
+        ) {
+          const formError = error.response?.data.data;
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof FormData, { message: formError[key as keyof FormData], type: "server" });
+            });
+          }
+        }
+      },
+    });
+  });
+
   return (
     <div className="grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10">
       <div className="lg:col-span-2 lg:col-start-4">
