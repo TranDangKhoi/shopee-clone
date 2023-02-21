@@ -116,8 +116,8 @@ module.exports = {
     "plugin:import/typescript",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
-    // Disable rules that made conflicts between eslint and prettier
-    // Put 2 of these below so they override all of the rules above!
+    // Some of the plugins above may cause conflicts between eslint and prettier
+    // Put these 2 below so they override all of the plugins above => fix the problems
     "eslint-config-prettier",
     "prettier",
   ],
@@ -127,7 +127,7 @@ module.exports = {
       // Auto-detect react version
       version: "detect",
     },
-    // Tell ESlint how to import
+    // Tell ESlint the correct import format, so that it doesn't show the error when importing components, pages, ...e.t.c
     "import/resolver": {
       node: {
         paths: [path.resolve(__dirname, "")],
