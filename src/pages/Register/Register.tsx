@@ -8,10 +8,8 @@ import { registerAccount } from "src/apis/auth.api";
 import { omit } from "lodash";
 import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { ApiResponseType } from "src/types/utils.types";
-import { toast } from "react-toastify";
 
 type FormData = RegisterSchemaType;
-type ErrorForm = Omit<FormData, "confirm_password">;
 
 const Register = () => {
   const {
@@ -35,12 +33,15 @@ const Register = () => {
         console.log(data);
       },
       onError: (error) => {
-        if (isAxiosUnprocessableEntity<ApiResponseType<ErrorForm>>(error)) {
+        if (
+          isAxiosError<ApiResponseType<Omit<FormData, "confirm_password">>>(error) &&
+          isAxiosUnprocessableEntity<ApiResponseType<Omit<FormData, "confirm_password">>>(error)
+        ) {
           const formError = error.response?.data.data;
           if (formError) {
             Object.keys(formError).forEach((key) => {
-              setError(key as keyof ErrorForm, {
-                message: formError[key as keyof ErrorForm],
+              setError(key as keyof Omit<FormData, "confirm_password">, {
+                message: formError[key as keyof Omit<FormData, "confirm_password">],
                 type: "server",
               });
             });
