@@ -5,10 +5,12 @@ type PopoverProps = {
   children?: React.ReactNode;
   renderPopover?: React.ReactNode;
   className?: string;
+  as?: React.ElementType;
+  initialOpen?: boolean;
 };
-const Popover = ({ children, renderPopover, className }: PopoverProps) => {
+const Popover = ({ children, renderPopover, className, initialOpen = false, as: Element = "div" }: PopoverProps) => {
   const arrowRef = useRef<HTMLElement>(null);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(initialOpen);
   const { x, y, strategy, refs, context, middlewareData } = useFloating({
     middleware: [offset(10), shift(), arrow({ element: arrowRef })],
   });
@@ -21,11 +23,15 @@ const Popover = ({ children, renderPopover, className }: PopoverProps) => {
   const hidePopover = () => {
     setIsOpen(false);
   };
+  const togglePopOver = () => {
+    setIsOpen((prev) => !prev);
+  };
   return (
-    <div
+    <Element
       className={className}
       onMouseEnter={showPopover}
       onMouseLeave={hidePopover}
+      onTouchStart={togglePopOver}
       ref={refs.setReference}
       {...getReferenceProps()}
     >
@@ -57,16 +63,12 @@ const Popover = ({ children, renderPopover, className }: PopoverProps) => {
                   top: middlewareData.arrow?.y,
                 }}
               ></span>
-              {/* <div className="flex flex-col bg-white py-3 px-4 shadow-sm">
-                <button className="px-3 py-2 hover:text-orange-400">Tiếng Việt</button>
-                <button className="px-3 py-2 hover:text-orange-400">English</button>
-              </div> */}
               {renderPopover}
             </motion.div>
           )}
         </AnimatePresence>
       </FloatingPortal>
-    </div>
+    </Element>
   );
 };
 

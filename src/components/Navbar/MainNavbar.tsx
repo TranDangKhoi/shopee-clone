@@ -8,10 +8,11 @@ const MainNavbar = () => {
         <div className="flex justify-end gap-x-6">
           <Popover
             className="flex cursor-pointer items-center gap-x-1 py-1 hover:text-gray-300"
+            as="span"
             renderPopover={
-              <div className="flex flex-col items-start bg-white py-3 px-4 shadow-sm">
-                <button className="px-3 py-2 hover:text-orange-400">Tiếng Việt</button>
-                <button className="px-3 py-2 hover:text-orange-400">English</button>
+              <div className="flex flex-col items-start bg-white shadow-sm">
+                <button className="py-3 pl-4 pr-36 hover:text-orange-400">Tiếng Việt</button>
+                <button className="py-3 pl-4 pr-36 hover:text-orange-400">English</button>
               </div>
             }
           >
@@ -22,20 +23,20 @@ const MainNavbar = () => {
           <Popover
             className="flex cursor-pointer items-center py-1 hover:text-gray-300"
             renderPopover={
-              <div className="flex flex-col items-start bg-white py-3 px-4 shadow-sm">
+              <div className="flex flex-col items-start bg-white shadow-sm">
                 <Link
                   to="/profile"
-                  className="px-3 py-2 hover:text-orange-400"
+                  className="w-full px-4 py-3 hover:text-orange-400"
                 >
                   Tài khoản của tôi
                 </Link>
                 <Link
                   to="/orders"
-                  className="px-3 py-2 hover:text-orange-400"
+                  className="w-full px-4 py-3 hover:text-orange-400"
                 >
                   Đơn mua
                 </Link>
-                <button className="px-3 py-2 hover:text-orange-400">Đăng xuất</button>
+                <button className="w-full px-4 py-3 text-left hover:text-orange-400">Đăng xuất</button>
               </div>
             }
           >
