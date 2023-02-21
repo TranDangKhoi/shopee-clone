@@ -1,3 +1,3 @@
-import Navbar from "./Navbar";
+import MainNavbar from "./MainNavbar";
 import AuthenticationNavbar from "./AuthenticationNavbar";
-export { Navbar, AuthenticationNavbar };
+export { MainNavbar, AuthenticationNavbar };
