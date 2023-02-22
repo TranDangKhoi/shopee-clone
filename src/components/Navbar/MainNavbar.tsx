@@ -10,7 +10,7 @@ const MainNavbar = () => {
             className="flex cursor-pointer items-center gap-x-1 py-1 hover:text-gray-300"
             as="span"
             renderPopover={
-              <div className="flex flex-col items-start bg-white shadow-sm">
+              <div className="flex flex-col items-start bg-white shadow-lg">
                 <button className="py-3 pl-4 pr-36 hover:text-orange-400">Tiếng Việt</button>
                 <button className="py-3 pl-4 pr-36 hover:text-orange-400">English</button>
               </div>
@@ -22,8 +22,9 @@ const MainNavbar = () => {
           </Popover>
           <Popover
             className="flex cursor-pointer items-center py-1 hover:text-gray-300"
+            placement="bottom"
             renderPopover={
-              <div className="flex flex-col items-start bg-white shadow-sm">
+              <div className="flex flex-col items-start bg-white shadow-lg">
                 <Link
                   to="/profile"
                   className="w-full px-4 py-3 hover:text-orange-400"
@@ -52,17 +53,14 @@ const MainNavbar = () => {
         </div>
         <div className="mt-4 flex items-center gap-x-4">
           <Link to="/">
-            <ShopeeLogoIcon
-              fillColor="secondary"
-              hasBrandName={true}
-            ></ShopeeLogoIcon>
+            <ShopeeLogoIcon fillColor="secondary"></ShopeeLogoIcon>
           </Link>
           <form className="w-full">
             <div className="flex rounded-sm bg-white p-1">
               <input
                 type="text"
                 name="search"
-                className="flex-grow border-none bg-transparent px-3 py-2 text-black outline-none"
+                className="w-full flex-grow-0 border-none bg-transparent px-3 py-2 text-black outline-none"
                 placeholder="Free Ship Đơn Từ 0Đ"
               />
               <button className="rounded-sm bg-primary py-2 px-4 hover:opacity-90 lg:px-6">
