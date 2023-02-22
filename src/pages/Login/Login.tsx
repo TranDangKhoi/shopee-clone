@@ -1,11 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginAccount } from "src/apis/auth.api";
 import { Input } from "src/components/Input";
-import { ApiResponseType } from "src/types/utils.types";
+import { AuthContext } from "src/contexts/auth.context";
+import { ErrorApiResponseType } from "src/types/utils.types";
 import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { loginSchema, LoginSchemaType } from "src/utils/schema";
 
@@ -21,20 +23,22 @@ const Login = () => {
     reValidateMode: "onBlur",
     resolver: yupResolver(loginSchema),
   });
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useContext(AuthContext);
   const loginAccountMutation = useMutation({
     mutationFn: (body: FormData) => loginAccount(body),
   });
 
   const handleLogin = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
-      onSuccess: (data) => {
-        console.log(data);
-        localStorage.setItem("access_token", data.data.data?.access_token as string);
+      onSuccess: () => {
+        setIsAuthenticated(true);
+        navigate("/");
       },
       onError: (error) => {
         if (
-          isAxiosError<ApiResponseType<FormData>>(error) &&
-          isAxiosUnprocessableEntity<ApiResponseType<FormData>>(error)
+          isAxiosError<ErrorApiResponseType<FormData>>(error) &&
+          isAxiosUnprocessableEntity<ErrorApiResponseType<FormData>>(error)
         ) {
           const formError = error.response?.data.data;
           if (formError) {
