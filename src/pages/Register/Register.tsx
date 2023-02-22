@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "src/components/Input";
 import { registerSchema, RegisterSchemaType } from "src/utils/schema";
 import { useMutation } from "@tanstack/react-query";
@@ -8,6 +8,8 @@ import { registerAccount } from "src/apis/auth.api";
 import { omit } from "lodash";
 import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { ErrorApiResponseType } from "src/types/utils.types";
+import { useContext } from "react";
+import { AuthContext } from "src/contexts/auth.context";
 
 type FormData = RegisterSchemaType;
 
@@ -21,7 +23,8 @@ const Register = () => {
     reValidateMode: "onBlur",
     resolver: yupResolver(registerSchema),
   });
-
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useContext(AuthContext);
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, "confirm_password">) => registerAccount(body),
   });
@@ -29,8 +32,9 @@ const Register = () => {
   const handleSignUp = handleSubmit((data) => {
     const body = omit(data, ["confirm_password"]);
     registerAccountMutation.mutate(body, {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
+        setIsAuthenticated(true);
+        navigate("/");
       },
       onError: (error) => {
         if (
