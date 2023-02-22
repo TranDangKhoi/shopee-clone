@@ -1,7 +1,32 @@
-import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { logoutAccount } from "src/apis/auth.api";
+import { AuthContext } from "src/contexts/auth.context";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
 import Popover from "../Popover";
 const MainNavbar = () => {
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const logOutAccountMutation = useMutation({
+    mutationFn: () => logoutAccount(),
+    onSuccess: () => {
+      toast.success("Đăng xuất thành công", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.dismiss();
+      toast.error("Oops! Gặp phải lỗi, vui lòng thử đăng xuất lại");
+    },
+  });
+
+  const handleLogOut = () => {
+    setIsAuthenticated(false);
+    logOutAccountMutation.mutate();
+    navigate("/login");
+  };
   return (
     <div className="bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white">
       <div className="container">
@@ -20,36 +45,59 @@ const MainNavbar = () => {
             <span>Ngôn ngữ</span>
             <ArrowDownIcon></ArrowDownIcon>
           </Popover>
-          <Popover
-            className="flex cursor-pointer items-center py-1 hover:text-gray-300"
-            placement="bottom"
-            renderPopover={
-              <div className="flex flex-col items-start bg-white shadow-lg">
-                <Link
-                  to="/profile"
-                  className="w-full px-4 py-3 hover:text-orange-400"
-                >
-                  Tài khoản của tôi
-                </Link>
-                <Link
-                  to="/orders"
-                  className="w-full px-4 py-3 hover:text-orange-400"
-                >
-                  Đơn mua
-                </Link>
-                <button className="w-full px-4 py-3 text-left hover:text-orange-400">Đăng xuất</button>
+          {isAuthenticated && (
+            <Popover
+              className="flex cursor-pointer items-center py-1 hover:text-gray-300"
+              renderPopover={
+                <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
+                  <Link
+                    to="/profile"
+                    className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                  >
+                    Tài khoản của tôi
+                  </Link>
+                  <Link
+                    to="/"
+                    className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                  >
+                    Đơn mua
+                  </Link>
+                  <button
+                    onClick={handleLogOut}
+                    className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              }
+            >
+              <div className="mr-2 h-6 w-6 flex-shrink-0">
+                <img
+                  src="https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn"
+                  alt="avatar"
+                  className="h-full w-full rounded-full object-cover"
+                />
               </div>
-            }
-          >
-            <div className="mr-2 h-6 w-6 flex-shrink-0">
-              <img
-                src="https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn"
-                alt="avatar"
-                className="h-full w-full rounded-full object-cover"
-              />
+              <div>randomusername</div>
+            </Popover>
+          )}
+          {!isAuthenticated && (
+            <div className="flex items-center gap-x-3">
+              <Link
+                to="/register"
+                className="capitalize hover:text-white/70"
+              >
+                Đăng ký
+              </Link>
+              <div className="h-4 border-r-[1px] border-r-white/40" />
+              <Link
+                to="/login"
+                className="capitalize hover:text-white/70"
+              >
+                Đăng nhập
+              </Link>
             </div>
-            <div>Whatever</div>
-          </Popover>
+          )}
         </div>
         <div className="mt-4 flex items-center gap-x-4">
           <Link to="/">

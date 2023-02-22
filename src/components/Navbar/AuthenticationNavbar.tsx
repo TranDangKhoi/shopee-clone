@@ -4,6 +4,7 @@ import ShopeeLogoIcon from "../Icon/ShopeeLogoIcon";
 
 const AuthenticationNavbar = () => {
   const matchRegister = useMatch("/register");
+  const isRegisterPage = Boolean(matchRegister);
   return (
     <header className="bg-white py-5">
       <div className="container">
@@ -11,7 +12,7 @@ const AuthenticationNavbar = () => {
           <Link to="/">
             <ShopeeLogoIcon fillColor="primary"></ShopeeLogoIcon>
           </Link>
-          <div className="ml-5 text-xl lg:text-2xl">{matchRegister ? "Đăng ký" : "Đăng nhập"}</div>
+          <div className="ml-5 text-xl lg:text-2xl">{isRegisterPage ? "Đăng ký" : "Đăng nhập"}</div>
         </nav>
       </div>
     </header>

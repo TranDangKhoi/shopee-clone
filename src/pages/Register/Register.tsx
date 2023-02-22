@@ -10,6 +10,7 @@ import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError
 import { ErrorApiResponseType } from "src/types/utils.types";
 import { useContext } from "react";
 import { AuthContext } from "src/contexts/auth.context";
+import Button from "src/components/Button";
 
 type FormData = RegisterSchemaType;
 
@@ -92,11 +93,13 @@ const Register = () => {
             placeholder="Nhập lại mật khẩu của bạn"
             errorMsg={errors.confirm_password?.message}
           ></Input>
-          <div className="mt-1">
-            <button className="w-full bg-red-500 py-3 px-2 text-center text-sm uppercase text-white hover:bg-red-600">
-              Đăng ký
-            </button>
-          </div>
+          <Button
+            type="submit"
+            isLoading={registerAccountMutation.isLoading}
+            containerClassName="mt-1"
+          >
+            Đăng ký
+          </Button>
           <div className="mt-8 flex items-center justify-center">
             <span className="text-gray-400">Bạn đã có tài khoản?</span>
             <Link

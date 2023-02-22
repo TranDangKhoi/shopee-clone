@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAccount } from "src/apis/auth.api";
+import Button from "src/components/Button";
 import { Input } from "src/components/Input";
 import { AuthContext } from "src/contexts/auth.context";
 import { ErrorApiResponseType } from "src/types/utils.types";
@@ -17,7 +18,7 @@ const Login = () => {
     handleSubmit,
     register,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     mode: "onSubmit",
     reValidateMode: "onBlur",
@@ -78,12 +79,13 @@ const Login = () => {
             containerClassName="mt-1"
           ></Input>
           <div className="mt-3">
-            <button
+            <Button
               type="submit"
-              className="w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600"
+              isLoading={loginAccountMutation.isLoading}
+              containerClassName="mt-1"
             >
               Đăng nhập
-            </button>
+            </Button>
           </div>
           <div className="mt-8 flex items-center justify-center">
             <span className="text-gray-400">Bạn chưa có tài khoản?</span>
