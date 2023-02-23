@@ -11,6 +11,7 @@ import { ErrorApiResponseType } from "src/types/utils.types";
 import { useContext } from "react";
 import { AuthContext } from "src/contexts/auth.context";
 import Button from "src/components/Button";
+import { path } from "src/constants/path";
 
 type FormData = RegisterSchemaType;
 
@@ -25,7 +26,7 @@ const Register = () => {
     resolver: yupResolver(registerSchema),
   });
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, setUserProfile } = useContext(AuthContext);
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, "confirm_password">) => registerAccount(body),
   });
@@ -33,8 +34,9 @@ const Register = () => {
   const handleSignUp = handleSubmit((data) => {
     const body = omit(data, ["confirm_password"]);
     registerAccountMutation.mutate(body, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsAuthenticated(true);
+        setUserProfile(data.data.data.user);
         navigate("/");
       },
       onError: (error) => {
@@ -104,7 +106,7 @@ const Register = () => {
             <span className="text-gray-400">Bạn đã có tài khoản?</span>
             <Link
               className="ml-1 text-red-400"
-              to="/login"
+              to={path.login}
             >
               Đăng nhập
             </Link>

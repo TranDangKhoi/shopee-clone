@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Navigate, Outlet, useRoutes } from "react-router-dom";
+import { path } from "src/constants/path";
 import { AuthContext } from "src/contexts/auth.context";
 import AuthenticationLayout from "src/layouts/AuthenticationLayout";
 import MainLayout from "src/layouts/MainLayout";
@@ -20,7 +21,7 @@ function RejectedRoute() {
 export default function useRoutesElement() {
   const routeElements = useRoutes([
     {
-      path: "/",
+      path: path.home,
       index: true,
       element: (
         <MainLayout>
@@ -33,7 +34,7 @@ export default function useRoutesElement() {
       element: <ProtectedRoute></ProtectedRoute>,
       children: [
         {
-          path: "/profile",
+          path: path.profile,
           element: (
             <MainLayout>
               <Profile></Profile>
@@ -47,7 +48,7 @@ export default function useRoutesElement() {
       element: <RejectedRoute></RejectedRoute>,
       children: [
         {
-          path: "/login",
+          path: path.login,
           element: (
             <AuthenticationLayout>
               <Login></Login>
@@ -55,7 +56,7 @@ export default function useRoutesElement() {
           ),
         },
         {
-          path: "/register",
+          path: path.register,
           element: (
             <AuthenticationLayout>
               <Register></Register>

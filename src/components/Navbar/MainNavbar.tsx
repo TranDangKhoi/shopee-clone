@@ -3,11 +3,12 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logoutAccount } from "src/apis/auth.api";
+import { path } from "src/constants/path";
 import { AuthContext } from "src/contexts/auth.context";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
 import Popover from "../Popover";
 const MainNavbar = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, userProfile, setIsAuthenticated, setUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
   const logOutAccountMutation = useMutation({
     mutationFn: () => logoutAccount(),
@@ -16,15 +17,12 @@ const MainNavbar = () => {
         autoClose: 2000,
       });
     },
-    onError: () => {
-      toast.dismiss();
-      toast.error("Oops! Gặp phải lỗi, vui lòng thử đăng xuất lại");
-    },
   });
 
   const handleLogOut = () => {
-    setIsAuthenticated(false);
     logOutAccountMutation.mutate();
+    setIsAuthenticated(false);
+    setUserProfile(null);
     navigate("/login");
   };
   return (
@@ -51,13 +49,13 @@ const MainNavbar = () => {
               renderPopover={
                 <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
                   <Link
-                    to="/profile"
+                    to={path.profile}
                     className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
                   >
                     Tài khoản của tôi
                   </Link>
                   <Link
-                    to="/"
+                    to={path.home}
                     className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
                   >
                     Đơn mua
@@ -78,20 +76,20 @@ const MainNavbar = () => {
                   className="h-full w-full rounded-full object-cover"
                 />
               </div>
-              <div>randomusername</div>
+              <div>{userProfile?.name} Khánh Hân</div>
             </Popover>
           )}
           {!isAuthenticated && (
             <div className="flex items-center gap-x-3">
               <Link
-                to="/register"
+                to={path.register}
                 className="capitalize hover:text-white/70"
               >
                 Đăng ký
               </Link>
               <div className="h-4 border-r-[1px] border-r-white/40" />
               <Link
-                to="/login"
+                to={path.login}
                 className="capitalize hover:text-white/70"
               >
                 Đăng nhập
@@ -100,7 +98,7 @@ const MainNavbar = () => {
           )}
         </div>
         <div className="mt-4 flex items-center gap-x-4">
-          <Link to="/">
+          <Link to={path.home}>
             <ShopeeLogoIcon fillColor="secondary"></ShopeeLogoIcon>
           </Link>
           <form className="w-full">
@@ -180,7 +178,7 @@ const MainNavbar = () => {
                 </div>
               }
             >
-              <Link to="/">
+              <Link to={path.home}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

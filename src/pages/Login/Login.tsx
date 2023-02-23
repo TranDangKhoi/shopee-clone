@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginAccount } from "src/apis/auth.api";
 import Button from "src/components/Button";
 import { Input } from "src/components/Input";
+import { path } from "src/constants/path";
 import { AuthContext } from "src/contexts/auth.context";
 import { ErrorApiResponseType } from "src/types/utils.types";
 import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
@@ -18,22 +19,23 @@ const Login = () => {
     handleSubmit,
     register,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormData>({
     mode: "onSubmit",
     reValidateMode: "onBlur",
     resolver: yupResolver(loginSchema),
   });
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, setUserProfile } = useContext(AuthContext);
   const loginAccountMutation = useMutation({
     mutationFn: (body: FormData) => loginAccount(body),
   });
 
   const handleLogin = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsAuthenticated(true);
+        setUserProfile(data.data.data.user);
         navigate("/");
       },
       onError: (error) => {
@@ -91,7 +93,7 @@ const Login = () => {
             <span className="text-gray-400">Bạn chưa có tài khoản?</span>
             <Link
               className="ml-1 text-red-400"
-              to="/register"
+              to={path.register}
             >
               Đăng ký
             </Link>

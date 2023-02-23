@@ -2,13 +2,22 @@ import axios, { AxiosError, AxiosInstance } from "axios";
 import { toast } from "react-toastify";
 import { HttpStatusCode } from "src/constants/httpStatusCode.enum";
 import { AuthResponseType } from "src/types/auth-response.types";
-import { clearAccessTokenFromLS, getAccessTokenFromLS, saveAccessTokenToLS } from "./auth";
+import { UserType } from "src/types/user.types";
+import {
+  clearAuthenInfoFromLS,
+  getAccessTokenFromLS,
+  getProfileFromLS,
+  saveAccessTokenToLS,
+  saveProfileToLS,
+} from "./auth";
 
 class Http {
   instance: AxiosInstance;
   private accessToken: string;
+  private userProfile: UserType;
   constructor() {
     this.accessToken = getAccessTokenFromLS() || "";
+    this.userProfile = getProfileFromLS() || null;
     this.instance = axios.create({
       baseURL: "https://api-ecom.duthanhduoc.com",
       timeout: 10000,
@@ -34,10 +43,12 @@ class Http {
         const { url } = response.config;
         if (url === "/login" || url === "/register") {
           this.accessToken = (response.data as AuthResponseType).data.access_token;
+          this.userProfile = (response.data as AuthResponseType).data.user;
           saveAccessTokenToLS(this.accessToken);
+          saveProfileToLS(this.userProfile);
         } else if (url === "/logout") {
           this.accessToken = "";
-          clearAccessTokenFromLS;
+          clearAuthenInfoFromLS();
         }
         return response;
       },
