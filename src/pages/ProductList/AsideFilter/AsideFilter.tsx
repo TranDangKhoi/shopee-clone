@@ -38,11 +38,11 @@ const AsideFilter = () => {
         <li className="py-2 pl-2">
           <Link
             to={path.home}
-            className="text-orange relative px-2 font-semibold"
+            className="relative px-2 font-semibold text-primary"
           >
             <svg
               viewBox="0 0 4 7"
-              className="fill-orange absolute top-1 left-[-10px] h-2 w-2"
+              className="absolute top-1 left-[-10px] h-2 w-2 fill-primary"
             >
               <polygon points="4 3.5 0 0 0 7" />
             </svg>
@@ -100,7 +100,7 @@ const AsideFilter = () => {
               containerClassName="grow"
             />
           </div>
-          <Button className="bg-orange hover:bg-orange/80 flex w-full items-center justify-center p-2 text-sm uppercase text-white">
+          <Button className="flex w-full items-center justify-center bg-primary p-2 text-sm uppercase text-white hover:bg-primary/80">
             Áp dụng
           </Button>
         </form>
@@ -136,7 +136,7 @@ const AsideFilter = () => {
         </li>
       </ul>
       <div className="my-4 h-[1px] bg-gray-300" />
-      <Button className="bg-orange hover:bg-orange/80 flex w-full items-center justify-center p-2 text-sm uppercase text-white">
+      <Button className="flex w-full items-center justify-center bg-primary p-2 text-sm uppercase text-white hover:bg-primary/80">
         Xóa tất cả
       </Button>
     </div>
