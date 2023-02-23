@@ -1,5 +1,6 @@
 import EarthIcon from "./EarthIcon";
 import ArrowDownIcon from "./ArrowDownIcon";
+import StarIcon from "./StarIcon";
 import ShopeeLogoIcon from "./ShopeeLogoIcon";
 
-export { EarthIcon, ArrowDownIcon, ShopeeLogoIcon };
+export { EarthIcon, ArrowDownIcon, ShopeeLogoIcon, StarIcon };

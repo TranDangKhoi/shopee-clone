@@ -8,8 +8,10 @@ type InputProps = {
   placeholder?: string;
   className?: string;
   containerClassName?: string;
+  errorClassName?: string;
   name: string;
-  register: UseFormRegister<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  register?: UseFormRegister<any>;
   rules?: RegisterOptions;
   // errors?: ;
 };
@@ -19,30 +21,29 @@ const Input = ({
   errorMsg,
   name,
   register,
-  className = "",
+  className = "p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm",
   containerClassName = "",
+  errorClassName = "mt-1 text-red-600 min-h-[1.25rem] text-sm",
   placeholder = "",
   rules,
 }: InputProps) => {
+  const registerResult = register && name ? register(name, rules) : {};
   return (
     <div className={containerClassName}>
       <input
         type={type}
         placeholder={placeholder}
         className={classNames(
-          "w-full rounded-sm border border-gray-300 p-3 outline-none",
-          // Interactive
-          "focus:border-gray-500 focus:shadow-sm",
+          `${className}`,
           // Error!
           {
             "border-red-600 bg-red-50 focus:border-red-600": errorMsg,
           },
           // Custom classNames
-          `${className}`,
         )}
-        {...register(name, rules)}
+        {...registerResult}
       />
-      <div className="mt-1 min-h-[20px] text-sm text-red-600">{errorMsg}</div>
+      <div className={errorClassName}>{errorMsg}</div>
     </div>
   );
 };

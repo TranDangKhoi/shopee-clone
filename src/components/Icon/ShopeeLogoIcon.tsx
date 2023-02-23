@@ -7,7 +7,7 @@ const ShopeeLogoIcon = ({ fillColor, className }: ShoppeeLogoIconProps) => {
   return (
     <svg
       viewBox="0 0 192 65"
-      className={`h-8 lg:h-11 ${className}`}
+      className={`h-8 w-full lg:h-11 ${className}`}
       fill={fillColor === "primary" ? "#ee4d2d" : "#fff"}
     >
       <g fillRule="evenodd">

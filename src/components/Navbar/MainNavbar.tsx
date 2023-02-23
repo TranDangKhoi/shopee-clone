@@ -76,7 +76,7 @@ const MainNavbar = () => {
                   className="h-full w-full rounded-full object-cover"
                 />
               </div>
-              <div>{userProfile?.name} Khánh Hân</div>
+              <div>{userProfile?.name}</div>
             </Popover>
           )}
           {!isAuthenticated && (
