@@ -1,3 +1,4 @@
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Button from "src/components/Button";
 import { StarIcon } from "src/components/Icon";
@@ -5,6 +6,7 @@ import { Input } from "src/components/Input";
 import { path } from "src/constants/path";
 
 const AsideFilter = () => {
+  const { register } = useForm({});
   return (
     <div className="py-4">
       <Link
@@ -83,7 +85,7 @@ const AsideFilter = () => {
       </Link>
       <div className="my-4 h-[1px] bg-gray-300" />
       <div className="my-5">
-        <div>Khoản giá</div>
+        <div>Khoảng giá</div>
         <form className="mt-2">
           <div className="flex items-start">
             <Input
@@ -91,6 +93,7 @@ const AsideFilter = () => {
               name="from"
               placeholder="₫ TỪ"
               containerClassName="grow"
+              // register={register}
             />
             <div className="mx-2 mt-2 shrink-0">-</div>
             <Input
@@ -98,6 +101,7 @@ const AsideFilter = () => {
               name="from"
               placeholder="₫ ĐẾN"
               containerClassName="grow"
+              // register={register}
             />
           </div>
           <Button className="flex w-full items-center justify-center bg-primary p-2 text-sm uppercase text-white hover:bg-primary/80">
