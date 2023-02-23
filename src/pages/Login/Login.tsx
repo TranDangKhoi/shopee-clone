@@ -4,7 +4,7 @@ import { isAxiosError } from "axios";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAccount } from "src/apis/auth.api";
+import authApi from "src/apis/auth.api";
 import Button from "src/components/Button";
 import { Input } from "src/components/Input";
 import { path } from "src/constants/path";
@@ -28,7 +28,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setIsAuthenticated, setUserProfile } = useContext(AuthContext);
   const loginAccountMutation = useMutation({
-    mutationFn: (body: FormData) => loginAccount(body),
+    mutationFn: (body: FormData) => authApi.loginAccount(body),
   });
 
   const handleLogin = handleSubmit((data) => {

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { logoutAccount } from "src/apis/auth.api";
+import authApi from "src/apis/auth.api";
 import { path } from "src/constants/path";
 import { AuthContext } from "src/contexts/auth.context";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
@@ -11,7 +11,7 @@ const MainNavbar = () => {
   const { isAuthenticated, userProfile, setIsAuthenticated, setUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
   const logOutAccountMutation = useMutation({
-    mutationFn: () => logoutAccount(),
+    mutationFn: () => authApi.logoutAccount(),
     onSuccess: () => {
       toast.success("Đăng xuất thành công", {
         autoClose: 2000,

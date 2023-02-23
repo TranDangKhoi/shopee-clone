@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Input } from "src/components/Input";
 import { registerSchema, RegisterSchemaType } from "src/utils/schema";
 import { useMutation } from "@tanstack/react-query";
-import { registerAccount } from "src/apis/auth.api";
+import authApi from "src/apis/auth.api";
 import { omit } from "lodash";
 import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { ErrorApiResponseType } from "src/types/utils.types";
@@ -28,7 +28,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { setIsAuthenticated, setUserProfile } = useContext(AuthContext);
   const registerAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, "confirm_password">) => registerAccount(body),
+    mutationFn: (body: Omit<FormData, "confirm_password">) => authApi.registerAccount(body),
   });
 
   const handleSignUp = handleSubmit((data) => {
