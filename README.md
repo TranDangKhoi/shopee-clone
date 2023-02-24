@@ -95,7 +95,7 @@ yarn add eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/par
 For pnpm users:
 
 ```bash
-Don't talk to me
+pnpm install eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-prettier prettier-plugin-tailwindcss eslint-plugin-react-hooks -D
 ```
 
 ## ESLint Configuration
