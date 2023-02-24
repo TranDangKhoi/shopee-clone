@@ -19,7 +19,7 @@ export type ProductType = {
 
 export type ProductListType = {
   products: ProductType[];
-  paginate: {
+  pagination: {
     page: number;
     limit: number;
     page_size: number;
@@ -27,13 +27,13 @@ export type ProductListType = {
 };
 
 export type ProductListConfigType = {
-  page?: number;
-  limit?: number;
+  page?: number | string;
+  limit?: number | string;
   sort_by?: "createdAt" | "view" | "sold" | "price";
   order?: "asc" | "desc";
   exclude?: string;
-  rating_filter?: number;
-  price_max?: number;
-  price_min?: number;
+  rating_filter?: number | string;
+  price_max?: number | string;
+  price_min?: number | string;
   name?: string;
 };

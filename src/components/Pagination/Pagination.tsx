@@ -1,14 +1,16 @@
 import classNames from "classnames";
 import React from "react";
-import { Link } from "react-router-dom";
+import { createSearchParams, Link } from "react-router-dom";
+import { path } from "src/constants/path";
+import { QueryConfigType } from "src/types/query.type";
 
 type PaginationProps = {
-  currentPage: number;
+  queryConfig: QueryConfigType;
   pageSize: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 const RANGE = 2;
-const Pagination = ({ currentPage, pageSize, setCurrentPage }: PaginationProps) => {
+const Pagination = ({ pageSize, queryConfig }: PaginationProps) => {
+  const currentPage = Number(queryConfig.page);
   const renderPagination = () => {
     let ellipsisAfter = false;
     let ellipsisBefore = false;
@@ -16,12 +18,12 @@ const Pagination = ({ currentPage, pageSize, setCurrentPage }: PaginationProps) 
       if (!ellipsisBefore) {
         ellipsisBefore = true;
         return (
-          <button
+          <span
             key={index}
-            className="cursor-default bg-white px-3 py-2"
+            className=" bg-white px-3 py-2"
           >
             ...
-          </button>
+          </span>
         );
       }
       return null;
@@ -30,16 +32,19 @@ const Pagination = ({ currentPage, pageSize, setCurrentPage }: PaginationProps) 
       if (!ellipsisAfter) {
         ellipsisAfter = true;
         return (
-          <button
+          <span
             key={index}
-            className="cursor-default bg-white px-3 py-2"
+            className="bg-white px-3 py-2"
           >
             ...
-          </button>
+          </span>
         );
       }
       return null;
     };
+    // const handlePrevPage = () => {
+    //   return (queryConfig.page = queryConfig.page - 1).toString();
+    // };
     return Array(pageSize)
       .fill(0)
       .map((_, index) => {
@@ -56,24 +61,64 @@ const Pagination = ({ currentPage, pageSize, setCurrentPage }: PaginationProps) 
           return renderEllipsisBefore(index);
         }
         return (
-          <button
+          <Link
             key={index}
-            className={classNames("cursor-pointer px-3 py-2 shadow-sm hover:bg-gray-200", {
+            className={classNames("cursor-pointer px-3 py-2 shadow-sm", {
               "bg-primary text-white hover:bg-primary": pageNumber === currentPage,
-              "bg-white": pageNumber !== currentPage,
+              "bg-white hover:bg-gray-100": pageNumber !== currentPage,
             })}
-            onClick={() => setCurrentPage(pageNumber)}
+            to={{
+              pathname: path.home,
+              search: createSearchParams({
+                ...queryConfig,
+                page: pageNumber.toString(),
+              }).toString(),
+            }}
           >
             {pageNumber}
-          </button>
+          </Link>
         );
       });
   };
   return (
     <div className="mt-6 flex flex-wrap justify-center">
-      <button className="cursor-pointer bg-white px-3 py-2 shadow-sm hover:bg-gray-200">{"<"} Prev</button>
+      {currentPage === 1 ? (
+        <button className="cursor-not-allowed bg-white bg-opacity-30 px-3 py-2 shadow-sm hover:bg-gray-100">
+          {"<"} Prev
+        </button>
+      ) : (
+        <Link
+          className="cursor-pointer bg-white px-3 py-2 shadow-sm hover:bg-gray-100"
+          to={{
+            pathname: path.home,
+            search: createSearchParams({
+              ...queryConfig,
+              page: (currentPage - 1).toString(),
+            }).toString(),
+          }}
+        >
+          {"<"} Prev
+        </Link>
+      )}
       {renderPagination()}
-      <button className="cursor-pointer bg-white px-3 py-2 shadow-sm hover:bg-gray-200">Next {">"}</button>
+      {currentPage >= pageSize ? (
+        <button className="cursor-not-allowed bg-white bg-opacity-30 px-3 py-2 shadow-sm hover:bg-gray-100">
+          Next {">"}
+        </button>
+      ) : (
+        <Link
+          className="cursor-pointer bg-white px-3 py-2 shadow-sm hover:bg-gray-100"
+          to={{
+            pathname: path.home,
+            search: createSearchParams({
+              ...queryConfig,
+              page: (currentPage + 1).toString(),
+            }).toString(),
+          }}
+        >
+          Next {">"}
+        </Link>
+      )}
     </div>
   );
 };
