@@ -11,23 +11,49 @@ const RANGE = 2;
 const Pagination = ({ currentPage, pageSize, setCurrentPage }: PaginationProps) => {
   const renderPagination = () => {
     let ellipsisAfter = false;
+    let ellipsisBefore = false;
+    const renderEllipsisBefore = (index: number) => {
+      if (!ellipsisBefore) {
+        ellipsisBefore = true;
+        return (
+          <button
+            key={index}
+            className="cursor-default bg-white px-3 py-2"
+          >
+            ...
+          </button>
+        );
+      }
+      return null;
+    };
+    const renderEllipsisAfter = (index: number) => {
+      if (!ellipsisAfter) {
+        ellipsisAfter = true;
+        return (
+          <button
+            key={index}
+            className="cursor-default bg-white px-3 py-2"
+          >
+            ...
+          </button>
+        );
+      }
+      return null;
+    };
     return Array(pageSize)
       .fill(0)
       .map((_, index) => {
         const pageNumber = index + 1;
-        if (currentPage <= RANGE * 2 + 1 && pageNumber > currentPage + RANGE && pageNumber < pageSize - RANGE - 1) {
-          if (!ellipsisAfter) {
-            ellipsisAfter = true;
-            return (
-              <button
-                key={index}
-                className="cursor-default bg-white px-3 py-2 shadow-md"
-              >
-                ...
-              </button>
-            );
+        if (currentPage <= RANGE * 2 + 1 && pageNumber > currentPage + RANGE && pageNumber < pageSize - RANGE + 1) {
+          return renderEllipsisAfter(index);
+        } else if (currentPage > RANGE * 2 + 1 && currentPage < pageSize - RANGE * 2) {
+          if (pageNumber < currentPage - RANGE && pageNumber > RANGE) {
+            return renderEllipsisBefore(index);
+          } else if (pageNumber > currentPage + RANGE && pageNumber < pageSize - RANGE + 1) {
+            return renderEllipsisAfter(index);
           }
-          return null;
+        } else if (currentPage >= pageSize - RANGE * 2 && pageNumber > RANGE && pageNumber < currentPage - RANGE) {
+          return renderEllipsisBefore(index);
         }
         return (
           <button
@@ -36,6 +62,7 @@ const Pagination = ({ currentPage, pageSize, setCurrentPage }: PaginationProps) 
               "bg-primary text-white hover:bg-primary": pageNumber === currentPage,
               "bg-white": pageNumber !== currentPage,
             })}
+            onClick={() => setCurrentPage(pageNumber)}
           >
             {pageNumber}
           </button>
