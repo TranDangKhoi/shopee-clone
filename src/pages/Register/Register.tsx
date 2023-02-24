@@ -30,7 +30,6 @@ const Register = () => {
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, "confirm_password">) => authApi.registerAccount(body),
   });
-
   const handleSignUp = handleSubmit((data) => {
     const body = omit(data, ["confirm_password"]);
     registerAccountMutation.mutate(body, {

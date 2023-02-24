@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Button from "src/components/Button";
 import { StarIcon } from "src/components/Icon";
@@ -6,7 +5,6 @@ import { Input } from "src/components/Input";
 import { path } from "src/constants/path";
 
 const AsideFilter = () => {
-  const { register } = useForm({});
   return (
     <div className="py-4">
       <Link
