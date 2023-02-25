@@ -14,7 +14,7 @@ const ProductList = () => {
   const queryConfig: QueryConfigType = omitBy(
     {
       page: queryParams.page || "1",
-      limit: queryParams.limit || "25",
+      limit: queryParams.limit,
       sort_by: queryParams.sort_by,
       name: queryParams.name,
       order: queryParams.order,
@@ -40,7 +40,7 @@ const ProductList = () => {
               <AsideFilter />
             </div>
             <div className="col-span-9">
-              <SortProductList />
+              <SortProductList queryConfig={queryConfig} pageSize={data.data.data.pagination.page_size} />
               <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {data &&
                   data.data.data.products.map((product) => (
