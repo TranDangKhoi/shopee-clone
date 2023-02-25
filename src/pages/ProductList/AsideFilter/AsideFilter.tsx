@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { omit } from "lodash";
 import { createSearchParams, Link } from "react-router-dom";
 import Button from "src/components/Button";
 import { StarIcon } from "src/components/Icon";
@@ -17,7 +18,17 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
   return (
     <div className="py-4">
       <Link
-        to={path.home}
+        to={{
+          pathname: path.home,
+          search: createSearchParams(
+            omit(
+              {
+                ...queryConfig,
+              },
+              ["category"],
+            ),
+          ).toString(),
+        }}
         className={classNames("flex items-center font-bold", {
           "font-semibold text-primary": !category,
         })}
