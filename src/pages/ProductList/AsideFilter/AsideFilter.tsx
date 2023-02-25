@@ -4,7 +4,6 @@ import { Controller, useForm } from "react-hook-form";
 import { createSearchParams, Link } from "react-router-dom";
 import Button from "src/components/Button";
 import { StarIcon } from "src/components/Icon";
-import { Input } from "src/components/Input";
 import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path";
 import { CategoryType } from "src/types/category.type";

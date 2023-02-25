@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React, { InputHTMLAttributes } from "react";
-import { RegisterOptions, UseFormRegister } from "react-hook-form";
 
 type InputNumberProps = {
   type: React.HTMLInputTypeAttribute;
