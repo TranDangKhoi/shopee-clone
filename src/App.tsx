@@ -1,4 +1,3 @@
-import "./App.css";
 import useRoutesElement from "./routes/useRouteElements";
 
 function App() {
