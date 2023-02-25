@@ -3,7 +3,4 @@ export type ErrorApiResponseType<Data> = {
   data?: Data;
 };
 
-export type SuccessApiResponseType<Data> = {
-  message: string;
-  data: Data;
-};
+export type SuccessApiResponseType<Data> = Required<ErrorApiResponseType<Data>>;
