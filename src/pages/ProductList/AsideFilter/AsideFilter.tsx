@@ -1,9 +1,11 @@
 import classNames from "classnames";
 import { omit } from "lodash";
+import { Controller, useForm } from "react-hook-form";
 import { createSearchParams, Link } from "react-router-dom";
 import Button from "src/components/Button";
 import { StarIcon } from "src/components/Icon";
 import { Input } from "src/components/Input";
+import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path";
 import { CategoryType } from "src/types/category.type";
 import { QueryConfigType } from "src/types/query.type";
@@ -13,8 +15,18 @@ type AsideFilterProps = {
   queryConfig: QueryConfigType;
 };
 
+type FormData = Required<Pick<QueryConfigType, "price_min" | "price_max">>;
 const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
   const { category } = queryConfig;
+  const { control, handleSubmit, watch } = useForm<FormData>({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    defaultValues: {
+      price_min: "",
+      price_max: "",
+    },
+  });
+  const formValue = watch();
   return (
     <div className="py-4">
       <Link
@@ -124,21 +136,37 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
         <div>Khoảng giá</div>
         <form className="mt-2">
           <div className="flex items-start">
-            <Input
-              type="text"
-              name="from"
-              placeholder="₫ TỪ"
-              containerClassName="grow"
-              // register={register}
-            />
+            <Controller
+              control={control}
+              name="price_min"
+              render={({ field }) => {
+                return (
+                  <InputNumber
+                    type="text"
+                    placeholder="₫ TỪ"
+                    containerClassName="grow"
+                    onChange={field.onChange}
+                    value={field.value}
+                  />
+                );
+              }}
+            ></Controller>
             <div className="mx-2 mt-2 shrink-0">-</div>
-            <Input
-              type="text"
-              name="from"
-              placeholder="₫ ĐẾN"
-              containerClassName="grow"
-              // register={register}
-            />
+            <Controller
+              control={control}
+              name="price_max"
+              render={({ field }) => {
+                return (
+                  <InputNumber
+                    type="text"
+                    placeholder="₫ ĐẾN"
+                    containerClassName="grow"
+                    onChange={field.onChange}
+                    value={field.value}
+                  />
+                );
+              }}
+            ></Controller>
           </div>
           <Button className="flex w-full items-center justify-center bg-primary p-2 text-sm uppercase text-white hover:bg-primary/80">
             Áp dụng
