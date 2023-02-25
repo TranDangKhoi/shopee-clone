@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 import { RegisterOptions, UseFormRegister } from "react-hook-form";
 
 type InputProps = {
@@ -13,8 +13,7 @@ type InputProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register?: UseFormRegister<any>;
   rules?: RegisterOptions;
-  // errors?: ;
-};
+} & InputHTMLAttributes<HTMLInputElement>;
 
 const Input = ({
   type = "text",
@@ -26,6 +25,7 @@ const Input = ({
   errorClassName = "mt-1 text-red-600 min-h-[1.25rem] text-sm",
   placeholder = "",
   rules,
+  ...rest
 }: InputProps) => {
   const registerResult = register && name ? register(name, rules) : {};
   return (
@@ -41,6 +41,7 @@ const Input = ({
           },
           // Custom classNames
         )}
+        {...rest}
         {...registerResult}
       />
       <div className={errorClassName}>{errorMsg}</div>
