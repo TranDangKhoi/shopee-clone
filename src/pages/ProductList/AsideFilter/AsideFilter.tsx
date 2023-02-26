@@ -4,12 +4,12 @@ import { omit } from "lodash";
 import { Controller, useForm } from "react-hook-form";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
-import { StarIcon } from "src/components/Icon";
 import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path";
 import { CategoryType } from "src/types/category.type";
 import { QueryConfigType } from "src/types/query.type";
 import { priceRangeSchema, PriceRangeType } from "src/utils/schema";
+import RatingFilter from "../RatingFilter";
 
 type AsideFilterProps = {
   categories: CategoryType[];
@@ -35,6 +35,7 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
     shouldFocusError: false,
     resolver: yupResolver(priceRangeSchema),
   });
+
   const handleApplyPriceRange = handleSubmit((values) => {
     navigate({
       pathname: path.home,
@@ -45,6 +46,22 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
       }).toString(),
     });
   });
+
+  const handleRemoveAllFilter = () => {
+    console.log("Hello");
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConfig,
+          },
+          ["rating_filter", "sort_by", "price_min", "price_max", "category"],
+        ),
+      ).toString(),
+    });
+  };
+
   return (
     <div className="py-4">
       <Link
@@ -210,37 +227,12 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
         </form>
       </div>
       <div className="my-4 h-[1px] bg-gray-300" />
-      <div className="text-sm">Đánh giá</div>
-      <ul className="my-3">
-        <li className="py-1 pl-2">
-          <Link
-            to=""
-            className="flex items-center text-sm"
-          >
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <StarIcon key={index}></StarIcon>
-              ))}
-            <span>Trở lên</span>
-          </Link>
-        </li>
-        <li className="py-1 pl-2">
-          <Link
-            to=""
-            className="flex items-center text-sm"
-          >
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <StarIcon key={index}></StarIcon>
-              ))}
-            <span>Trở lên</span>
-          </Link>
-        </li>
-      </ul>
+      <RatingFilter queryConfig={queryConfig}></RatingFilter>
       <div className="my-4 h-[1px] bg-gray-300" />
-      <Button className="flex w-full items-center justify-center bg-primary p-2 text-sm uppercase text-white hover:bg-primary/80">
+      <Button
+        onClick={handleRemoveAllFilter}
+        className="flex w-full items-center justify-center bg-primary p-2 text-sm uppercase text-white hover:bg-primary/80"
+      >
         Xóa tất cả
       </Button>
     </div>

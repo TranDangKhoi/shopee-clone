@@ -6,10 +6,11 @@ type ButtonProps = {
   isLoading?: boolean;
   className?: string;
   containerClassName?: string;
+  onClick?: () => void;
   children?: React.ReactNode;
 };
 
-const Button = ({ type = "submit", containerClassName, className, children, isLoading }: ButtonProps) => {
+const Button = ({ type = "submit", containerClassName, className, children, isLoading, onClick }: ButtonProps) => {
   return (
     <div className={containerClassName}>
       <button
@@ -20,6 +21,7 @@ const Button = ({ type = "submit", containerClassName, className, children, isLo
           `${className}`,
         )}
         disabled={isLoading}
+        onClick={onClick}
       >
         {children}
       </button>
