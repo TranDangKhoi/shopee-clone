@@ -6,9 +6,9 @@ import Pagination from "src/components/Pagination";
 import useQueryParams from "src/hooks/useQueryParams";
 import { ProductListConfigType } from "src/types/product.type";
 import { QueryConfigType } from "src/types/query.type";
-import AsideFilter from "./AsideFilter";
-import Product from "./Product/Product";
-import SortProductList from "./SortProductList/SortProductList";
+import AsideFilter from "./components/AsideFilter";
+import Product from "./components/Product";
+import SortProductList from "./components/SortProductList";
 
 const ProductList = () => {
   const queryParams = useQueryParams();

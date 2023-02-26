@@ -11,7 +11,7 @@ import { ErrorApiResponseType } from "src/types/utils.types";
 import { useContext } from "react";
 import { AuthContext } from "src/contexts/auth.context";
 import Button from "src/components/Button";
-import { path } from "src/constants/path";
+import { path } from "src/constants/path.enum";
 
 type FormData = RegisterSchemaType;
 

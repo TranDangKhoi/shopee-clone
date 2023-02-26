@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { omit } from "lodash";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
-import { sortBy, sortOrder } from "src/constants/params";
-import { path } from "src/constants/path";
+import { sortBy, sortOrder } from "src/constants/params.enum";
+import { path } from "src/constants/path.enum";
 import { ProductListConfigType } from "src/types/product.type";
 import { QueryConfigType } from "src/types/query.type";
 
