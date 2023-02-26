@@ -1,31 +1,50 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import classNames from "classnames";
 import { omit } from "lodash";
 import { Controller, useForm } from "react-hook-form";
-import { createSearchParams, Link } from "react-router-dom";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
 import { StarIcon } from "src/components/Icon";
 import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path";
 import { CategoryType } from "src/types/category.type";
 import { QueryConfigType } from "src/types/query.type";
+import { priceRangeSchema, PriceRangeType } from "src/utils/schema";
 
 type AsideFilterProps = {
   categories: CategoryType[];
   queryConfig: QueryConfigType;
 };
 
-type FormData = Required<Pick<QueryConfigType, "price_min" | "price_max">>;
+type FormData = PriceRangeType;
 const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
   const { category } = queryConfig;
-  const { control, handleSubmit, watch } = useForm<FormData>({
+  const navigate = useNavigate();
+  const {
+    control,
+    handleSubmit,
+    trigger,
+    formState: { errors },
+  } = useForm<FormData>({
     mode: "onSubmit",
     reValidateMode: "onChange",
     defaultValues: {
       price_min: "",
       price_max: "",
     },
+    shouldFocusError: false,
+    resolver: yupResolver(priceRangeSchema),
   });
-  const formValue = watch();
+  const handleApplyPriceRange = handleSubmit((values) => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        ...queryConfig,
+        price_min: values.price_min?.toString(),
+        price_max: values.price_max?.toString(),
+      }).toString(),
+    });
+  });
   return (
     <div className="py-4">
       <Link
@@ -133,8 +152,11 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
       <div className="my-4 h-[1px] bg-gray-300" />
       <div className="my-5">
         <div>Khoảng giá</div>
-        <form className="mt-2">
-          <div className="flex items-start">
+        <form
+          className="mt-2"
+          onSubmit={handleApplyPriceRange}
+        >
+          <div className="flex items-center">
             <Controller
               control={control}
               name="price_min"
@@ -144,13 +166,18 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
                     type="text"
                     placeholder="₫ TỪ"
                     containerClassName="grow"
-                    onChange={field.onChange}
-                    value={field.value}
+                    errorClassName="hidden"
+                    errorMsg={errors.price_min?.message}
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger("price_max");
+                    }}
                   />
                 );
               }}
             ></Controller>
-            <div className="mx-2 mt-2 shrink-0">-</div>
+            <div className="mx-2 shrink-0">-</div>
             <Controller
               control={control}
               name="price_max"
@@ -160,13 +187,23 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
                     type="text"
                     placeholder="₫ ĐẾN"
                     containerClassName="grow"
-                    onChange={field.onChange}
-                    value={field.value}
+                    errorClassName="hidden"
+                    errorMsg={errors.price_max?.message}
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger("price_min");
+                    }}
                   />
                 );
               }}
             ></Controller>
           </div>
+          {errors.price_min?.message ? (
+            <div className="mt-1 min-h-[24px] text-center text-base text-red-600">{errors.price_min?.message}</div>
+          ) : (
+            <div className="mt-1 min-h-[24px] text-center text-base text-red-600"></div>
+          )}
           <Button className="flex w-full items-center justify-center bg-primary p-2 text-sm uppercase text-white hover:bg-primary/80">
             Áp dụng
           </Button>

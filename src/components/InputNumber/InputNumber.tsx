@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { InputHTMLAttributes } from "react";
+import React, { forwardRef, InputHTMLAttributes } from "react";
 
 type InputNumberProps = {
   type: React.HTMLInputTypeAttribute;
@@ -10,16 +10,19 @@ type InputNumberProps = {
   errorClassName?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const InputNumber = ({
-  type = "text",
-  errorMsg,
-  className = "p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm",
-  containerClassName = "",
-  errorClassName = "mt-1 text-red-600 min-h-[1.25rem] text-sm",
-  placeholder = "",
-  onChange,
-  ...rest
-}: InputNumberProps) => {
+const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumberInner(
+  {
+    type = "text",
+    errorMsg,
+    className = "p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm",
+    containerClassName = "",
+    errorClassName = "mt-1 text-red-600 min-h-[1.25rem] text-sm",
+    placeholder = "",
+    onChange,
+    ...rest
+  },
+  ref,
+) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (/^\d+$/.test(value) || value === "") {
@@ -40,11 +43,12 @@ const InputNumber = ({
           },
         )}
         onChange={handleChange}
+        ref={ref}
         {...rest}
       />
       <div className={errorClassName}>{errorMsg}</div>
     </div>
   );
-};
+});
 
 export default InputNumber;

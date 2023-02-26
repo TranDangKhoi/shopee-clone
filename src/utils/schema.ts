@@ -1,5 +1,13 @@
-import type { RegisterOptions } from "react-hook-form";
+import { QueryConfigType } from "src/types/query.type";
 import * as yup from "yup";
+
+function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
+  const { price_max, price_min } = this.parent as Pick<QueryConfigType, "price_max" | "price_min">;
+  if (price_min !== "" && price_max !== "") {
+    return Number(price_max) >= Number(price_min);
+  }
+  return price_min !== "" || price_max !== "";
+}
 
 const schema = yup.object({
   email: yup.string().email("E-mail không hợp lệ").required("Không được để trống địa chỉ e-mail"),
@@ -12,8 +20,16 @@ const schema = yup.object({
     .string()
     .required("Vui lòng xác nhận mật khẩu của bạn")
     .oneOf([yup.ref("password")], "Mật khẩu xác nhận không trùng khớp"),
-  price_min: yup.string(),
-  price_max: yup.string(),
+  price_min: yup.string().test({
+    name: "price-not-allowed",
+    message: "Khoảng giá không hợp lệ",
+    test: testPriceMinMax,
+  }),
+  price_max: yup.string().test({
+    name: "price-not-allowed",
+    message: "Khoảng giá không hợp lệ",
+    test: testPriceMinMax,
+  }),
 });
 
 export const registerSchema = schema.omit(["price_min", "price_max"]);
@@ -22,3 +38,4 @@ export const priceRangeSchema = schema.pick(["price_min", "price_max"]);
 
 export type RegisterSchemaType = yup.InferType<typeof registerSchema>;
 export type LoginSchemaType = yup.InferType<typeof loginSchema>;
+export type PriceRangeType = Required<yup.InferType<typeof priceRangeSchema>>;

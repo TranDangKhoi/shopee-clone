@@ -42,9 +42,7 @@ const Pagination = ({ pageSize, queryConfig }: PaginationProps) => {
       }
       return null;
     };
-    // const handlePrevPage = () => {
-    //   return (queryConfig.page = queryConfig.page - 1).toString();
-    // };
+
     return Array(pageSize)
       .fill(0)
       .map((_, index) => {
