@@ -1,5 +1,11 @@
 # Shoppe Clone
 
+## How to run this project
+
+1. Clone this repository
+2. Open the project, run `yarn` then wait (it may takes more than a few minutes)
+3. Run `yarn dev` to start a localhost server, or you can run `yarn dev --host` to host and let other devices get access to the website you're currently hosting
+
 ## Main features ⚡:
 
 - Authentication using JWT:
