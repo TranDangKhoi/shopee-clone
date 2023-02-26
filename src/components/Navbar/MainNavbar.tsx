@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import authApi from "src/apis/auth.api";
-import { path } from "src/constants/path";
+import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
 import Popover from "../Popover";

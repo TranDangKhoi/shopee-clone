@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
 import InputNumber from "src/components/InputNumber";
-import { path } from "src/constants/path";
+import { path } from "src/constants/path.enum";
 import { CategoryType } from "src/types/category.type";
 import { QueryConfigType } from "src/types/query.type";
 import { priceRangeSchema, PriceRangeType } from "src/utils/schema";
@@ -56,7 +56,7 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
           {
             ...queryConfig,
           },
-          ["rating_filter", "sort_by", "price_min", "price_max", "category"],
+          ["rating_filter", "sort_by", "price_min", "price_max", "category", "order"],
         ),
       ).toString(),
     });

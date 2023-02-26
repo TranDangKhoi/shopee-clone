@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { createSearchParams, Link } from "react-router-dom";
-import { path } from "src/constants/path";
+import { path } from "src/constants/path.enum";
 import { QueryConfigType } from "src/types/query.type";
 
 type PaginationProps = {

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import authApi from "src/apis/auth.api";
 import Button from "src/components/Button";
 import { Input } from "src/components/Input";
-import { path } from "src/constants/path";
+import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import { ErrorApiResponseType } from "src/types/utils.types";
 import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
