@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ProductRating from "src/components/ProductRating";
-import { path } from "src/constants/path";
 import { ProductType } from "src/types/product.type";
 import { formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
 type ProductProps = {
@@ -10,7 +9,7 @@ type ProductProps = {
 const Product = ({ product }: ProductProps) => {
   product;
   return (
-    <Link to={path.home}>
+    <Link to={`/${product._id}`}>
       <div className="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:shadow-md">
         <div className="relative w-full pt-[100%]">
           <img
@@ -32,7 +31,11 @@ const Product = ({ product }: ProductProps) => {
             </div>
           </div>
           <div className="mt-3 flex items-center justify-end gap-x-2">
-            <ProductRating rating={product.rating}></ProductRating>
+            <ProductRating
+              rating={product.rating}
+              activeClassName="w-3 h-3 fill-[#ffca11] text-[#ffca11]"
+              nonActiveClassName="w-3 h-3 fill-gray-300 text-gray-300"
+            ></ProductRating>
             <div className="flex gap-x-1 text-sm">
               <span>{formatNumberToSocialStyle(product.sold)}</span>
               <span>Đã bán</span>
