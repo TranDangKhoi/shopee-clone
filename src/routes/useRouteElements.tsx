@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { Navigate, Outlet, useRoutes } from "react-router-dom";
-import { path } from "src/constants/path";
+import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import AuthenticationLayout from "src/layouts/AuthenticationLayout";
 import MainLayout from "src/layouts/MainLayout";
 import Login from "src/pages/Login";
+import ProductDetails from "src/pages/ProductDetails";
 import Profile from "src/pages/Profile";
 import Register from "src/pages/Register";
 import ProductList from "../pages/ProductList";
@@ -26,6 +27,14 @@ export default function useRoutesElement() {
       element: (
         <MainLayout>
           <ProductList></ProductList>
+        </MainLayout>
+      ),
+    },
+    {
+      path: path.productDetail,
+      element: (
+        <MainLayout>
+          <ProductDetails></ProductDetails>
         </MainLayout>
       ),
     },
