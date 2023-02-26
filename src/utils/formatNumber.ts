@@ -11,3 +11,7 @@ export function formatNumberToSocialStyle(value: number) {
     .toLowerCase()
     .replace(".", ",");
 }
+
+export function calculateSalePercent(original: number, sale: number) {
+  return Math.round(((original - sale) / original) * 100) + "%";
+}
