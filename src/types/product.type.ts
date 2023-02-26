@@ -8,6 +8,7 @@ export type ProductType = {
   sold: number;
   view: number;
   name: string;
+  description: string;
   category: {
     _id: string;
     name: string;
