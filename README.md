@@ -46,8 +46,6 @@
 
 - Build tool: Vite ⚡
 
-- APIs: Got it from the course 🤯
-
 - Multilingualism: i18next 👩‍💻
 
 - SEO: React Helmet ⛑
