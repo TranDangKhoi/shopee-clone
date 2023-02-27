@@ -48,7 +48,6 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
   });
 
   const handleRemoveAllFilter = () => {
-    console.log("Hello");
     navigate({
       pathname: path.home,
       search: createSearchParams(
