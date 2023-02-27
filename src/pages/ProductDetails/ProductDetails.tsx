@@ -25,8 +25,8 @@ const ProductDetails = () => {
     <div className="bg-gray-200 py-6">
       <div className="bg-white p-4 shadow">
         <div className="container">
-          <div className="grid grid-cols-12 gap-9">
-            <div className="col-span-5">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-9">
+            <div className="block lg:col-span-5">
               <Swiper
                 thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
                 spaceBetween={10}
@@ -49,8 +49,16 @@ const ProductDetails = () => {
                 onSwiper={setThumbSwiper}
                 className="mt-4"
                 grabCursor={true}
-                spaceBetween={10}
-                slidesPerView={5}
+                breakpoints={{
+                  320: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                  },
+                  1024: {
+                    slidesPerView: 5,
+                    spaceBetween: 10,
+                  },
+                }}
                 navigation={true}
                 modules={[Navigation, Thumbs]}
               >
@@ -69,7 +77,7 @@ const ProductDetails = () => {
                 })}
               </Swiper>
             </div>
-            <div className="col-span-7">
+            <div className="mt-5 block lg:col-span-7">
               <h1 className="text-xl font-medium uppercase">{product.name}</h1>
               <div className="mt-8 flex items-center">
                 <div className="flex items-center">
@@ -88,7 +96,7 @@ const ProductDetails = () => {
               </div>
               <div className="mt-8 flex items-center gap-x-4 bg-gray-50 px-5 py-4">
                 <div className="text-gray-500 line-through">₫{formatCurrency(product.price_before_discount)}</div>
-                <div className="text-3xl font-medium text-primary">₫{formatCurrency(product.price)}</div>
+                <div className="text-2xl font-medium text-primary sm:text-3xl">₫{formatCurrency(product.price)}</div>
                 <div className="rounded-sm bg-primary px-1 py-[2px] text-xs font-semibold uppercase text-white">
                   {calculateSalePercent(product.price_before_discount, product.price)} giảm
                 </div>
@@ -137,8 +145,8 @@ const ProductDetails = () => {
                 </div>
                 <div className="ml-6 text-sm text-gray-500">{product.quantity} sản phẩm có sẵn</div>
               </div>
-              <div className="mt-8 flex items-center gap-x-4">
-                <button className="flex h-12 items-center justify-center rounded-sm border border-primary bg-primary/10 px-5 capitalize text-primary shadow-sm hover:bg-primary/5">
+              <div className="mt-8 sm:flex sm:items-center sm:gap-x-4">
+                <button className="flex h-12 w-full items-center justify-center rounded-sm border border-primary bg-primary/10 px-5 capitalize text-primary shadow-sm hover:bg-primary/5 sm:w-auto">
                   <svg
                     enableBackground="new 0 0 15 15"
                     viewBox="0 0 15 15"
@@ -190,7 +198,7 @@ const ProductDetails = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className="flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90">
+                <button className="mt-5 flex h-12 w-full min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90 sm:w-auto">
                   Mua ngay
                 </button>
               </div>

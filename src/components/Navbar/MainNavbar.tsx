@@ -6,6 +6,7 @@ import authApi from "src/apis/auth.api";
 import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
+import ShopeeLogoIcon2 from "../Icon/ShopeeLogoIcon2";
 import Popover from "../Popover";
 const MainNavbar = () => {
   const { isAuthenticated, userProfile, setIsAuthenticated, setUserProfile } = useContext(AuthContext);
@@ -99,7 +100,14 @@ const MainNavbar = () => {
         </div>
         <div className="mt-4 flex items-center gap-x-4">
           <Link to={path.home}>
-            <ShopeeLogoIcon fillColor="secondary"></ShopeeLogoIcon>
+            <ShopeeLogoIcon
+              className="hidden sm:block"
+              fillColor="secondary"
+            ></ShopeeLogoIcon>
+            <ShopeeLogoIcon2
+              fillColor="secondary"
+              className="block sm:hidden"
+            ></ShopeeLogoIcon2>
           </Link>
           <form className="w-full">
             <div className="flex rounded-sm bg-white p-1">
