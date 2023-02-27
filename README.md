@@ -320,4 +320,16 @@ Add this into your `settings.json` (VSCode version)
 
 ## Other stuffs
 
+### Tailwind configuration
+
 I have overrided some of the Tailwind's styles, check it out right here: [tailwind.config.cjs](/tailwind.config.cjs)
+
+### Swiper tips
+
+> Cannot convert undefined or null to object when using Thumbs module
+
+Simply fixed by replace your current thumbs prop with this
+
+```tsx
+  thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
+```
