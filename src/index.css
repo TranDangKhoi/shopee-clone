@@ -14,6 +14,53 @@ body {
   font-weight: 400;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  top: 50%;
+  z-index: 11;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.swiper-button-next {
+  right: 0;
+}
+
+.swiper-button-next::after {
+  content: ">";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: white;
+  background: rgba(0, 0, 0, 0.189);
+  padding: 6px 5px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+}
+
+.swiper-button-prev::before {
+  content: "<";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: white;
+  background: rgba(0, 0, 0, 0.189);
+  padding: 6px 5px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+}
+
 .swiper-slide-thumb-active {
   position: relative;
 }

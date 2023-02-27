@@ -4,22 +4,22 @@ import { useParams } from "react-router-dom";
 import productApi from "src/apis/product.api";
 import InputNumber from "src/components/InputNumber";
 import ProductRating from "src/components/ProductRating";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiperSlide } from "swiper/react";
 import { formatCurrency, formatNumberToSocialStyle, calculateSalePercent } from "src/utils/formatNumber";
 import { FreeMode, Navigation, Thumbs } from "swiper";
-import { useState } from "react";
+import React, { useState } from "react";
 // eslint-disable-next-line import/no-unresolved
 import { Swiper as SwiperType } from "swiper/types";
 
 const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
+  const [currentHovered, setCurrentHovered] = useState<string>("");
   const { id } = useParams();
   const { data: productDetailData } = useQuery({
     queryKey: ["product", id],
     queryFn: () => productApi.getProductById(id as string),
   });
   const product = productDetailData?.data.data;
-  console.log(thumbSwiper);
   if (!product) return null;
   return (
     <div className="bg-gray-200 py-6">
@@ -30,10 +30,9 @@ const ProductDetails = () => {
               <Swiper
                 thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
                 spaceBetween={10}
-                navigation={true}
-                modules={[Navigation, FreeMode, Thumbs]}
+                modules={[FreeMode, Thumbs]}
               >
-                {product.images.slice(0, 5).map((image) => (
+                {product.images.map((image) => (
                   <SwiperSlide key={image}>
                     <div className="relative w-full pt-[100%] shadow">
                       <img
@@ -50,9 +49,10 @@ const ProductDetails = () => {
                 className="mt-4"
                 spaceBetween={10}
                 slidesPerView={5}
+                navigation={true}
                 modules={[Navigation, FreeMode, Thumbs]}
               >
-                {product.images.slice(0, 5).map((image) => {
+                {product.images.map((image) => {
                   return (
                     <SwiperSlide key={image}>
                       <div className="relative w-full pt-[100%]">
