@@ -30,7 +30,8 @@ const ProductDetails = () => {
               <Swiper
                 thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
                 spaceBetween={10}
-                modules={[FreeMode, Thumbs]}
+                grabCursor={true}
+                modules={[Thumbs]}
               >
                 {product.images.map((image) => (
                   <SwiperSlide key={image}>
@@ -47,15 +48,16 @@ const ProductDetails = () => {
               <Swiper
                 onSwiper={setThumbSwiper}
                 className="mt-4"
+                grabCursor={true}
                 spaceBetween={10}
                 slidesPerView={5}
                 navigation={true}
-                modules={[Navigation, FreeMode, Thumbs]}
+                modules={[Navigation, Thumbs]}
               >
                 {product.images.map((image) => {
                   return (
                     <SwiperSlide key={image}>
-                      <div className="relative w-full pt-[100%]">
+                      <div className="relative w-full pt-[100%] ">
                         <img
                           src={image}
                           alt={product.name}
