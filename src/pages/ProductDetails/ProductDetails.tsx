@@ -11,12 +11,13 @@ import { FreeMode, Navigation, Thumbs } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 // eslint-disable-next-line import/no-unresolved
 import { Swiper as SwiperType } from "swiper/types";
+import Product from "../ProductList/components/Product";
 
 const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
+  const [currentImageState, setCurrentImageState] = useState<HTMLImageElement | null>(null);
   const { slug } = useParams();
   const id = getIdFromSlug(slug as string);
-  const [currentImageState, setCurrentImageState] = useState<HTMLImageElement | null>(null);
   const { data: productDetailData } = useQuery({
     queryKey: ["product", id],
     queryFn: () => productApi.getProductById(id as string),
@@ -50,6 +51,14 @@ const ProductDetails = () => {
     image.removeAttribute("style");
   };
   const product = productDetailData?.data.data;
+  const { data: relevantProductListData } = useQuery({
+    queryKey: ["relevantProducts", product?.category._id],
+    queryFn: () =>
+      productApi.getProducts({ category: product?.category._id, sort_by: "sold", order: "desc", limit: "12" }),
+    staleTime: 3 * 60 * 1000,
+    enabled: Boolean(product),
+  });
+  console.log(relevantProductListData);
   if (!product) return null;
   return (
     <div className="bg-gray-200 py-6">
@@ -257,6 +266,20 @@ const ProductDetails = () => {
               }}
             />
           </div>
+        </div>
+      </div>
+      <div className="container">
+        <h2 className="mt-5 uppercase">Các sản phẩm liên quan khác</h2>
+        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
+          {relevantProductListData &&
+            relevantProductListData.data.data.products.map((product) => (
+              <div
+                className="col-span-1"
+                key={product._id}
+              >
+                <Product product={product}></Product>
+              </div>
+            ))}
         </div>
       </div>
     </div>

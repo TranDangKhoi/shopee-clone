@@ -31,7 +31,7 @@ const Product = ({ product }: ProductProps) => {
               <span className="text-sm">{formatCurrency(product.price)}</span>
             </div>
           </div>
-          <div className="mt-3 flex items-center justify-end gap-x-2">
+          <div className="mt-3 flex items-center justify-between gap-x-2">
             <ProductRating
               rating={product.rating}
               activeClassName="w-3 h-3 fill-[#ffca11] text-[#ffca11]"

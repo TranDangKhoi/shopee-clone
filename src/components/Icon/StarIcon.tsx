@@ -1,10 +1,18 @@
+import classNames from "classnames";
 import React from "react";
-
-const StarIcon = () => {
+type StarIconProps = {
+  size: "tiny" | "small" | "medium" | "big";
+};
+const StarIcon = ({ size = "big" }: StarIconProps) => {
   return (
     <svg
       viewBox="0 0 9.5 8"
-      className="mr-1 h-4 w-4"
+      className={classNames({
+        "h-1 w-1": size === "tiny",
+        "h-2 w-2": size === "small",
+        "h-3 w-3": size === "medium",
+        "h-4 w-4": size === "big",
+      })}
     >
       <defs>
         <linearGradient

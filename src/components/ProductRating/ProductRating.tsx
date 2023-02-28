@@ -1,3 +1,5 @@
+import { StarIcon } from "../Icon";
+
 type ProductRatingProps = {
   rating: number;
   activeClassName?: string;
@@ -19,7 +21,7 @@ const ProductRating = ({ rating, activeClassName, nonActiveClassName }: ProductR
         .fill(0)
         .map((_, index) => (
           <div
-            className="relative"
+            className="relative hidden xs:block"
             key={index}
           >
             <div
@@ -57,6 +59,10 @@ const ProductRating = ({ rating, activeClassName, nonActiveClassName }: ProductR
             </svg>
           </div>
         ))}
+      <div className="flex items-center justify-center gap-x-1 xs:hidden">
+        <span className="text-xs">{rating}</span>
+        <StarIcon size="medium"></StarIcon>
+      </div>
     </div>
   );
 };
