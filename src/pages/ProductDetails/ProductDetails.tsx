@@ -10,20 +10,19 @@ import { FreeMode, Navigation, Thumbs } from "swiper";
 import React, { useRef, useState } from "react";
 // eslint-disable-next-line import/no-unresolved
 import { Swiper as SwiperType } from "swiper/types";
-import classNames from "classnames";
 
 const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
   const { id } = useParams();
   const [currentImageState, setCurrentImageState] = useState<HTMLImageElement | null>(null);
-  const currentImageRef = useRef<HTMLImageElement>(null);
   const { data: productDetailData } = useQuery({
     queryKey: ["product", id],
     queryFn: () => productApi.getProductById(id as string),
   });
+
   const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    const image = currentImageRef.current as HTMLImageElement;
+    const image = currentImageState as HTMLImageElement;
     const { naturalHeight, naturalWidth } = image;
     const offsetX = event.pageX - (rect.x + window.scrollX);
     const offsetY = event.pageY - (rect.y + window.scrollY);
@@ -38,11 +37,9 @@ const ProductDetails = () => {
   };
 
   const handleRemoveZoom = () => {
-    currentImageRef.current?.removeAttribute("style");
-  };
-
-  const handleSelectImage = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    setCurrentImageState(e.currentTarget);
+    const image = currentImageState as HTMLImageElement;
+    setCurrentImageState(null);
+    image.removeAttribute("style");
   };
   const product = productDetailData?.data.data;
   if (!product) return null;
@@ -52,43 +49,34 @@ const ProductDetails = () => {
         <div className="container">
           <div className="lg:grid lg:grid-cols-12 lg:gap-9">
             <div className="block lg:col-span-5">
-              <div
-                className="relative w-full overflow-hidden pt-[100%] shadow"
-                onMouseMove={handleZoom}
-                onMouseLeave={handleRemoveZoom}
+              <Swiper
+                thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
+                spaceBetween={10}
+                grabCursor={true}
+                modules={[Thumbs]}
               >
-                <img
-                  src={currentImageState?.src || product.image}
-                  alt={product.name}
-                  ref={currentImageRef}
-                  className="absolute top-0 left-0 h-full w-full cursor-zoom-in bg-white object-cover"
-                />
-              </div>
-              {/* <Swiper
-                  thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
-                  spaceBetween={10}
-                  grabCursor={true}
-                  modules={[Thumbs]}
-                >
-                  {product.images.map((image) => (
+                {product.images.map((image) => {
+                  return (
                     <SwiperSlide key={image}>
                       <div
-                        className="relative w-full overflow-hidden pt-[100%] shadow"
+                        className="relative w-full pt-[100%] shadow"
                         onMouseMove={handleZoom}
                         onMouseLeave={handleRemoveZoom}
                       >
                         <img
                           src={image}
                           alt={product.name}
-                          ref={currentImageRef}
+                          onClick={(e) => setCurrentImageState(e.currentTarget)}
+                          aria-hidden={true}
                           className="absolute top-0 left-0 h-full w-full cursor-zoom-in bg-white object-cover"
                         />
                       </div>
                     </SwiperSlide>
-                  ))}
-                </Swiper> */}
+                  );
+                })}
+              </Swiper>
               <Swiper
-                // onSwiper={setThumbSwiper}
+                onSwiper={setThumbSwiper}
                 className="mt-4"
                 grabCursor={true}
                 breakpoints={{
@@ -103,17 +91,15 @@ const ProductDetails = () => {
                   },
                 }}
                 navigation={true}
-                modules={[Navigation, FreeMode]}
+                modules={[Navigation, Thumbs, FreeMode]}
               >
                 {product.images.map((image) => {
                   return (
                     <SwiperSlide key={image}>
-                      <div className={classNames("relative w-full pt-[100%]", "image-container")}>
+                      <div className="relative w-full pt-[100%]">
                         <img
                           src={image}
                           alt={product.name}
-                          onMouseEnter={handleSelectImage}
-                          aria-hidden={true}
                           className="absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover"
                         />
                       </div>
