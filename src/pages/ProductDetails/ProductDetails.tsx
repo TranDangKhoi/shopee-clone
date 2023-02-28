@@ -66,7 +66,7 @@ const ProductDetails = () => {
                         <img
                           src={image}
                           alt={product.name}
-                          onClick={(e) => setCurrentImageState(e.currentTarget)}
+                          onMouseEnter={(e) => setCurrentImageState(e.currentTarget)}
                           aria-hidden={true}
                           className="absolute top-0 left-0 h-full w-full cursor-zoom-in bg-white object-cover"
                         />
