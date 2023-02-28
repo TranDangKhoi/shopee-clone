@@ -7,18 +7,43 @@ import ProductRating from "src/components/ProductRating";
 import { Swiper, SwiperSlide, useSwiperSlide } from "swiper/react";
 import { formatCurrency, formatNumberToSocialStyle, calculateSalePercent } from "src/utils/formatNumber";
 import { FreeMode, Navigation, Thumbs } from "swiper";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 // eslint-disable-next-line import/no-unresolved
 import { Swiper as SwiperType } from "swiper/types";
+import classNames from "classnames";
 
 const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
-  const [currentHovered, setCurrentHovered] = useState<string>("");
   const { id } = useParams();
+  const [currentImageState, setCurrentImageState] = useState<HTMLImageElement | null>(null);
+  const currentImageRef = useRef<HTMLImageElement>(null);
   const { data: productDetailData } = useQuery({
     queryKey: ["product", id],
     queryFn: () => productApi.getProductById(id as string),
   });
+  const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const image = currentImageRef.current as HTMLImageElement;
+    const { naturalHeight, naturalWidth } = image;
+    const offsetX = event.pageX - (rect.x + window.scrollX);
+    const offsetY = event.pageY - (rect.y + window.scrollY);
+
+    const top = offsetY * (1 - naturalHeight / rect.height);
+    const left = offsetX * (1 - naturalWidth / rect.width);
+    image.style.width = naturalWidth + "px";
+    image.style.height = naturalHeight + "px";
+    image.style.maxWidth = "unset";
+    image.style.top = top + "px";
+    image.style.left = left + "px";
+  };
+
+  const handleRemoveZoom = () => {
+    currentImageRef.current?.removeAttribute("style");
+  };
+
+  const handleSelectImage = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    setCurrentImageState(e.currentTarget);
+  };
   const product = productDetailData?.data.data;
   if (!product) return null;
   return (
@@ -27,32 +52,50 @@ const ProductDetails = () => {
         <div className="container">
           <div className="lg:grid lg:grid-cols-12 lg:gap-9">
             <div className="block lg:col-span-5">
-              <Swiper
-                thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
-                spaceBetween={10}
-                grabCursor={true}
-                modules={[Thumbs]}
+              <div
+                className="relative w-full overflow-hidden pt-[100%] shadow"
+                onMouseMove={handleZoom}
+                onMouseLeave={handleRemoveZoom}
               >
-                {product.images.map((image) => (
-                  <SwiperSlide key={image}>
-                    <div className="relative w-full pt-[100%] shadow">
-                      <img
-                        src={image}
-                        alt={product.name}
-                        className="absolute top-0 left-0 h-full w-full bg-white object-cover"
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+                <img
+                  src={currentImageState?.src || product.image}
+                  alt={product.name}
+                  ref={currentImageRef}
+                  className="absolute top-0 left-0 h-full w-full cursor-zoom-in bg-white object-cover"
+                />
+              </div>
+              {/* <Swiper
+                  thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
+                  spaceBetween={10}
+                  grabCursor={true}
+                  modules={[Thumbs]}
+                >
+                  {product.images.map((image) => (
+                    <SwiperSlide key={image}>
+                      <div
+                        className="relative w-full overflow-hidden pt-[100%] shadow"
+                        onMouseMove={handleZoom}
+                        onMouseLeave={handleRemoveZoom}
+                      >
+                        <img
+                          src={image}
+                          alt={product.name}
+                          ref={currentImageRef}
+                          className="absolute top-0 left-0 h-full w-full cursor-zoom-in bg-white object-cover"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper> */}
               <Swiper
-                onSwiper={setThumbSwiper}
+                // onSwiper={setThumbSwiper}
                 className="mt-4"
                 grabCursor={true}
                 breakpoints={{
                   320: {
                     slidesPerView: 3,
                     spaceBetween: 10,
+                    freeMode: true,
                   },
                   1024: {
                     slidesPerView: 5,
@@ -60,15 +103,17 @@ const ProductDetails = () => {
                   },
                 }}
                 navigation={true}
-                modules={[Navigation, Thumbs]}
+                modules={[Navigation, FreeMode]}
               >
                 {product.images.map((image) => {
                   return (
                     <SwiperSlide key={image}>
-                      <div className="relative w-full pt-[100%] ">
+                      <div className={classNames("relative w-full pt-[100%]", "image-container")}>
                         <img
                           src={image}
                           alt={product.name}
+                          onMouseEnter={handleSelectImage}
+                          aria-hidden={true}
                           className="absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover"
                         />
                       </div>

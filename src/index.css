@@ -61,7 +61,27 @@ body {
   opacity: 0.8;
 }
 
-.swiper-slide-thumb-active {
+.image-container {
+  position: relative;
+}
+
+.image-container::before {
+  content: "";
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  inset: 0;
+  z-index: 1000;
+  @apply border-2 border-primary;
+}
+
+.image-container:hover .image-container::before {
+  content: "";
+  opacity: 1;
+  visibility: visible;
+}
+
+/* .swiper-slide-thumb-active {
   position: relative;
 }
 
@@ -71,4 +91,4 @@ body {
   position: absolute;
   inset: 0;
   z-index: 1000;
-}
+} */
