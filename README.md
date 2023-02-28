@@ -324,7 +324,7 @@ Add this into your `settings.json` (VSCode version)
 
 I have overrided some of the Tailwind's styles, check it out right here: [tailwind.config.cjs](/tailwind.config.cjs)
 
-### Swiper tips
+### Swiper
 
 > Cannot convert undefined or null to object when using Thumbs module
 
