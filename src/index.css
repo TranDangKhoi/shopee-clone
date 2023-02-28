@@ -60,6 +60,7 @@ body {
   align-items: center;
   opacity: 0.8;
 }
+
 .swiper-slide-thumb-active {
   position: relative;
 }

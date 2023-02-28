@@ -20,6 +20,10 @@ const ProductDetails = () => {
     queryFn: () => productApi.getProductById(id as string),
   });
 
+  const handleEnterZoomMode = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    setCurrentImageState(e.currentTarget);
+  };
+
   const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const image = currentImageState as HTMLImageElement;
@@ -66,7 +70,7 @@ const ProductDetails = () => {
                         <img
                           src={image}
                           alt={product.name}
-                          onMouseEnter={(e) => setCurrentImageState(e.currentTarget)}
+                          onMouseEnter={handleEnterZoomMode}
                           aria-hidden={true}
                           className="absolute top-0 left-0 h-full w-full cursor-zoom-in bg-white object-cover"
                         />
