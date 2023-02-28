@@ -1,19 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import productApi from "src/apis/product.api";
 import InputNumber from "src/components/InputNumber";
 import ProductRating from "src/components/ProductRating";
-import { Swiper, SwiperSlide, useSwiperSlide } from "swiper/react";
-import { formatCurrency, formatNumberToSocialStyle, calculateSalePercent } from "src/utils/formatNumber";
+import { calculateSalePercent, formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
+import { getIdFromSlug } from "src/utils/slugify";
 import { FreeMode, Navigation, Thumbs } from "swiper";
-import React, { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 // eslint-disable-next-line import/no-unresolved
 import { Swiper as SwiperType } from "swiper/types";
 
 const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
-  const { id } = useParams();
+  const { slug } = useParams();
+  const id = getIdFromSlug(slug as string);
   const [currentImageState, setCurrentImageState] = useState<HTMLImageElement | null>(null);
   const { data: productDetailData } = useQuery({
     queryKey: ["product", id],
@@ -26,18 +28,20 @@ const ProductDetails = () => {
 
   const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    const image = currentImageState as HTMLImageElement;
-    const { naturalHeight, naturalWidth } = image;
-    const offsetX = event.pageX - (rect.x + window.scrollX);
-    const offsetY = event.pageY - (rect.y + window.scrollY);
+    if (currentImageState) {
+      const image = currentImageState as HTMLImageElement;
+      const { naturalHeight, naturalWidth } = image;
+      const offsetX = event.pageX - (rect.x + window.scrollX);
+      const offsetY = event.pageY - (rect.y + window.scrollY);
 
-    const top = offsetY * (1 - naturalHeight / rect.height);
-    const left = offsetX * (1 - naturalWidth / rect.width);
-    image.style.width = naturalWidth + "px";
-    image.style.height = naturalHeight + "px";
-    image.style.maxWidth = "unset";
-    image.style.top = top + "px";
-    image.style.left = left + "px";
+      const top = offsetY * (1 - naturalHeight / rect.height);
+      const left = offsetX * (1 - naturalWidth / rect.width);
+      image.style.width = naturalWidth + "px";
+      image.style.height = naturalHeight + "px";
+      image.style.maxWidth = "unset";
+      image.style.top = top + "px";
+      image.style.left = left + "px";
+    }
   };
 
   const handleRemoveZoom = () => {
@@ -57,7 +61,9 @@ const ProductDetails = () => {
                 thumbs={{ swiper: thumbSwiper && !thumbSwiper.destroyed ? thumbSwiper : null }}
                 spaceBetween={10}
                 grabCursor={true}
+                preventInteractionOnTransition={true}
                 modules={[Thumbs]}
+                className="active:pointer-events-none"
               >
                 {product.images.map((image) => {
                   return (
@@ -233,7 +239,7 @@ const ProductDetails = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className="mt-5 flex h-12 w-full min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90 sm:w-auto">
+                <button className="mt-5 flex h-12 w-full min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90 sm:mt-0 sm:w-auto">
                   Mua ngay
                 </button>
               </div>

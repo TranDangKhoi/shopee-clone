@@ -1,15 +1,30 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
+import { omit } from "lodash";
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import authApi from "src/apis/auth.api";
 import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
+import useQueryConfig from "src/hooks/useQueryConfig";
+import { searchQuerySchema, SearchQueryType } from "src/utils/schema";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
 import ShopeeLogoIcon2 from "../Icon/ShopeeLogoIcon2";
 import Popover from "../Popover";
+
+type FormData = SearchQueryType;
+
 const MainNavbar = () => {
+  const queryConfig = useQueryConfig();
   const { isAuthenticated, userProfile, setIsAuthenticated, setUserProfile } = useContext(AuthContext);
+  const { register, handleSubmit } = useForm<FormData>({
+    resolver: yupResolver(searchQuerySchema),
+    defaultValues: {
+      search: "",
+    },
+  });
   const navigate = useNavigate();
   const logOutAccountMutation = useMutation({
     mutationFn: () => authApi.logoutAccount(),
@@ -19,13 +34,27 @@ const MainNavbar = () => {
       });
     },
   });
-
   const handleLogOut = () => {
     logOutAccountMutation.mutate();
     setIsAuthenticated(false);
     setUserProfile(null);
     navigate("/login");
   };
+  const handleSearch = handleSubmit((data) => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConfig,
+            page: "1",
+            search: data.search.toString(),
+          },
+          ["rating_filter", "sort_by", "price_min", "price_max", "order"],
+        ),
+      ).toString(),
+    });
+  });
   return (
     <div className="bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white">
       <div className="container">
@@ -109,13 +138,16 @@ const MainNavbar = () => {
               className="block sm:hidden"
             ></ShopeeLogoIcon2>
           </Link>
-          <form className="w-full">
+          <form
+            className="w-full"
+            onSubmit={handleSearch}
+          >
             <div className="flex rounded-sm bg-white p-1">
               <input
                 type="text"
-                name="search"
                 className="w-full flex-grow-0 border-none bg-transparent px-3 py-2 text-black outline-none"
                 placeholder="Free Ship Đơn Từ 0Đ"
+                {...register("search")}
               />
               <button className="rounded-sm bg-primary py-2 px-4 hover:opacity-90 lg:px-6">
                 <svg

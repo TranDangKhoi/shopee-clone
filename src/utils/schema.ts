@@ -30,12 +30,15 @@ const schema = yup.object({
     message: "Khoảng giá không hợp lệ",
     test: testPriceMinMax,
   }),
+  search: yup.string().trim().required(),
 });
 
 export const registerSchema = schema.omit(["price_min", "price_max"]);
 export const loginSchema = registerSchema.omit(["confirm_password"]);
 export const priceRangeSchema = schema.pick(["price_min", "price_max"]);
+export const searchQuerySchema = schema.pick(["search"]);
 
 export type RegisterSchemaType = yup.InferType<typeof registerSchema>;
 export type LoginSchemaType = yup.InferType<typeof loginSchema>;
 export type PriceRangeType = Required<yup.InferType<typeof priceRangeSchema>>;
+export type SearchQueryType = yup.InferType<typeof searchQuerySchema>;
