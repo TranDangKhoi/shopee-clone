@@ -307,6 +307,10 @@ export const removeSpecialCharacter = (str: string) =>
   str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, "");
 ```
 
+### React-Router-Dom
+
+When you direct to a page which has the same header and footer component as your layout, the header and footer component won't be unmount, they just re-render
+
 ### Tailwind configuration
 
 I have overrided some of the Tailwind's styles, check it out right here: [tailwind.config.cjs](/tailwind.config.cjs)
