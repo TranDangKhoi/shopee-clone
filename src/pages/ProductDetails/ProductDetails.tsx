@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import productApi from "src/apis/product.api";
+import purchaseAPI from "src/apis/purchase.api";
 import ProductRating from "src/components/ProductRating";
 import QuantityController from "src/components/QuantityController";
 import { calculateSalePercent, formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
@@ -24,7 +25,18 @@ const ProductDetails = () => {
     queryFn: () => productApi.getProductById(id as string),
     staleTime: 3 * 60 * 1000,
   });
+  const product = productDetailData?.data.data;
+  const { data: relevantProductListData } = useQuery({
+    queryKey: ["relevantProducts", product?.category._id],
+    queryFn: () =>
+      productApi.getProducts({ category: product?.category._id, sort_by: "sold", order: "desc", limit: "12" }),
+    staleTime: 3 * 60 * 1000,
+    enabled: Boolean(product),
+  });
 
+  // const addToCartMutation = useMutation({
+  //   mutationFn: () => purchaseAPI.addToCart(),
+  // });
   const handleCurrentQuantity = (value: number) => {
     setCurrentQuantity(value);
   };
@@ -56,15 +68,7 @@ const ProductDetails = () => {
     setCurrentImageState(null);
     image.removeAttribute("style");
   };
-  const product = productDetailData?.data.data;
-  const { data: relevantProductListData } = useQuery({
-    queryKey: ["relevantProducts", product?.category._id],
-    queryFn: () =>
-      productApi.getProducts({ category: product?.category._id, sort_by: "sold", order: "desc", limit: "12" }),
-    staleTime: 3 * 60 * 1000,
-    enabled: Boolean(product),
-  });
-  console.log(relevantProductListData);
+
   if (!product) return null;
   return (
     <div className="bg-gray-200 py-6">
@@ -78,7 +82,7 @@ const ProductDetails = () => {
                 grabCursor={true}
                 preventInteractionOnTransition={true}
                 modules={[Thumbs]}
-                className="transition-all duration-200 hover:shadow-lg active:pointer-events-none"
+                className="hover:shadow-bottom-spread transition-all duration-200 active:pointer-events-none"
               >
                 {product.images.map((image) => {
                   return (
