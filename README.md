@@ -349,9 +349,9 @@ const Input = ({ type = "text", className, containerClassName, errorClassName }:
 };
 ```
 
-When you export the component and then import it somewhere else, you can re-use those "randomClassName" prop 😄. But the problem is, there are no className suggestions ☹.
+When you export the component and then import it somewhere else, you can use those "randomClassName" prop to style the component 😄. But the problem is... there are no className suggestions ☹. This will become frustrated for those who is new to Tailwind and haven't remembered all of the neccessary classNames
 
-Because Tailwind will only suggest Tailwind's classNames when you declare a `className=""`, it doesn't understand `errorClassName=""` or `containerClassName=""`. So you need to change your settings a bit, using this one I made for myself:
+The reason is because Tailwind will only suggest Tailwind's classNames when you declare a `className=""`, it doesn't understand `errorClassName=""` or `containerClassName=""` or `whateverClassName=""`. So you need to change your settings a bit, using this one I made for myself:
 
 ```json
 {
