@@ -307,6 +307,14 @@ export const removeSpecialCharacter = (str: string) =>
   str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, "");
 ```
 
+### Tailwind configuration
+
+I have overrided some of the Tailwind's styles, check it out right here: [tailwind.config.cjs](/tailwind.config.cjs)
+
+## Tips and other stuffs
+
+### Tailwind doesn't have suggestions
+
 What did you say ? Your Tailwind doesn't have suggestions for classNames ? 🤔 Follow this instruction:
 
 Add this into your `settings.json` (VSCode version)
@@ -318,15 +326,9 @@ Add this into your `settings.json` (VSCode version)
 }
 ```
 
-## Other stuffs
-
-### Tailwind configuration
-
-I have overrided some of the Tailwind's styles, check it out right here: [tailwind.config.cjs](/tailwind.config.cjs)
-
 ### How can I enable Tailwind IntelliSense outside of a normal "className"?
 
-When you're writing classNames styles 💅 for many elements within a component using TailwindCSS and you want to conveniently style that component using "randomClassName" props BUT there might be more than 1 element that need to have the props "randomClassName", for example:
+When you're writing classNames styles 💅 for many elements within a component using TailwindCSS and you want to conveniently style that component using "whateverClassName" props BUT there might be more than 1 element that need to have the props "whateverClassName", for example:
 
 ```tsx
 type InputProps = {
@@ -349,7 +351,7 @@ const Input = ({ type = "text", className, containerClassName, errorClassName }:
 };
 ```
 
-When you export the component and then import it somewhere else, you can use those "randomClassName" prop to style the component 😄. But the problem is... there are no className suggestions ☹. This will become frustrated for those who is new to Tailwind and haven't remembered all of the neccessary classNames
+When you export the component and then import it somewhere else, you can use those "whateverClassName" prop to style the component 😄. But the problem is... there are no className suggestions ☹. This will become frustrated for those who is new to Tailwind or haven't remembered all of the neccessary classNames (including me)
 
 The reason is because Tailwind will only suggest Tailwind's classNames when you declare a `className=""`, it doesn't understand `errorClassName=""` or `containerClassName=""` or `whateverClassName=""`. So you need to change your settings a bit, using this one I made for myself:
 
@@ -368,6 +370,8 @@ const contentStyles = "py-1 bg-white dark:bg-gray-700";
 // .*ClassName
 <MyComponent errorClassName="text-red-500 py-10 bg-white"></MyComponent>;
 ```
+
+Hope this tip will help you write code faster and more convinient 😎
 
 ### Swiper
 
