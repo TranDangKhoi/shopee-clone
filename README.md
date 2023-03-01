@@ -324,6 +324,51 @@ Add this into your `settings.json` (VSCode version)
 
 I have overrided some of the Tailwind's styles, check it out right here: [tailwind.config.cjs](/tailwind.config.cjs)
 
+### How can I enable Tailwind IntelliSense outside of a normal "className"?
+
+When you're writing classNames styles 💅 for many elements within a component using TailwindCSS and you want to conveniently style that component using "randomClassName" props BUT there might be more than 1 element that need to have the props "randomClassName", for example:
+
+```tsx
+type InputProps = {
+  type: React.HTMLInputTypeAttribute;
+  className?: string; // the first one
+  containerClassName?: string; // the second one
+  errorClassName?: string; // the third one
+} & InputHTMLAttributes<HTMLInputElement>;
+
+const Input = ({ type = "text", className, containerClassName, errorClassName }: InputProps) => {
+  return (
+    <div className={containerClassName}>
+      <input
+        type={type}
+        className={className}
+      />
+      <div className={errorClassName}>Error!</div>
+    </div>
+  );
+};
+```
+
+When you export the component and then import it somewhere else, you can re-use those "randomClassName" prop 😄. But the problem is, there are no className suggestions ☹.
+
+Because Tailwind will only suggest Tailwind's classNames when you declare a `className=""`, it doesn't understand `errorClassName=""` or `containerClassName=""`. So you need to change your settings a bit, using this one I made for myself:
+
+```json
+{
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass", ".*Styles", ".*ClassName"]
+}
+```
+
+Example usage:
+
+```tsx
+// .*Styles
+const contentStyles = "py-1 bg-white dark:bg-gray-700";
+
+// .*ClassName
+<MyComponent errorClassName="text-red-500 py-10 bg-white"></MyComponent>;
+```
+
 ### Swiper
 
 > Cannot convert undefined or null to object when using Thumbs module
