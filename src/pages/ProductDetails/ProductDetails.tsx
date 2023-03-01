@@ -3,8 +3,8 @@ import DOMPurify from "dompurify";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import productApi from "src/apis/product.api";
-import InputNumber from "src/components/InputNumber";
 import ProductRating from "src/components/ProductRating";
+import QuantityController from "src/components/QuantityController";
 import { calculateSalePercent, formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
 import { getIdFromSlug } from "src/utils/slugify";
 import { FreeMode, Navigation, Thumbs } from "swiper";
@@ -16,12 +16,18 @@ import Product from "../ProductList/components/Product";
 const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
   const [currentImageState, setCurrentImageState] = useState<HTMLImageElement | null>(null);
+  const [currentQuantity, setCurrentQuantity] = useState<number>(1);
   const { slug } = useParams();
   const id = getIdFromSlug(slug as string);
   const { data: productDetailData } = useQuery({
     queryKey: ["product", id],
     queryFn: () => productApi.getProductById(id as string),
+    staleTime: 3 * 60 * 1000,
   });
+
+  const handleCurrentQuantity = (value: number) => {
+    setCurrentQuantity(value);
+  };
 
   const handleEnterZoomMode = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     setCurrentImageState(e.currentTarget);
@@ -72,13 +78,13 @@ const ProductDetails = () => {
                 grabCursor={true}
                 preventInteractionOnTransition={true}
                 modules={[Thumbs]}
-                className="active:pointer-events-none"
+                className="transition-all duration-200 hover:shadow-lg active:pointer-events-none"
               >
                 {product.images.map((image) => {
                   return (
                     <SwiperSlide key={image}>
                       <div
-                        className="relative w-full pt-[100%] shadow"
+                        className="relative w-full overflow-hidden pt-[100%]"
                         onMouseMove={handleZoom}
                         onMouseLeave={handleRemoveZoom}
                       >
@@ -153,46 +159,15 @@ const ProductDetails = () => {
               </div>
               <div className="mt-8 flex items-center">
                 <div className="capitalize text-gray-500">Số lượng</div>
-                <div className="ml-10 flex items-center">
-                  <button className="flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="h-4 w-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19.5 12h-15"
-                      />
-                    </svg>
-                  </button>
-                  <InputNumber
-                    type="text"
-                    value={1}
-                    errorClassName="hidden"
-                    className="h-8 w-14 border-t border-b border-gray-300 p-1 text-center outline-none"
-                  />
-                  <button className="flex h-8 w-8 items-center justify-center rounded-r-sm border border-gray-300 text-gray-600">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="h-4 w-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 4.5v15m7.5-7.5h-15"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                <QuantityController
+                  type="text"
+                  onDecrease={handleCurrentQuantity}
+                  onIncrease={handleCurrentQuantity}
+                  onType={handleCurrentQuantity}
+                  value={currentQuantity}
+                  max={product.quantity}
+                  containerClassName="ml-10"
+                ></QuantityController>
                 <div className="ml-6 text-sm text-gray-500">{product.quantity} sản phẩm có sẵn</div>
               </div>
               <div className="mt-8 sm:flex sm:items-center sm:gap-x-4">

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { forwardRef, InputHTMLAttributes } from "react";
 
-type InputNumberProps = {
+export type InputNumberProps = {
   type: React.HTMLInputTypeAttribute;
   errorMsg?: string;
   placeholder?: string;
