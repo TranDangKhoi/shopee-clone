@@ -1,27 +1,29 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { omit } from "lodash";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { createSearchParams, Link, useNavigate } from "react-router-dom";
-import EmptyCartIcon from "src/assets/images/empty-cart.png";
+import { createSearchParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import authApi from "src/apis/auth.api";
 import purchaseAPI from "src/apis/purchase.api";
+import EmptyCartIcon from "src/assets/images/empty-cart.png";
 import { path } from "src/constants/path.enum";
 import { purchasesStatus } from "src/constants/purchase.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import useQueryConfig from "src/hooks/useQueryConfig";
+import { formatCurrency } from "src/utils/formatNumber";
+import getDeviceType from "src/utils/getDeviceType";
 import { searchQuerySchema, SearchQueryType } from "src/utils/schema";
+import { generateSlug } from "src/utils/slugify";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
 import ShopeeLogoIcon2 from "../Icon/ShopeeLogoIcon2";
 import Popover from "../Popover";
-import { formatCurrency } from "src/utils/formatNumber";
-import { generateSlug } from "src/utils/slugify";
 
 type FormData = SearchQueryType;
 const MAX_PURCHASES_PER_CART = 5;
 const MainNavbar = () => {
+  const location = useLocation();
   const queryConfig = useQueryConfig();
   const { isAuthenticated, userProfile, setIsAuthenticated, setUserProfile } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<FormData>({
@@ -39,6 +41,7 @@ const MainNavbar = () => {
       });
     },
   });
+  console.log(navigator.userAgent);
   const { data: purchasesInCartData } = useQuery({
     queryKey: ["cart", { status: purchasesStatus.inCart }],
     queryFn: () => purchaseAPI.getCart({ status: purchasesStatus.inCart }),
@@ -232,7 +235,7 @@ const MainNavbar = () => {
             >
               <Link
                 className="relative"
-                to={path.home}
+                to={getDeviceType() === "mobile" || getDeviceType() === "tablet" ? location.pathname : path.home}
               >
                 {purchasesInCart && (
                   <span className="absolute -top-3 -right-3 flex h-7 w-7 scale-75 items-center justify-center rounded-full bg-white px-3 py-4 text-primary">

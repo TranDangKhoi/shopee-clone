@@ -65,6 +65,7 @@ const Popover = ({
                 left: x ?? 0,
                 width: "max-content",
                 transformOrigin: `${middlewareData.arrow?.x}px top`,
+                zIndex: 1,
               }}
               initial={{ opacity: 0, transform: "scale(0)" }}
               animate={{ opacity: 1, transform: "scale(1)" }}
