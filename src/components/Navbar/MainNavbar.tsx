@@ -1,21 +1,26 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { omit } from "lodash";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
+import EmptyCartIcon from "src/assets/images/empty-cart.png";
 import { toast } from "react-toastify";
 import authApi from "src/apis/auth.api";
+import purchaseAPI from "src/apis/purchase.api";
 import { path } from "src/constants/path.enum";
+import { purchasesStatus } from "src/constants/purchase.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import useQueryConfig from "src/hooks/useQueryConfig";
 import { searchQuerySchema, SearchQueryType } from "src/utils/schema";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
 import ShopeeLogoIcon2 from "../Icon/ShopeeLogoIcon2";
 import Popover from "../Popover";
+import { formatCurrency } from "src/utils/formatNumber";
+import { generateSlug } from "src/utils/slugify";
 
 type FormData = SearchQueryType;
-
+const MAX_PURCHASES_PER_CART = 5;
 const MainNavbar = () => {
   const queryConfig = useQueryConfig();
   const { isAuthenticated, userProfile, setIsAuthenticated, setUserProfile } = useContext(AuthContext);
@@ -34,6 +39,12 @@ const MainNavbar = () => {
       });
     },
   });
+  const { data: purchasesInCartData } = useQuery({
+    queryKey: ["cart", { status: purchasesStatus.inCart }],
+    queryFn: () => purchaseAPI.getCart({ status: purchasesStatus.inCart }),
+    enabled: Boolean(isAuthenticated),
+  });
+  const purchasesInCart = purchasesInCartData?.data.data;
   const handleLogOut = () => {
     logOutAccountMutation.mutate();
     setIsAuthenticated(false);
@@ -77,7 +88,7 @@ const MainNavbar = () => {
             <Popover
               className="flex cursor-pointer items-center py-1 hover:text-gray-300"
               renderPopover={
-                <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
+                <div className="relative rounded-sm border border-gray-200 bg-white shadow-lg">
                   <Link
                     to={path.profile}
                     className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
@@ -170,55 +181,65 @@ const MainNavbar = () => {
           <div className="col-span-1 justify-self-end">
             <Popover
               renderPopover={
-                <div className="relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm shadow-md">
-                  <div className="p-2">
-                    <div className="capitalize text-gray-400">Sản phẩm mới thêm</div>
-                    <div className="mt-5">
-                      <div className="mt-4 flex">
-                        <div className="flex-shrink-0">
-                          <img
-                            src="https://cf.shopee.vn/file/sg-11134201-22110-s3ycuwtvgvjvb4_tn"
-                            alt="anh"
-                            className="h-11 w-11 object-cover"
-                          />
-                        </div>
-                        <div className="ml-2 flex-grow overflow-hidden">
-                          <div className="truncate">
-                            [LIFEMCMBP2 -12% đơn 250K] Bộ Nồi Inox 3 Đáy SUNHOUSE SH334 16, 20, 24 cm
-                          </div>
-                        </div>
-                        <div className="ml-2 flex-shrink-0">
-                          <span className="text-primary">₫469.000</span>
-                        </div>
-                      </div>
-                      <div className="mt-4 flex">
-                        <div className="flex-shrink-0">
-                          <img
-                            src="https://cf.shopee.vn/file/sg-11134201-22110-s3ycuwtvgvjvb4_tn"
-                            alt="anh"
-                            className="h-11 w-11 object-cover"
-                          />
-                        </div>
-                        <div className="ml-2 flex-grow overflow-hidden">
-                          <div className="truncate">
-                            [LIFEMCMBP2 -12% đơn 250K] Bộ Nồi Inox 3 Đáy SUNHOUSE SH334 16, 20, 24 cm
-                          </div>
-                        </div>
-                        <div className="ml-2 flex-shrink-0">
-                          <span className="text-primary">₫469.000</span>
+                <div className="relative max-w-[380px] rounded-sm border border-gray-200 bg-white text-sm shadow-md sm:max-w-[400px]">
+                  {purchasesInCart ? (
+                    <>
+                      <div className="m-2 capitalize text-gray-400">Sản phẩm mới thêm</div>
+                      <div className="mt-5">
+                        {purchasesInCart.slice(0, MAX_PURCHASES_PER_CART).map((purchase) => (
+                          <Link
+                            className="flex py-3 px-2 hover:bg-gray-100"
+                            key={purchase._id}
+                            to={`/${generateSlug({ name: purchase.product.name, id: purchase.product._id })}`}
+                          >
+                            <div className="flex-shrink-0">
+                              <img
+                                src={purchase.product.image}
+                                alt="anh"
+                                className="h-11 w-11 object-cover"
+                              />
+                            </div>
+                            <div className="ml-2 flex-grow overflow-hidden">
+                              <div className="truncate">{purchase.product.name}</div>
+                            </div>
+                            <div className="ml-2 flex-shrink-0">
+                              <span className="text-primary">₫{formatCurrency(purchase.product.price)}</span>
+                            </div>
+                          </Link>
+                        ))}
+                        <div className="mx-2 mb-2 mt-6 flex items-center justify-between">
+                          {purchasesInCart.length - MAX_PURCHASES_PER_CART > 0 && (
+                            <div>Còn {purchasesInCart.length - MAX_PURCHASES_PER_CART} sản phẩm trong giỏ</div>
+                          )}
+                          <button className="rounded-sm bg-primary px-4 py-2 capitalize text-white hover:bg-opacity-90">
+                            Xem giỏ hàng
+                          </button>
                         </div>
                       </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center gap-y-3 py-10 px-16 sm:py-12 sm:px-28">
+                      <img
+                        src={EmptyCartIcon}
+                        alt="Empty"
+                        className="h-20 w-20 sm:h-40 sm:w-40"
+                      />
+                      <span className="text-sm sm:text-base">Chưa có sản phẩm</span>
                     </div>
-                    <div className="mt-6 flex items-center justify-between">
-                      <button className="rounded-sm bg-primary px-4 py-2 capitalize text-white hover:bg-opacity-90">
-                        Xem giỏ hàng
-                      </button>
-                    </div>
-                  </div>
+                  )}
                 </div>
               }
             >
-              <Link to={path.home}>
+              <Link
+                className="relative"
+                to={path.home}
+              >
+                {purchasesInCart && (
+                  <span className="absolute -top-3 -right-3 flex h-7 w-7 scale-75 items-center justify-center rounded-full bg-white px-3 py-4 text-primary">
+                    {purchasesInCart.length}
+                  </span>
+                )}
+
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

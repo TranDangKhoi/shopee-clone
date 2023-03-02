@@ -1,11 +1,13 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import productApi from "src/apis/product.api";
 import purchaseAPI from "src/apis/purchase.api";
 import ProductRating from "src/components/ProductRating";
 import QuantityController from "src/components/QuantityController";
+import { purchasesStatus } from "src/constants/purchase.enum";
 import { calculateSalePercent, formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
 import { getIdFromSlug } from "src/utils/slugify";
 import { FreeMode, Navigation, Thumbs } from "swiper";
@@ -20,6 +22,7 @@ const ProductDetails = () => {
   const [currentQuantity, setCurrentQuantity] = useState<number>(1);
   const { slug } = useParams();
   const id = getIdFromSlug(slug as string);
+  const queryClient = useQueryClient();
   const { data: productDetailData } = useQuery({
     queryKey: ["product", id],
     queryFn: () => productApi.getProductById(id as string),
@@ -34,11 +37,27 @@ const ProductDetails = () => {
     enabled: Boolean(product),
   });
 
-  // const addToCartMutation = useMutation({
-  //   mutationFn: () => purchaseAPI.addToCart(),
-  // });
+  const addToCartMutation = useMutation({
+    mutationFn: () => purchaseAPI.addToCart({ buy_count: currentQuantity, product_id: product?._id as string }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart", { status: purchasesStatus.inCart }] });
+      toast.dismiss();
+      toast.success("Thêm vào giỏ hàng thành công", {
+        hideProgressBar: true,
+        autoClose: 1000,
+        draggable: false,
+        position: "top-center",
+        className: "add-to-cart-successfully-toast",
+        closeOnClick: false,
+      });
+    },
+  });
   const handleCurrentQuantity = (value: number) => {
     setCurrentQuantity(value);
+  };
+
+  const handleAddToCart = () => {
+    addToCartMutation.mutate();
   };
 
   const handleEnterZoomMode = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -82,7 +101,7 @@ const ProductDetails = () => {
                 grabCursor={true}
                 preventInteractionOnTransition={true}
                 modules={[Thumbs]}
-                className="hover:shadow-bottom-spread transition-all duration-200 active:pointer-events-none"
+                className="transition-all duration-200 hover:shadow-bottom-spread active:pointer-events-none"
               >
                 {product.images.map((image) => {
                   return (
@@ -175,7 +194,10 @@ const ProductDetails = () => {
                 <div className="ml-6 text-sm text-gray-500">{product.quantity} sản phẩm có sẵn</div>
               </div>
               <div className="mt-8 sm:flex sm:items-center sm:gap-x-4">
-                <button className="flex h-12 w-full items-center justify-center rounded-sm border border-primary bg-primary/10 px-5 capitalize text-primary shadow-sm hover:bg-primary/5 sm:w-auto">
+                <button
+                  onClick={handleAddToCart}
+                  className="flex h-12 w-full items-center justify-center rounded-sm border border-primary bg-primary/10 px-5 capitalize text-primary shadow-sm hover:bg-primary/5 sm:w-auto"
+                >
                   <svg
                     enableBackground="new 0 0 15 15"
                     viewBox="0 0 15 15"

@@ -33,8 +33,8 @@ const schema = yup.object({
   search: yup.string().trim().required(),
 });
 
-export const registerSchema = schema.omit(["price_min", "price_max"]);
-export const loginSchema = registerSchema.omit(["confirm_password"]);
+export const registerSchema = schema.pick(["email", "password", "confirm_password"]);
+export const loginSchema = registerSchema.pick(["email", "password"]);
 export const priceRangeSchema = schema.pick(["price_min", "price_max"]);
 export const searchQuerySchema = schema.pick(["search"]);
 
