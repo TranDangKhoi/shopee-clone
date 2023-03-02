@@ -72,3 +72,8 @@ body {
   inset: 0;
   z-index: 1000;
 }
+
+.add-to-cart-successfully-toast {
+  background: rgba(0, 0, 0, 0.423) !important;
+  color: white !important;
+}
