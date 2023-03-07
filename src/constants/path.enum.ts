@@ -4,4 +4,5 @@ export enum path {
   login = "/login",
   register = "/register",
   productDetail = "/:slug",
+  cart = "/cart",
 }
