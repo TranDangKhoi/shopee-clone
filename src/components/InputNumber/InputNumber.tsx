@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import React, { forwardRef, InputHTMLAttributes } from "react";
+import React, { forwardRef, InputHTMLAttributes, useState } from "react";
 
 export type InputNumberProps = {
-  type: React.HTMLInputTypeAttribute;
+  type?: React.HTMLInputTypeAttribute;
   errorMsg?: string;
   placeholder?: string;
   className?: string;
@@ -19,14 +19,19 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function Inpu
     errorClassName = "mt-1 text-red-600 min-h-[1.25rem] text-sm",
     placeholder = "",
     onChange,
+    value = "",
     ...rest
   },
   ref,
 ) {
+  const [localValue, setLocalValue] = useState<string>(value as string);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (/^\d+$/.test(value) || value === "") {
+      // Thực thi onChange callback từ bên ngoài truyền vào props
       onChange && onChange(e);
+      // Cập nhật localValue state
+      setLocalValue(value);
     }
   };
   return (
@@ -43,6 +48,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function Inpu
           },
         )}
         onChange={handleChange}
+        value={value || localValue}
         ref={ref}
         {...rest}
       />

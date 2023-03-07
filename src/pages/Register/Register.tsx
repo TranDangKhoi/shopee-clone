@@ -71,7 +71,6 @@ const Register = () => {
             type="email"
             name="email"
             register={register}
-            // rules={schemas.email}
             containerClassName="mt-8"
             placeholder="Địa chỉ e-mail"
             errorMsg={errors.email?.message}
@@ -80,7 +79,6 @@ const Register = () => {
             type="password"
             name="password"
             register={register}
-            // rules={schemas.password}
             containerClassName="mt-1"
             placeholder="Nhập mật khẩu của bạn"
             errorMsg={errors.password?.message}
@@ -89,7 +87,6 @@ const Register = () => {
             type="password"
             name="confirm_password"
             register={register}
-            // rules={schemas.confirm_password}
             containerClassName="mt-1"
             placeholder="Nhập lại mật khẩu của bạn"
             errorMsg={errors.confirm_password?.message}

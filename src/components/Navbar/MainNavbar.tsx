@@ -41,7 +41,6 @@ const MainNavbar = () => {
       });
     },
   });
-  console.log(navigator.userAgent);
   const { data: purchasesInCartData } = useQuery({
     queryKey: ["cart", { status: purchasesStatus.inCart }],
     queryFn: () => purchaseAPI.getCart({ status: purchasesStatus.inCart }),
