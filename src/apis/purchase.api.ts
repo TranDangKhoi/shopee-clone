@@ -6,10 +6,18 @@ const purchaseAPI = {
   addToCart: (body: { product_id: string; buy_count: number }) =>
     http.post<SuccessApiResponseType<PurchaseType>>("/purchases/add-to-cart", body),
   getCart: (params: { status: PurchaseListStatus }) =>
-    http.get<SuccessApiResponseType<PurchaseType[]>>("purchases", {
+    http.get<SuccessApiResponseType<PurchaseType[]>>("/purchases", {
       params: {
         status: params.status,
       },
+    }),
+  buyProducts: (body: [{ product_id: string; buy_count: number }]) =>
+    http.post<SuccessApiResponseType<PurchaseType[]>>("/purchases/buy-products", body),
+  updateCart: (body: { product_id: string; buy_count: number }) =>
+    http.put<PurchaseType>("/purchases/update-purchase", body),
+  deletePurchaseFromCart: (purchaseIds: string[]) =>
+    http.delete<SuccessApiResponseType<{ deleted_count: number }>>("/purchases", {
+      data: purchaseIds,
     }),
 };
 

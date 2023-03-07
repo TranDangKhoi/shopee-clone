@@ -4,6 +4,7 @@ import { omit } from "lodash";
 import { Controller, useForm } from "react-hook-form";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
+import InputControl from "src/components/InputControl";
 import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path.enum";
 import { CategoryType } from "src/types/category.type";
@@ -173,6 +174,17 @@ const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
           onSubmit={handleApplyPriceRange}
         >
           <div className="flex items-center">
+            {/* <InputControl
+              type="number"
+              control={control}
+              name="price_min"
+              placeholder="₫ TỪ"
+              containerClassName="grow"
+              errorClassName="hidden"
+              onChange={() => {
+                trigger("price_min");
+              }}
+            ></InputControl> */}
             <Controller
               control={control}
               name="price_min"

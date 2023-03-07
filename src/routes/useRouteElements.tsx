@@ -4,6 +4,7 @@ import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import AuthenticationLayout from "src/layouts/AuthenticationLayout";
 import MainLayout from "src/layouts/MainLayout";
+import Cart from "src/pages/Cart";
 import Login from "src/pages/Login";
 import ProductDetails from "src/pages/ProductDetails";
 import Profile from "src/pages/Profile";
@@ -47,6 +48,14 @@ export default function useRoutesElement() {
           element: (
             <MainLayout>
               <Profile></Profile>
+            </MainLayout>
+          ),
+        },
+        {
+          path: path.cart,
+          element: (
+            <MainLayout>
+              <Cart></Cart>
             </MainLayout>
           ),
         },

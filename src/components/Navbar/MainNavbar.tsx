@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { omit } from "lodash";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
@@ -32,6 +32,7 @@ const MainNavbar = () => {
       search: "",
     },
   });
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const logOutAccountMutation = useMutation({
     mutationFn: () => authApi.logoutAccount(),
@@ -39,18 +40,22 @@ const MainNavbar = () => {
       toast.success("Đăng xuất thành công", {
         autoClose: 2000,
       });
+      queryClient.removeQueries({
+        queryKey: ["cart", { status: purchasesStatus.inCart }],
+      });
     },
   });
   const { data: purchasesInCartData } = useQuery({
     queryKey: ["cart", { status: purchasesStatus.inCart }],
     queryFn: () => purchaseAPI.getCart({ status: purchasesStatus.inCart }),
-    enabled: Boolean(isAuthenticated),
+    enabled: isAuthenticated,
   });
   const purchasesInCart = purchasesInCartData?.data.data;
   const handleLogOut = () => {
     logOutAccountMutation.mutate();
     setIsAuthenticated(false);
     setUserProfile(null);
+
     navigate("/login");
   };
   const handleSearch = handleSubmit((data) => {
@@ -234,7 +239,7 @@ const MainNavbar = () => {
             >
               <Link
                 className="relative"
-                to={getDeviceType() === "mobile" || getDeviceType() === "tablet" ? location.pathname : path.home}
+                to={getDeviceType() === "mobile" || getDeviceType() === "tablet" ? location.pathname : path.cart}
               >
                 {purchasesInCart && (
                   <span className="absolute -top-3 -right-3 flex h-7 w-7 scale-75 items-center justify-center rounded-full bg-white px-3 py-4 text-primary">
