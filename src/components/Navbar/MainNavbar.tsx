@@ -218,7 +218,10 @@ const MainNavbar = () => {
                           {purchasesInCart.length - MAX_PURCHASES_PER_CART > 0 && (
                             <div>Còn {purchasesInCart.length - MAX_PURCHASES_PER_CART} sản phẩm trong giỏ</div>
                           )}
-                          <button className="rounded-sm bg-primary px-4 py-2 capitalize text-white hover:bg-opacity-90">
+                          <button
+                            className="rounded-sm bg-primary px-4 py-2 capitalize text-white hover:bg-opacity-90"
+                            onClick={() => navigate("/cart")}
+                          >
                             Xem giỏ hàng
                           </button>
                         </div>

@@ -41,7 +41,7 @@ const Popover = ({
   const hidePopover = () => {
     setIsOpen(false);
   };
-  const togglePopOver = () => {
+  const togglePopOver = (e: React.TouchEvent<any>) => {
     setIsOpen((prev) => !prev);
   };
   return (
@@ -49,7 +49,7 @@ const Popover = ({
       className={className}
       onMouseEnter={showPopover}
       onMouseLeave={hidePopover}
-      onTouchStart={togglePopOver}
+      onTouchEnd={togglePopOver}
       ref={refs.setReference}
       {...getReferenceProps()}
     >
