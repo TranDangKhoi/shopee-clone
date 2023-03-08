@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import InputNumber from "../InputNumber";
 import { InputNumberProps } from "../InputNumber/InputNumber";
 
@@ -8,6 +8,7 @@ type QuantityControllerProps = {
   onIncrease?: (value: number) => void;
   onDecrease?: (value: number) => void;
   onType?: (value: number) => void;
+  onFocusOutside?: (value: number) => void;
 } & InputNumberProps;
 
 const QuantityController = ({
@@ -16,15 +17,16 @@ const QuantityController = ({
   onIncrease,
   onDecrease,
   onType,
+  onFocusOutside,
   value,
   ...rest
 }: QuantityControllerProps) => {
   const [localValue, setLocalValue] = useState<number>(Number(value) || 1);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let _value = Number(e.target.value);
-    if (max !== undefined && _value > max) {
+    if (max !== undefined && _value >= max) {
       _value = max;
-    } else if (_value < 1) {
+    } else if (_value <= 1) {
       _value = 1;
     }
 
@@ -44,12 +46,16 @@ const QuantityController = ({
 
   const handleDecrease = () => {
     let _value = Number(value || localValue) - 1;
-    if (_value < 1) {
+    if (_value <= 1) {
       _value = 1;
     }
 
     onDecrease && onDecrease(_value);
     setLocalValue(_value);
+  };
+
+  const handleOnFocusOutside = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    onFocusOutside && onFocusOutside(Number(e.target.value));
   };
   return (
     <div className={`${containerClassName} flex items-center`}>
@@ -77,6 +83,7 @@ const QuantityController = ({
         errorClassName="hidden"
         value={value || localValue}
         onChange={handleChange}
+        onBlur={handleOnFocusOutside}
         {...rest}
       />
       <button

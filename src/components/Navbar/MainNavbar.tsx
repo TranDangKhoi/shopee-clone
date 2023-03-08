@@ -9,7 +9,7 @@ import authApi from "src/apis/auth.api";
 import purchaseAPI from "src/apis/purchase.api";
 import EmptyCartIcon from "src/assets/images/empty-cart.png";
 import { path } from "src/constants/path.enum";
-import { purchasesStatus } from "src/constants/purchase.enum";
+import { purchasesStatus } from "src/constants/purchaseStatus.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import useQueryConfig from "src/hooks/useQueryConfig";
 import { formatCurrency } from "src/utils/formatNumber";

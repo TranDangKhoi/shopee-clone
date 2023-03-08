@@ -7,7 +7,7 @@ import productApi from "src/apis/product.api";
 import purchaseAPI from "src/apis/purchase.api";
 import ProductRating from "src/components/ProductRating";
 import QuantityController from "src/components/QuantityController";
-import { purchasesStatus } from "src/constants/purchase.enum";
+import { purchasesStatus } from "src/constants/purchaseStatus.enum";
 import { calculateSalePercent, formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
 import { getIdFromSlug } from "src/utils/slugify";
 import { FreeMode, Navigation, Thumbs } from "swiper";
