@@ -55,7 +55,7 @@ const QuantityController = ({
     <div className={`${containerClassName} flex items-center`}>
       <button
         onClick={handleDecrease}
-        className="flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600 "
+        className="flex h-6 w-6 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600 sm:h-8 sm:w-8 "
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ const QuantityController = ({
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="h-4 w-4"
+          className="h-3 w-3 sm:h-4 sm:w-4"
         >
           <path
             strokeLinecap="round"
@@ -73,7 +73,7 @@ const QuantityController = ({
         </svg>
       </button>
       <InputNumber
-        className="h-8 w-14 border-t border-b border-gray-300 p-1 text-center outline-none"
+        className="h-6 w-9 rounded-none border-t border-b border-gray-300 p-1 text-center outline-none sm:h-8 sm:w-14"
         errorClassName="hidden"
         value={value || localValue}
         onChange={handleChange}
@@ -81,7 +81,7 @@ const QuantityController = ({
       />
       <button
         onClick={handleIncrease}
-        className="flex h-8 w-8 items-center justify-center rounded-r-sm border border-gray-300 text-gray-600"
+        className="flex h-6 w-6 items-center justify-center rounded-r-sm border border-gray-300 text-gray-600 sm:h-8 sm:w-8"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,7 @@ const QuantityController = ({
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="h-4 w-4"
+          className="h-3 w-3 sm:h-4 sm:w-4"
         >
           <path
             strokeLinecap="round"
