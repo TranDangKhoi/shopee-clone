@@ -12,7 +12,7 @@
 
 - For `pnpm` users, run `pnpm install`
 
-3. Run `yarn dev` to start a localhost server, or you can run `yarn dev --host` to host and let other devices get access to the website you're currently hosting
+3. Run `yarn dev` or `npm run dev` to start a localhost server, or you can run `yarn dev --host` to host and let other devices get access to the website you're currently hosting
 
 ## Main features ⚡:
 
