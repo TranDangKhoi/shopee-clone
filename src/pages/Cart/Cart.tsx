@@ -79,6 +79,7 @@ const Cart = () => {
       }),
     );
   };
+  // console.log(extendedPurchases);
   return (
     <div className="bg-neutral-100 py-16">
       <div className="container">
@@ -163,7 +164,7 @@ const Cart = () => {
                         handleQuantity(
                           index,
                           value,
-                          value >= 1 && value <= purchase.product.quantity && value !== purchase.buy_count,
+                          value >= 1 && value <= (purchasesInCart as PurchaseType[])[index].buy_count,
                         )
                       }
                       disabled={purchase.disabled}
@@ -192,7 +193,11 @@ const Cart = () => {
                       onDecrease={(value) => handleQuantity(index, value, value >= 1)}
                       onType={handleTypeQuantity(index)}
                       onFocusOutside={(value) =>
-                        handleQuantity(index, value, value >= 1 && value <= purchase.product.quantity)
+                        handleQuantity(
+                          index,
+                          value,
+                          value >= 1 && value <= (purchasesInCart as PurchaseType[])[index].buy_count,
+                        )
                       }
                       disabled={purchase.disabled}
                     />
