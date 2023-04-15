@@ -11,7 +11,7 @@ const purchaseAPI = {
         status: params.status,
       },
     }),
-  buyProducts: (body: [{ product_id: string; buy_count: number }]) =>
+  buyProducts: (body: { product_id: string; buy_count: number }[]) =>
     http.post<SuccessApiResponseType<PurchaseType[]>>("/purchases/buy-products", body),
   updateCart: (body: { product_id: string; buy_count: number }) =>
     http.put<PurchaseType>("/purchases/update-purchase", body),
