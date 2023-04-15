@@ -1,3 +1,4 @@
 import MainNavbar from "./MainNavbar";
 import AuthenticationNavbar from "./AuthenticationNavbar";
-export { MainNavbar, AuthenticationNavbar };
+import CartNavbar from "./CartNavbar";
+export { MainNavbar, AuthenticationNavbar, CartNavbar };
