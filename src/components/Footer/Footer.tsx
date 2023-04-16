@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-neutral-100 py-16">
+    <footer className="bg-white-100 py-16">
       <div className="container">
         <div className="flex flex-col items-center justify-between lg:flex-row">
           <div className="text-sm">© {new Date().getFullYear()} Shopee. Tất cả các quyền được bảo lưu.</div>
