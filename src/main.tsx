@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/auth.context";
+import { CartProvider } from "./contexts/cart.context";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <App />
+          <CartProvider>
+            <App />
+          </CartProvider>
           <ToastContainer></ToastContainer>
         </AuthProvider>
         <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
