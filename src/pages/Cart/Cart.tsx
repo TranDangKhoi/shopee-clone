@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { produce } from "immer";
 import { keyBy } from "lodash";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import purchaseAPI from "src/apis/purchase.api";
 import Button from "src/components/Button";
@@ -19,6 +19,8 @@ type ExtendedPurchases = {
 } & TPurchase;
 
 const Cart = () => {
+  const { state } = useLocation();
+  const chosenBuyNowPurchaseId = (state as { purchaseId: string | null })?.purchaseId;
   const [extendedPurchases, setExtendedPurchases] = useState<ExtendedPurchases[]>([]);
   // Đại diện cho những purchase được checked
   const checkedPurchases = extendedPurchases.filter((purchase) => purchase.checked);
@@ -60,14 +62,22 @@ const Cart = () => {
       const newExtendedPurchases = keyBy(prev, "_id");
       console.log(newExtendedPurchases);
       return (
-        purchasesInCart?.map((purchase) => ({
-          ...purchase,
-          disabled: false,
-          checked: Boolean(newExtendedPurchases[purchase._id]?.checked),
-        })) || []
+        purchasesInCart?.map((purchase) => {
+          const chosenBuyNowPurchase = chosenBuyNowPurchaseId === purchase._id;
+          return {
+            ...purchase,
+            disabled: false,
+            checked: chosenBuyNowPurchase || Boolean(newExtendedPurchases[purchase._id]?.checked),
+          };
+        }) || []
       );
     });
-  }, [purchasesInCart]);
+  }, [chosenBuyNowPurchaseId, purchasesInCart]);
+  useEffect(() => {
+    return () => {
+      history.replaceState(null, "");
+    };
+  }, []);
   const isAllChecked = extendedPurchases.every((purchase) => purchase.checked === true);
 
   const handlePurchase = () => {

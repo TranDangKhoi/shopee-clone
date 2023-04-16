@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import productApi from "src/apis/product.api";
 import purchaseAPI from "src/apis/purchase.api";
 import ProductRating from "src/components/ProductRating";
 import QuantityController from "src/components/QuantityController";
+import { path } from "src/constants/path.enum";
 import { purchasesStatus } from "src/constants/purchaseStatus.enum";
 import { calculateSalePercent, formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
 import { getIdFromSlug } from "src/utils/slugify";
@@ -20,6 +21,7 @@ const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
   const [currentImageState, setCurrentImageState] = useState<HTMLImageElement | null>(null);
   const [currentQuantity, setCurrentQuantity] = useState<number>(1);
+  const navigate = useNavigate();
   const { slug } = useParams();
   const id = getIdFromSlug(slug as string);
   const queryClient = useQueryClient();
@@ -58,6 +60,16 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     addToCartMutation.mutate();
+  };
+
+  const handleBuyNow = async () => {
+    const res = await addToCartMutation.mutateAsync();
+    const purchase = res.data.data;
+    navigate(path.cart, {
+      state: {
+        purchaseId: purchase._id,
+      },
+    });
   };
 
   const handleEnterZoomMode = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -249,7 +261,10 @@ const ProductDetails = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className="mt-5 flex h-12 w-full min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90 sm:mt-0 sm:w-auto">
+                <button
+                  onClick={handleBuyNow}
+                  className="mt-5 flex h-12 w-full min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90 sm:mt-0 sm:w-auto"
+                >
                   Mua ngay
                 </button>
               </div>
