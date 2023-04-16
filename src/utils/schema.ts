@@ -1,8 +1,8 @@
-import { QueryConfigType } from "src/types/query.type";
+import { TQueryConfig } from "src/types/query.type";
 import * as yup from "yup";
 
 function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
-  const { price_max, price_min } = this.parent as Pick<QueryConfigType, "price_max" | "price_min">;
+  const { price_max, price_min } = this.parent as Pick<TQueryConfig, "price_max" | "price_min">;
   if (price_min !== "" && price_max !== "") {
     return Number(price_max) >= Number(price_min);
   }

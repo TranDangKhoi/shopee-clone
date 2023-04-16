@@ -1,5 +1,5 @@
 type Role = "User" | "Admin";
-export type UserType = {
+export type TUser = {
   _id: string;
   roles: Role[];
   email: string;

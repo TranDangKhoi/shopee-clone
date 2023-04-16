@@ -1,10 +1,10 @@
 import { isUndefined, omitBy } from "lodash";
-import { QueryConfigType } from "src/types/query.type";
+import { TQueryConfig } from "src/types/query.type";
 import useQueryParams from "./useQueryParams";
 
 export default function useQueryConfig() {
   const queryParams = useQueryParams();
-  const queryConfig: QueryConfigType = omitBy(
+  const queryConfig: TQueryConfig = omitBy(
     {
       page: queryParams.page || "1",
       limit: queryParams.limit,

@@ -1,15 +1,15 @@
-import { ProductType } from "./product.type";
+import { TProduct } from "./product.type";
 
-export type PurchaseStatus = -1 | 1 | 2 | 3 | 4 | 5;
-export type PurchaseListStatus = PurchaseStatus | 0;
+export type TPurchaseStatus = -1 | 1 | 2 | 3 | 4 | 5;
+export type TPurchaseListStatus = TPurchaseStatus | 0;
 
-export type PurchaseType = {
+export type TPurchase = {
   _id: string;
   buy_count: number;
   price: number;
   price_before_discount: number;
-  status: PurchaseStatus;
-  product: ProductType;
+  status: TPurchaseStatus;
+  product: TProduct;
   createdAt: string;
   updatedAt: string;
 };

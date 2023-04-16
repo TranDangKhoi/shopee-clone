@@ -1,8 +1,8 @@
-import { UserType } from "./user.types";
-import { SuccessApiResponseType } from "./utils.types";
+import { TUser } from "./user.types";
+import { TSuccessApiResponse } from "./utils.types";
 
-export type AuthResponseType = SuccessApiResponseType<{
+export type TAuthResponse = TSuccessApiResponse<{
   access_token: string;
   expires: string;
-  user: UserType;
+  user: TUser;
 }>;

@@ -9,7 +9,7 @@ import Button from "src/components/Button";
 import { Input } from "src/components/Input";
 import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
-import { ErrorApiResponseType } from "src/types/utils.types";
+import { TErrorApiResponse } from "src/types/utils.types";
 import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { loginSchema, LoginSchemaType } from "src/utils/schema";
 
@@ -40,8 +40,8 @@ const Login = () => {
       },
       onError: (error) => {
         if (
-          isAxiosError<ErrorApiResponseType<FormData>>(error) &&
-          isAxiosUnprocessableEntity<ErrorApiResponseType<FormData>>(error)
+          isAxiosError<TErrorApiResponse<FormData>>(error) &&
+          isAxiosUnprocessableEntity<TErrorApiResponse<FormData>>(error)
         ) {
           const formError = error.response?.data.data;
           if (formError) {

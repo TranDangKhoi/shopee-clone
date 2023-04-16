@@ -3,7 +3,7 @@ import categoryApi from "src/apis/category.api";
 import productApi from "src/apis/product.api";
 import Pagination from "src/components/Pagination";
 import useQueryConfig from "src/hooks/useQueryConfig";
-import { ProductListConfigType } from "src/types/product.type";
+import { TProductListConfig } from "src/types/product.type";
 import AsideFilter from "./components/AsideFilter";
 import Product from "./components/Product";
 import SortProductList from "./components/SortProductList";
@@ -12,7 +12,7 @@ const ProductList = () => {
   const queryConfig = useQueryConfig();
   const { data: productsData } = useQuery({
     queryKey: ["products", queryConfig],
-    queryFn: () => productApi.getProducts(queryConfig as ProductListConfigType),
+    queryFn: () => productApi.getProducts(queryConfig as TProductListConfig),
     keepPreviousData: true,
     staleTime: 3 * 60 * 1000,
   });

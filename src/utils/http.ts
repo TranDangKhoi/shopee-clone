@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { toast } from "react-toastify";
 import { HttpStatusCode } from "src/constants/httpStatusCode.enum";
-import { AuthResponseType } from "src/types/auth-response.types";
-import { UserType } from "src/types/user.types";
+import { TAuthResponse } from "src/types/auth-response.types";
+import { TUser } from "src/types/user.types";
 import {
   clearAuthenInfoFromLS,
   getAccessTokenFromLS,
@@ -14,7 +14,7 @@ import {
 class Http {
   instance: AxiosInstance;
   private accessToken: string;
-  private userProfile: UserType;
+  private userProfile: TUser;
   constructor() {
     this.accessToken = getAccessTokenFromLS() || "";
     this.userProfile = getProfileFromLS() || null;
@@ -42,8 +42,8 @@ class Http {
       (response) => {
         const { url } = response.config;
         if (url === "/login" || url === "/register") {
-          this.accessToken = (response.data as AuthResponseType).data.access_token;
-          this.userProfile = (response.data as AuthResponseType).data.user;
+          this.accessToken = (response.data as TAuthResponse).data.access_token;
+          this.userProfile = (response.data as TAuthResponse).data.user;
           saveAccessTokenToLS(this.accessToken);
           saveProfileToLS(this.userProfile);
         } else if (url === "/logout") {

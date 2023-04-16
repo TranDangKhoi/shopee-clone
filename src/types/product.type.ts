@@ -1,4 +1,4 @@
-export type ProductType = {
+export type TProduct = {
   _id: string;
   images: string[];
   price: number;
@@ -18,8 +18,8 @@ export type ProductType = {
   updatedAt: string;
 };
 
-export type ProductListType = {
-  products: ProductType[];
+export type TProductList = {
+  products: TProduct[];
   pagination: {
     page: number;
     limit: number;
@@ -27,7 +27,7 @@ export type ProductListType = {
   };
 };
 
-export type ProductListConfigType = {
+export type TProductListConfig = {
   page?: number | string;
   limit?: number | string;
   sort_by?: "createdAt" | "view" | "sold" | "price";

@@ -1,6 +1,6 @@
-export type ErrorApiResponseType<Data> = {
+export type TErrorApiResponse<Data> = {
   message: string;
   data?: Data;
 };
 
-export type SuccessApiResponseType<Data> = Required<ErrorApiResponseType<Data>>;
+export type TSuccessApiResponse<Data> = Required<TErrorApiResponse<Data>>;

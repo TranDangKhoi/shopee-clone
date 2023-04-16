@@ -1,4 +1,4 @@
-import { UserType } from "src/types/user.types";
+import { TUser } from "src/types/user.types";
 
 export const saveAccessTokenToLS = (access_token: string) => {
   localStorage.setItem("access_token", access_token);
@@ -16,6 +16,6 @@ export const getProfileFromLS = () => {
   return result ? JSON.parse(result) : null;
 };
 
-export const saveProfileToLS = (profile: UserType) => {
+export const saveProfileToLS = (profile: TUser) => {
   localStorage.setItem("profile", JSON.stringify(profile));
 };

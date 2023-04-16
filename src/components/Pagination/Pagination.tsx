@@ -2,10 +2,10 @@ import classNames from "classnames";
 import React from "react";
 import { createSearchParams, Link } from "react-router-dom";
 import { path } from "src/constants/path.enum";
-import { QueryConfigType } from "src/types/query.type";
+import { TQueryConfig } from "src/types/query.type";
 
 type PaginationProps = {
-  queryConfig: QueryConfigType;
+  queryConfig: TQueryConfig;
   pageSize: number;
 };
 const RANGE = 2;

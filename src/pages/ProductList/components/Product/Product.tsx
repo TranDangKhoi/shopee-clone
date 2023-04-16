@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ProductRating from "src/components/ProductRating";
-import { ProductType } from "src/types/product.type";
+import { TProduct } from "src/types/product.type";
 import { formatCurrency, formatNumberToSocialStyle } from "src/utils/formatNumber";
 import { generateSlug } from "src/utils/slugify";
 type ProductProps = {
-  product: ProductType;
+  product: TProduct;
 };
 const Product = ({ product }: ProductProps) => {
   product;

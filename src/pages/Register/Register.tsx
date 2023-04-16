@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import authApi from "src/apis/auth.api";
 import { omit } from "lodash";
 import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
-import { ErrorApiResponseType } from "src/types/utils.types";
+import { TErrorApiResponse } from "src/types/utils.types";
 import { useContext } from "react";
 import { AuthContext } from "src/contexts/auth.context";
 import Button from "src/components/Button";
@@ -40,8 +40,8 @@ const Register = () => {
       },
       onError: (error) => {
         if (
-          isAxiosError<ErrorApiResponseType<Omit<FormData, "confirm_password">>>(error) &&
-          isAxiosUnprocessableEntity<ErrorApiResponseType<Omit<FormData, "confirm_password">>>(error)
+          isAxiosError<TErrorApiResponse<Omit<FormData, "confirm_password">>>(error) &&
+          isAxiosUnprocessableEntity<TErrorApiResponse<Omit<FormData, "confirm_password">>>(error)
         ) {
           const formError = error.response?.data.data;
           if (formError) {

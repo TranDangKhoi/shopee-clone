@@ -9,14 +9,14 @@ import Button from "src/components/Button";
 import QuantityController from "src/components/QuantityController";
 import { path } from "src/constants/path.enum";
 import { purchasesStatus } from "src/constants/purchaseStatus.enum";
-import { PurchaseType } from "src/types/purchase.type";
+import { TPurchase } from "src/types/purchase.type";
 import { formatCurrency } from "src/utils/formatNumber";
 import { generateSlug } from "src/utils/slugify";
 
 type ExtendedPurchases = {
   disabled: boolean;
   checked: boolean;
-} & PurchaseType;
+} & TPurchase;
 
 const Cart = () => {
   const [extendedPurchases, setExtendedPurchases] = useState<ExtendedPurchases[]>([]);
@@ -216,7 +216,7 @@ const Cart = () => {
                           handleQuantity(
                             index,
                             value,
-                            value >= 1 && value <= (purchasesInCart as PurchaseType[])[index].buy_count,
+                            value >= 1 && value <= (purchasesInCart as TPurchase[])[index].buy_count,
                           )
                         }
                         disabled={purchase.disabled}
@@ -253,7 +253,7 @@ const Cart = () => {
                           handleQuantity(
                             index,
                             value,
-                            value >= 1 && value <= (purchasesInCart as PurchaseType[])[index].buy_count,
+                            value >= 1 && value <= (purchasesInCart as TPurchase[])[index].buy_count,
                           )
                         }
                         disabled={purchase.disabled}

@@ -1,5 +1,5 @@
-import { ProductListConfigType } from "./product.type";
+import { TProductListConfig } from "./product.type";
 
-export type QueryConfigType = {
-  [key in keyof ProductListConfigType]: string;
+export type TQueryConfig = {
+  [key in keyof TProductListConfig]: string;
 };

@@ -3,11 +3,11 @@ import { omit } from "lodash";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { sortBy, sortOrder } from "src/constants/params.enum";
 import { path } from "src/constants/path.enum";
-import { ProductListConfigType } from "src/types/product.type";
-import { QueryConfigType } from "src/types/query.type";
+import { TProductListConfig } from "src/types/product.type";
+import { TQueryConfig } from "src/types/query.type";
 
 type SortProductListProps = {
-  queryConfig: QueryConfigType;
+  queryConfig: TQueryConfig;
   pageSize: number;
 };
 
@@ -15,7 +15,7 @@ const SortProductList = ({ pageSize, queryConfig }: SortProductListProps) => {
   const page = Number(queryConfig.page);
   const { sort_by = sortBy.createdAt, order } = queryConfig;
   const navigate = useNavigate();
-  const handleFilterSort = (sortByValue: Exclude<ProductListConfigType["sort_by"], undefined>) => {
+  const handleFilterSort = (sortByValue: Exclude<TProductListConfig["sort_by"], undefined>) => {
     navigate({
       pathname: path.home,
       search: createSearchParams(
@@ -29,7 +29,7 @@ const SortProductList = ({ pageSize, queryConfig }: SortProductListProps) => {
       ).toString(),
     });
   };
-  const handlePriceOrderSort = (orderValue: Exclude<ProductListConfigType["order"], undefined>) => {
+  const handlePriceOrderSort = (orderValue: Exclude<TProductListConfig["order"], undefined>) => {
     navigate({
       pathname: path.home,
       search: createSearchParams({
@@ -39,7 +39,7 @@ const SortProductList = ({ pageSize, queryConfig }: SortProductListProps) => {
       }).toString(),
     });
   };
-  const isActiveSortBy = (sortByValue: Exclude<ProductListConfigType["sort_by"], undefined>) => {
+  const isActiveSortBy = (sortByValue: Exclude<TProductListConfig["sort_by"], undefined>) => {
     return sort_by === sortByValue;
   };
   return (

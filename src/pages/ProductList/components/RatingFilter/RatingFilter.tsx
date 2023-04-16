@@ -1,10 +1,10 @@
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { StarIcon, TransparentStarIcon } from "src/components/Icon";
 import { path } from "src/constants/path.enum";
-import { QueryConfigType } from "src/types/query.type";
+import { TQueryConfig } from "src/types/query.type";
 
 type RatingFilterProps = {
-  queryConfig: QueryConfigType;
+  queryConfig: TQueryConfig;
 };
 
 const RatingFilter = ({ queryConfig }: RatingFilterProps) => {

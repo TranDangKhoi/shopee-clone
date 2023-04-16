@@ -1,13 +1,13 @@
-import { ProductListConfigType, ProductListType, ProductType } from "src/types/product.type";
-import { SuccessApiResponseType } from "src/types/utils.types";
+import { TProductListConfig, TProductList, TProduct } from "src/types/product.type";
+import { TSuccessApiResponse } from "src/types/utils.types";
 import http from "src/utils/http";
 
 const productApi = {
-  getProducts: (params: ProductListConfigType) =>
-    http.get<SuccessApiResponseType<ProductListType>>("/products", {
+  getProducts: (params: TProductListConfig) =>
+    http.get<TSuccessApiResponse<TProductList>>("/products", {
       params,
     }),
-  getProductById: (productId: string) => http.get<SuccessApiResponseType<ProductType>>(`/products/${productId}`),
+  getProductById: (productId: string) => http.get<TSuccessApiResponse<TProduct>>(`/products/${productId}`),
 };
 
 export default productApi;

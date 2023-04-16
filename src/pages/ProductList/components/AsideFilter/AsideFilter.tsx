@@ -7,14 +7,14 @@ import Button from "src/components/Button";
 import InputControl from "src/components/InputControl";
 import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path.enum";
-import { CategoryType } from "src/types/category.type";
-import { QueryConfigType } from "src/types/query.type";
+import { TCategory } from "src/types/category.type";
+import { TQueryConfig } from "src/types/query.type";
 import { priceRangeSchema, PriceRangeType } from "src/utils/schema";
 import RatingFilter from "../RatingFilter";
 
 type AsideFilterProps = {
-  categories: CategoryType[];
-  queryConfig: QueryConfigType;
+  categories: TCategory[];
+  queryConfig: TQueryConfig;
 };
 
 type FormData = PriceRangeType;
