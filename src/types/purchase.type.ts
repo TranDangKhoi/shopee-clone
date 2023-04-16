@@ -13,3 +13,8 @@ export type TPurchase = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TExtendedPurchases = {
+  disabled: boolean;
+  checked: boolean;
+} & TPurchase;
