@@ -172,7 +172,7 @@ const MainNavbar = ({ bottomCropped = false }: TMainNavbar) => {
               <Popover
                 renderPopover={
                   <div className="relative max-w-[380px] rounded-sm border border-gray-200 bg-white text-sm shadow-md sm:max-w-[400px]">
-                    {purchasesInCart ? (
+                    {purchasesInCart && purchasesInCart.length > 0 ? (
                       <>
                         <div className="m-2 capitalize text-gray-400">Sản phẩm mới thêm</div>
                         <div className="mt-5">
@@ -227,7 +227,7 @@ const MainNavbar = ({ bottomCropped = false }: TMainNavbar) => {
                   className="relative"
                   to={getDeviceType() === "mobile" || getDeviceType() === "tablet" ? location.pathname : path.cart}
                 >
-                  {purchasesInCart && (
+                  {purchasesInCart && purchasesInCart.length > 0 && (
                     <span className="absolute -top-3 -right-3 flex h-7 w-7 scale-75 items-center justify-center rounded-full bg-white px-3 py-4 text-primary">
                       {purchasesInCart.length}
                     </span>
