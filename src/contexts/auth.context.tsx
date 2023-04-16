@@ -7,6 +7,7 @@ interface AuthContextInterface {
   userProfile: TUser | null;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   setUserProfile: React.Dispatch<React.SetStateAction<TUser | null>>;
+  clearAuthenFromProvider: () => void;
 }
 
 const initialAuthContext: AuthContextInterface = {
@@ -14,6 +15,7 @@ const initialAuthContext: AuthContextInterface = {
   userProfile: getProfileFromLS() || null,
   setIsAuthenticated: () => null,
   setUserProfile: () => null,
+  clearAuthenFromProvider: () => null,
 };
 
 export const AuthContext = createContext<AuthContextInterface>(initialAuthContext);
@@ -21,8 +23,14 @@ export const AuthContext = createContext<AuthContextInterface>(initialAuthContex
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAuthContext.isAuthenticated);
   const [userProfile, setUserProfile] = useState<TUser | null>(initialAuthContext.userProfile);
+  const clearAuthenFromProvider = () => {
+    setIsAuthenticated(false);
+    setUserProfile(null);
+  };
   return (
-    <AuthContext.Provider value={{ userProfile, isAuthenticated, setIsAuthenticated, setUserProfile }}>
+    <AuthContext.Provider
+      value={{ userProfile, isAuthenticated, setIsAuthenticated, setUserProfile, clearAuthenFromProvider }}
+    >
       {children}
     </AuthContext.Provider>
   );

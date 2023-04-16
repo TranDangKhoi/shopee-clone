@@ -335,7 +335,7 @@ Add this into your `settings.json` (VSCode version)
 When you're writing classNames styles 💅 for many elements within a component using TailwindCSS and you want to conveniently style that component using "whateverClassName" props, sure go ahead and do that. BUT there might be more than 1 element that need to have the "whateverClassName" prop inside its `className attribute`, for example:
 
 ```tsx
-type InputProps = {
+type TInputProps = {
   type: React.HTMLInputTypeAttribute;
   className?: string; // the first one
   containerClassName?: string; // the second one

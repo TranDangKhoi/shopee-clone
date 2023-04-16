@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 
-type ButtonProps = {
+type TButtonProps = {
   type?: "button" | "submit" | "reset";
   isLoading?: boolean;
   className?: string;
@@ -10,7 +10,7 @@ type ButtonProps = {
   children?: React.ReactNode;
 };
 
-const Button = ({ type = "submit", containerClassName, className, children, isLoading, onClick }: ButtonProps) => {
+const Button = ({ type = "submit", containerClassName, className, children, isLoading, onClick }: TButtonProps) => {
   return (
     <div className={containerClassName}>
       <button

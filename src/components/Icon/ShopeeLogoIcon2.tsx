@@ -1,9 +1,9 @@
-type ShoppeeLogoIcon2Props = {
+type TShoppeeLogoIcon2Props = {
   fillColor: "primary" | "secondary";
   className?: string;
 };
 
-const ShopeeLogoIcon2 = ({ fillColor, className }: ShoppeeLogoIcon2Props) => {
+const ShopeeLogoIcon2 = ({ fillColor, className }: TShoppeeLogoIcon2Props) => {
   return (
     <svg
       fill={fillColor === "primary" ? "#ee4d2d" : "#fff"}

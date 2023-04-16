@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "src/components/Input";
-import { registerSchema, RegisterSchemaType } from "src/utils/schema";
+import { registerSchema, TRegisterSchema } from "src/utils/schema";
 import { useMutation } from "@tanstack/react-query";
 import authApi from "src/apis/auth.api";
 import { omit } from "lodash";
@@ -13,7 +13,7 @@ import { AuthContext } from "src/contexts/auth.context";
 import Button from "src/components/Button";
 import { path } from "src/constants/path.enum";
 
-type FormData = RegisterSchemaType;
+type FormData = TRegisterSchema;
 
 const Register = () => {
   const {
@@ -36,7 +36,7 @@ const Register = () => {
       onSuccess: (data) => {
         setIsAuthenticated(true);
         setUserProfile(data.data.data.user);
-        navigate("/");
+        navigate(path.home);
       },
       onError: (error) => {
         if (

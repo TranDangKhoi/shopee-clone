@@ -345,7 +345,7 @@ const Cart = () => {
             <span className="text-sm sm:text-base">Giỏ hàng còn trống</span>
             <Link
               to={path.home}
-              className="w-full bg-primary px-2 py-3 text-center text-white"
+              className="w-full bg-primary px-2 py-3 text-center uppercase text-white"
             >
               Mua ngay
             </Link>

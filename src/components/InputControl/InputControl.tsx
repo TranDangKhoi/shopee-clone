@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { InputHTMLAttributes, useState } from "react";
 import { FieldPath, FieldValues, useController, UseControllerProps } from "react-hook-form";
 
-export type InputControlProps<
+export type TInputControlProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
@@ -16,7 +16,7 @@ export type InputControlProps<
 function InputControl<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(props: InputControlProps<TFieldValues, TName>) {
+>(props: TInputControlProps<TFieldValues, TName>) {
   const {
     type,
     placeholder,

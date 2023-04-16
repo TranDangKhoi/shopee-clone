@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputNumber from "../InputNumber";
-import { InputNumberProps } from "../InputNumber/InputNumber";
+import { TInputNumberProps } from "../InputNumber/InputNumber";
 
 type QuantityControllerProps = {
   containerClassName?: string;
@@ -9,7 +9,7 @@ type QuantityControllerProps = {
   onDecrease?: (value: number) => void;
   onType?: (value: number) => void;
   onFocusOutside?: (value: number) => void;
-} & InputNumberProps;
+} & TInputNumberProps;
 
 const QuantityController = ({
   containerClassName,

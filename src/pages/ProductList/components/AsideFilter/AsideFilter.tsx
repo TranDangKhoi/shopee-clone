@@ -9,7 +9,7 @@ import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path.enum";
 import { TCategory } from "src/types/category.type";
 import { TQueryConfig } from "src/types/query.type";
-import { priceRangeSchema, PriceRangeType } from "src/utils/schema";
+import { priceRangeSchema, TPriceRangeType } from "src/utils/schema";
 import RatingFilter from "../RatingFilter";
 
 type AsideFilterProps = {
@@ -17,7 +17,7 @@ type AsideFilterProps = {
   queryConfig: TQueryConfig;
 };
 
-type FormData = PriceRangeType;
+type FormData = TPriceRangeType;
 const AsideFilter = ({ categories, queryConfig }: AsideFilterProps) => {
   const { category } = queryConfig;
   const navigate = useNavigate();

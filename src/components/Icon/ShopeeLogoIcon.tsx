@@ -1,9 +1,9 @@
 import React from "react";
-type ShoppeeLogoIconProps = {
+type TShoppeeLogoIconProps = {
   fillColor: "primary" | "secondary";
   className?: string;
 };
-const ShopeeLogoIcon = ({ fillColor, className }: ShoppeeLogoIconProps) => {
+const ShopeeLogoIcon = ({ fillColor, className }: TShoppeeLogoIconProps) => {
   return (
     <svg
       viewBox="0 0 192 65"

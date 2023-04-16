@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { forwardRef, InputHTMLAttributes, useState } from "react";
 
-export type InputNumberProps = {
+export type TInputNumberProps = {
   type?: React.HTMLInputTypeAttribute;
   errorMsg?: string;
   placeholder?: string;
@@ -10,7 +10,7 @@ export type InputNumberProps = {
   errorClassName?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumberInner(
+const InputNumber = forwardRef<HTMLInputElement, TInputNumberProps>(function InputNumberInner(
   {
     type = "text",
     errorMsg,

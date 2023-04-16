@@ -53,6 +53,10 @@ class Http {
         return response;
       },
       (error: AxiosError) => {
+        if (error.response?.status === HttpStatusCode.Unauthorized) {
+          clearAuthenInfoFromLS();
+          return Promise.reject(error);
+        }
         if (error?.response?.status !== HttpStatusCode.UnprocessableEntity) {
           // const message = error.message;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

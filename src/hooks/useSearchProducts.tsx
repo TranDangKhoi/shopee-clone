@@ -3,13 +3,13 @@ import { omit } from "lodash";
 import { useForm } from "react-hook-form";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { path } from "src/constants/path.enum";
-import { searchQuerySchema, SearchQueryType } from "src/utils/schema";
+import { searchQuerySchema, TSearchQueryType } from "src/utils/schema";
 import useQueryConfig from "./useQueryConfig";
 
 const useSearchProducts = () => {
   const queryConfig = useQueryConfig();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<SearchQueryType>({
+  const { register, handleSubmit } = useForm<TSearchQueryType>({
     resolver: yupResolver(searchQuerySchema),
     defaultValues: {
       search: "",

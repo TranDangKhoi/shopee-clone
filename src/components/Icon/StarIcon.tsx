@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import React from "react";
-type StarIconProps = {
+type TStarIconProps = {
   size: "tiny" | "small" | "medium" | "big";
 };
-const StarIcon = ({ size = "big" }: StarIconProps) => {
+const StarIcon = ({ size = "big" }: TStarIconProps) => {
   return (
     <svg
       viewBox="0 0 9.5 8"

@@ -11,9 +11,9 @@ import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import { TErrorApiResponse } from "src/types/utils.types";
 import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
-import { loginSchema, LoginSchemaType } from "src/utils/schema";
+import { loginSchema, TLoginSchemaType } from "src/utils/schema";
 
-type FormData = LoginSchemaType;
+type FormData = TLoginSchemaType;
 const Login = () => {
   const {
     handleSubmit,
@@ -36,7 +36,7 @@ const Login = () => {
       onSuccess: (data) => {
         setIsAuthenticated(true);
         setUserProfile(data.data.data.user);
-        navigate("/");
+        navigate(path.home);
       },
       onError: (error) => {
         if (

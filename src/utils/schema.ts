@@ -38,7 +38,7 @@ export const loginSchema = registerSchema.pick(["email", "password"]);
 export const priceRangeSchema = schema.pick(["price_min", "price_max"]);
 export const searchQuerySchema = schema.pick(["search"]);
 
-export type RegisterSchemaType = yup.InferType<typeof registerSchema>;
-export type LoginSchemaType = yup.InferType<typeof loginSchema>;
-export type PriceRangeType = Required<yup.InferType<typeof priceRangeSchema>>;
-export type SearchQueryType = yup.InferType<typeof searchQuerySchema>;
+export type TRegisterSchema = yup.InferType<typeof registerSchema>;
+export type TLoginSchemaType = yup.InferType<typeof loginSchema>;
+export type TPriceRangeType = Required<yup.InferType<typeof priceRangeSchema>>;
+export type TSearchQueryType = yup.InferType<typeof searchQuerySchema>;

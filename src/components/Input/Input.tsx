@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { InputHTMLAttributes } from "react";
 import { RegisterOptions, UseFormRegister } from "react-hook-form";
 
-type InputProps = {
+type TInputProps = {
   type: React.HTMLInputTypeAttribute;
   errorMsg?: string;
   placeholder?: string;
@@ -26,7 +26,7 @@ const Input = ({
   placeholder = "",
   rules,
   ...rest
-}: InputProps) => {
+}: TInputProps) => {
   const registerResult = register && name ? register(name, rules) : {};
   return (
     <div className={containerClassName}>
