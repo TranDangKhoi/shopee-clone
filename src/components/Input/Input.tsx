@@ -3,13 +3,13 @@ import React, { InputHTMLAttributes } from "react";
 import { RegisterOptions, UseFormRegister } from "react-hook-form";
 
 type TInputProps = {
-  type: React.HTMLInputTypeAttribute;
+  type?: React.HTMLInputTypeAttribute;
   errorMsg?: string;
   placeholder?: string;
   className?: string;
   containerClassName?: string;
   errorClassName?: string;
-  name: string;
+  name?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register?: UseFormRegister<any>;
   rules?: RegisterOptions;
