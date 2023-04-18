@@ -11,6 +11,7 @@ import Login from "src/pages/Login";
 import ProductDetails from "src/pages/ProductDetails";
 import Register from "src/pages/Register";
 import ChangePassword from "src/pages/User/pages/ChangePassword";
+import OrderHistory from "src/pages/User/pages/OrderHistory";
 import Profile from "src/pages/User/pages/Profile";
 import ProductList from "../pages/ProductList";
 function ProtectedRoute() {
@@ -69,6 +70,10 @@ export default function useRoutesElement() {
             {
               path: path.changePassword,
               element: <ChangePassword></ChangePassword>,
+            },
+            {
+              path: path.orderHistory,
+              element: <OrderHistory></OrderHistory>,
             },
           ],
         },

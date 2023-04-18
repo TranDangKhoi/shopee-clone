@@ -4,7 +4,7 @@ import { path } from "src/constants/path.enum";
 
 const UserSidebar = () => {
   return (
-    <div>
+    <aside>
       <div className="flex items-center border-b border-b-gray-200 py-4">
         <Link
           to={path.profile}
@@ -17,7 +17,7 @@ const UserSidebar = () => {
           />
         </Link>
         <div className="flex-grow pl-4">
-          <div className="mb-1 truncate font-semibold text-gray-600">cdthanh</div>
+          <div className="mb-1 font-semibold text-gray-600 line-clamp-1">Trần Đăng Khôi</div>
           <Link
             to={path.profile}
             className="flex items-center capitalize text-gray-500"
@@ -80,7 +80,7 @@ const UserSidebar = () => {
           Đơn mua
         </Link>
       </div>
-    </div>
+    </aside>
   );
 };
 

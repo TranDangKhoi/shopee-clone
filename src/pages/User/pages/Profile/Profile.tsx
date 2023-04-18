@@ -1,4 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import userApi from "src/apis/user.api";
+import Button from "src/components/Button";
 import { Input } from "src/components/Input";
 
 type TProfileProps = {
@@ -6,6 +9,10 @@ type TProfileProps = {
 };
 
 const Profile = () => {
+  const { data: profileData, isLoading: profileIsLoading } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => userApi.getProfile,
+  });
   return (
     <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20">
       <div className="border-b border-b-gray-200 py-6">
@@ -52,6 +59,12 @@ const Profile = () => {
                   <option disabled>Năm</option>
                 </select>
               </div>
+            </div>
+          </div>
+          <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
+            <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right"></div>
+            <div className="sm:w-[80%] sm:pl-5">
+              <Button className="rounded-sm">Cập nhật</Button>
             </div>
           </div>
         </form>
