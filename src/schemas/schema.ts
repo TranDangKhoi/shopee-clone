@@ -9,7 +9,7 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
   return price_min !== "" || price_max !== "";
 }
 
-const schema = yup.object({
+export const schema = yup.object({
   email: yup.string().email("E-mail không hợp lệ").required("Không được để trống địa chỉ e-mail"),
   password: yup
     .string()
