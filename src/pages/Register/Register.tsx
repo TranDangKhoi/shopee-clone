@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "src/components/Input";
-import { registerSchema, TRegisterSchema } from "src/utils/schema";
+import { registerSchema, TRegisterSchema } from "src/schemas/schema";
 import { useMutation } from "@tanstack/react-query";
 import authApi from "src/apis/auth.api";
 import { omit } from "lodash";

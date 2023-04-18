@@ -11,7 +11,7 @@ import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import { TErrorApiResponse } from "src/types/utils.types";
 import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
-import { loginSchema, TLoginSchemaType } from "src/utils/schema";
+import { loginSchema, TLoginSchemaType } from "src/schemas/schema";
 
 type FormData = TLoginSchemaType;
 const Login = () => {

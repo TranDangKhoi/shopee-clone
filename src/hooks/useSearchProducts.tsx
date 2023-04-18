@@ -3,7 +3,7 @@ import { omit } from "lodash";
 import { useForm } from "react-hook-form";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { path } from "src/constants/path.enum";
-import { searchQuerySchema, TSearchQueryType } from "src/utils/schema";
+import { searchQuerySchema, TSearchQueryType } from "src/schemas/schema";
 import useQueryConfig from "./useQueryConfig";
 
 const useSearchProducts = () => {
