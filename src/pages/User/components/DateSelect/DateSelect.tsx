@@ -1,5 +1,5 @@
 import { range } from "lodash";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type TDateSelectProps = {
   onChange?: (value: Date) => void;
@@ -13,16 +13,26 @@ const DateSelect = ({ errorMsg, onChange, value }: TDateSelectProps) => {
     month: value?.getMonth() || 0,
     year: value?.getFullYear() || 1990,
   });
-
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value, name } = event.target;
+    const { value: valueFromSelect, name } = event.target;
     const newDateOfBirth = {
-      ...dateOfBirth,
-      [name]: value,
+      date: value?.getDate() || dateOfBirth.date,
+      month: value?.getMonth() || dateOfBirth.month,
+      year: value?.getFullYear() || dateOfBirth.year,
+      [name]: valueFromSelect,
     };
     setDateOfBirth(newDateOfBirth);
     onChange && onChange(new Date(newDateOfBirth.year, newDateOfBirth.month, newDateOfBirth.date));
   };
+  useEffect(() => {
+    if (value) {
+      setDateOfBirth({
+        date: value.getDate() || dateOfBirth.date,
+        month: value.getMonth() || dateOfBirth.month,
+        year: value.getFullYear() || dateOfBirth.year,
+      });
+    }
+  }, [dateOfBirth.date, dateOfBirth.month, dateOfBirth.year, value]);
 
   return (
     <div className="mt-2 flex flex-col flex-wrap sm:flex-row">

@@ -10,6 +10,7 @@ import { purchasesStatus } from "src/constants/purchaseStatus.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import useSearchProducts from "src/hooks/useSearchProducts";
 import { formatCurrency } from "src/utils/formatNumber";
+import getAvatarUrl from "src/utils/getAvatarUrl";
 import getDeviceType from "src/utils/getDeviceType";
 import { generateSlug } from "src/utils/slugify";
 import { ArrowDownIcon, EarthIcon, ShopeeLogoIcon } from "../Icon";
@@ -101,7 +102,7 @@ const MainNavbar = ({ bottomCropped = false }: TMainNavbar) => {
             >
               <div className="mr-2 h-6 w-6 flex-shrink-0">
                 <img
-                  src="https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn"
+                  src={getAvatarUrl(userProfile?.avatar)}
                   alt="avatar"
                   className="h-full w-full rounded-full object-cover"
                 />

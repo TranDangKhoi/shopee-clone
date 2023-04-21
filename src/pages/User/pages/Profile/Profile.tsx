@@ -1,22 +1,39 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import userApi from "src/apis/user.api";
 import Button from "src/components/Button";
 import { Input } from "src/components/Input";
 import InputNumber from "src/components/InputNumber";
+import { AuthContext } from "src/contexts/auth.context";
 import { TUserSchema, userSchema } from "src/schemas/userSchema";
+import { TErrorApiResponse } from "src/types/utils.types";
+import { saveProfileToLS } from "src/utils/auth";
+import getAvatarUrl from "src/utils/getAvatarUrl";
+import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import DateSelect from "../../components/DateSelect";
 
 type TFormData = Pick<TUserSchema, "name" | "address" | "phone" | "date_of_birth" | "avatar">;
 const profileSchema = userSchema.pick(["name", "address", "phone", "date_of_birth", "avatar"]);
+
+const ONE_MEGABYTE_TO_BYTES = 1048576;
+
 const Profile = () => {
+  const [previewImageFile, setPreviewImageFile] = useState<File>();
+  const previewImageURL = useMemo(() => {
+    return previewImageFile ? URL.createObjectURL(previewImageFile) : "";
+  }, [previewImageFile]);
+  const { userProfile, setUserProfile } = useContext(AuthContext);
+  const inputFileRef = useRef<HTMLInputElement>(null);
   const {
     handleSubmit,
     register,
     control,
     setValue,
+    watch,
+    setError,
     formState: { errors },
   } = useForm<TFormData>({
     mode: "onSubmit",
@@ -30,13 +47,17 @@ const Profile = () => {
       date_of_birth: new Date(1990, 0, 1),
     },
   });
-  const { data: profileData, isLoading: profileIsLoading } = useQuery({
+  const avatar = watch("avatar");
+  const {
+    data: profileData,
+    refetch: profileRefetch,
+    isLoading: profileIsLoading,
+  } = useQuery({
     queryKey: ["profile"],
     queryFn: () => userApi.getProfile(),
   });
-  const updateProfileMutation = useMutation({
-    mutationFn: userApi.updateProfile,
-  });
+  const updateProfileMutation = useMutation(userApi.updateProfile);
+  const uploadAvatarMutation = useMutation(userApi.uploadAvatar);
   const profile = profileData?.data.data;
   useEffect(() => {
     (async function setProfileValue() {
@@ -50,9 +71,78 @@ const Profile = () => {
   }, [profile, setValue]);
 
   const handleUpdateProfile = handleSubmit(async (data) => {
-    console.log(data);
-    // await updateProfileMutation.mutateAsync({});
+    try {
+      let avatarName = avatar;
+      if (previewImageFile) {
+        const formData = new FormData();
+        formData.append("image", previewImageFile);
+        const uploadRes = await uploadAvatarMutation.mutateAsync(formData);
+        avatarName = uploadRes.data.data;
+        setValue("avatar", avatarName);
+      }
+      await updateProfileMutation.mutateAsync(
+        {
+          ...data,
+          date_of_birth: data.date_of_birth?.toISOString(),
+          avatar: avatarName,
+        },
+        {
+          onSuccess: (data) => {
+            profileRefetch();
+            toast.success("Đã cập nhật thông tin người dùng");
+            setUserProfile(data.data.data);
+            saveProfileToLS(data.data.data);
+          },
+        },
+      );
+    } catch (error) {
+      if (
+        isAxiosError<TErrorApiResponse<Omit<TFormData & { date_of_birth: string }, "date_of_birth">>>(error) &&
+        isAxiosUnprocessableEntity<TErrorApiResponse<Omit<TFormData & { date_of_birth: string }, "date_of_birth">>>(
+          error,
+        )
+      ) {
+        const formError = error.response?.data.data;
+        if (formError) {
+          Object.keys(formError).forEach((key) => {
+            setError(key as keyof Omit<TFormData & { date_of_birth: string }, "date_of_birth">, {
+              message: formError[key as keyof Omit<TFormData & { date_of_birth: string }, "date_of_birth">],
+              type: "server",
+            });
+          });
+        }
+      }
+      console.log(error);
+      return error;
+    }
   });
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileFromLocal = e.target.files?.[0];
+    if (fileFromLocal && fileFromLocal.size >= ONE_MEGABYTE_TO_BYTES) {
+      toast.error("Kích cỡ ảnh không được vượt quá 1MB");
+      // Set lại value để có thể chọn lại bức ảnh trước một lần nữa đề phòng có chuyện gì xảy ra
+
+      e.target.value = "";
+      return;
+    }
+    if (fileFromLocal && !fileFromLocal.type.includes("image")) {
+      toast.error(
+        <div className="text-sm">
+          File không đúng định dạng quy định
+          <br />
+          (.JPEG, .PNG, .JPG)
+        </div>,
+      );
+      // Set lại value để có thể hiển thị lại lỗi đề phòng có chuyện gì xảy ra
+      e.target.value = "";
+      return;
+    }
+    setPreviewImageFile(fileFromLocal);
+  };
+  console.log("yahoo");
+  const handleSelectAvatar = () => {
+    inputFileRef.current?.click();
+  };
   return (
     <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20">
       <div className="border-b border-b-gray-200 py-6">
@@ -132,24 +222,29 @@ const Profile = () => {
         </form>
         <div className="flex justify-center md:w-72 md:border-l md:border-l-gray-200">
           <div className="flex flex-col items-center">
-            <div className="my-5 h-24 w-24">
+            <div className="my-5 flex h-24 w-24 items-center justify-center overflow-hidden">
               <img
-                src="https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn"
-                alt=""
-                className="w-full rounded-full object-cover"
+                src={previewImageURL || getAvatarUrl(userProfile?.avatar)}
+                alt="Something happened"
+                className="h-full w-full rounded-full object-cover"
               />
             </div>
             <input
-              className="hidden"
               type="file"
+              className="hidden"
               accept=".jpg,.jpeg,.png"
+              onChange={handleChangeFile}
+              ref={inputFileRef}
             />
-            <button className="flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm">
+            <button
+              onClick={handleSelectAvatar}
+              className="flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm"
+            >
               Chọn ảnh
             </button>
             <div className="mt-3 text-gray-400">
               <div>Dụng lượng file tối đa 1 MB</div>
-              <div>Định dạng:.JPEG, .PNG</div>
+              <div>Định dạng .jpg .jpeg .png</div>
             </div>
           </div>
         </div>

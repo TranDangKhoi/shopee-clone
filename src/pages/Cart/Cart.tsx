@@ -62,7 +62,6 @@ const Cart = () => {
   useEffect(() => {
     setExtendedPurchases((prev) => {
       const newExtendedPurchases = keyBy(prev, "_id");
-      console.log(newExtendedPurchases);
       return (
         purchasesInCart?.map((purchase) => {
           const chosenBuyNowPurchase = chosenBuyNowPurchaseId === purchase._id;

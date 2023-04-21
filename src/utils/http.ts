@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { toast } from "react-toastify";
+import { config } from "src/constants/config.enum";
 import { HttpStatusCode } from "src/constants/httpStatusCode.enum";
 import { TAuthResponse } from "src/types/auth-response.types";
 import { TUser } from "src/types/user.types";
@@ -19,7 +20,7 @@ class Http {
     this.accessToken = getAccessTokenFromLS() || "";
     this.userProfile = getProfileFromLS() || null;
     this.instance = axios.create({
-      baseURL: "https://api-ecom.duthanhduoc.com",
+      baseURL: config.baseURL,
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +62,7 @@ class Http {
           // const message = error.message;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data;
-          const message = data.message || error.message;
+          const message = data?.message || error.message;
           toast.error(message);
           return Promise.reject(error);
         }

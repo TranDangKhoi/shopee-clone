@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { path } from "src/constants/path.enum";
+import { AuthContext } from "src/contexts/auth.context";
+import getAvatarUrl from "src/utils/getAvatarUrl";
 
 const UserSidebar = () => {
+  const { userProfile } = useContext(AuthContext);
   return (
     <aside>
       <div className="flex items-center border-b border-b-gray-200 py-4">
@@ -11,7 +14,7 @@ const UserSidebar = () => {
           className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10"
         >
           <img
-            src="https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn"
+            src={getAvatarUrl(userProfile?.avatar)}
             alt=""
             className="h-full w-full object-cover"
           />
