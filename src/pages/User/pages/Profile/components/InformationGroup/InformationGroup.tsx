@@ -17,7 +17,7 @@ const InformationGroup = ({ className }: TInformationGroupProps) => {
   return (
     <>
       <div className={className}>
-        <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Tên</div>
+        <div className="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Tên</div>
         <div className="sm:w-[80%] sm:pl-5">
           <Input
             register={register}
@@ -29,7 +29,7 @@ const InformationGroup = ({ className }: TInformationGroupProps) => {
         </div>
       </div>
       <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
-        <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Số điện thoại</div>
+        <div className="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Số điện thoại</div>
         <div className="sm:w-[80%] sm:pl-5">
           <Controller
             control={control}
@@ -47,7 +47,7 @@ const InformationGroup = ({ className }: TInformationGroupProps) => {
         </div>
       </div>
       <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
-        <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Địa chỉ</div>
+        <div className="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Địa chỉ</div>
         <div className="sm:w-[80%] sm:pl-5">
           <Input
             register={register}

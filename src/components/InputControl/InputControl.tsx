@@ -65,25 +65,3 @@ function InputControl<
 }
 
 export default InputControl;
-
-// type Gen<TFunc> = {
-//   getName: TFunc;
-// };
-
-// function Hexa<TFunc extends () => string, TLastName extends ReturnType<TFunc>>(props: {
-//   person: Gen<TFunc>;
-//   lastName: TLastName;
-// }) {
-//   return null;
-// }
-
-// const handleName: () => "Khoi" = () => "Khoi";
-
-// function App() {
-//   return (
-//     <Hexa
-//       person={{ getName: handleName }}
-//       lastName="Khoi"
-//     ></Hexa>
-//   );
-// }
