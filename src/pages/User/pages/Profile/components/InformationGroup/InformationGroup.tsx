@@ -1,16 +1,13 @@
-import React from "react";
-import { Controller, useForm, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { Input } from "src/components/Input";
 import InputNumber from "src/components/InputNumber";
 import { TUserSchema } from "src/schemas/userSchema";
 
-type TInputGroupProps = {
-  something: string;
-};
-
 type TFormData = Pick<TUserSchema, "name" | "address" | "phone" | "date_of_birth" | "avatar">;
-
-const InformationGroup = () => {
+type TInformationGroupProps = {
+  className?: string;
+};
+const InformationGroup = ({ className }: TInformationGroupProps) => {
   const methods = useFormContext<TFormData>();
   const {
     register,
@@ -19,7 +16,7 @@ const InformationGroup = () => {
   } = methods;
   return (
     <>
-      <div className="mt-6 flex flex-col flex-wrap sm:flex-row">
+      <div className={className}>
         <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Tên</div>
         <div className="sm:w-[80%] sm:pl-5">
           <Input

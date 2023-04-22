@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import getAvatarUrl from "src/utils/getAvatarUrl";
@@ -9,7 +9,7 @@ const UserSidebar = () => {
   return (
     <aside>
       <div className="flex items-center border-b border-b-gray-200 py-4">
-        <Link
+        <NavLink
           to={path.profile}
           className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10"
         >
@@ -18,10 +18,10 @@ const UserSidebar = () => {
             alt=""
             className="h-full w-full object-cover"
           />
-        </Link>
+        </NavLink>
         <div className="flex-grow pl-4">
           <div className="mb-1 font-semibold text-gray-600 line-clamp-1">Trần Đăng Khôi</div>
-          <Link
+          <NavLink
             to={path.profile}
             className="flex items-center capitalize text-gray-500"
           >
@@ -39,15 +39,17 @@ const UserSidebar = () => {
               />
             </svg>
             Sửa hồ sơ
-          </Link>
+          </NavLink>
         </div>
       </div>
       <div className="mt-7">
-        <Link
+        <NavLink
           to={path.profile}
-          className="flex items-center capitalize text-primary transition-colors"
+          className={({ isActive }) =>
+            `flex items-center gap-x-3 capitalize transition-colors ${isActive ? "text-primary" : "text-gray-600"}`
+          }
         >
-          <div className="mr-3 h-[22px] w-[22px]">
+          <div className="h-[22px] w-[22px]">
             <img
               src="https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4"
               alt=""
@@ -55,12 +57,14 @@ const UserSidebar = () => {
             />
           </div>
           Tài khoản của tôi
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to={path.changePassword}
-          className="mt-4 flex items-center capitalize text-gray-600 transition-colors"
+          className={({ isActive }) =>
+            `mt-2 flex items-center gap-x-3 capitalize transition-colors ${isActive ? "text-primary" : "text-gray-600"}`
+          }
         >
-          <div className="mr-3 h-[22px] w-[22px]">
+          <div className="h-[22px] w-[22px]">
             <img
               src="https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4"
               alt=""
@@ -68,20 +72,49 @@ const UserSidebar = () => {
             />
           </div>
           Đổi mật khẩu
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to={path.orderHistory}
-          className="mt-4 flex items-center capitalize text-gray-600 transition-colors"
+          className={({ isActive }) =>
+            `mt-2 flex items-center gap-x-1 capitalize transition-colors ${isActive ? "text-primary" : "text-gray-600"}`
+          }
         >
-          <div className="mr-3 h-[22px] w-[22px]">
-            <img
-              src="https://cf.shopee.vn/file/f0049e9df4e536bc3e7f140d071e9078"
-              alt=""
-              className="h-full w-full"
-            />
+          <div className="h-[24px] w-[24px]">
+            <svg
+              width={24}
+              height={24}
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 21V3L15 5L12 3L9 5L6 3V21L9 19.5L12 21L15 19.5L18 21Z"
+                stroke="#0E4FB2"
+                strokeWidth={2}
+                strokeLinejoin="round"
+              />
+              <path
+                d="M10 9H14"
+                stroke="#0E4FB2"
+                strokeWidth={2}
+                strokeLinecap="round"
+              />
+              <path
+                d="M10 15H14"
+                stroke="#0E4FB2"
+                strokeWidth={2}
+                strokeLinecap="round"
+              />
+              <path
+                d="M10 12H14"
+                stroke="#0E4FB2"
+                strokeWidth={2}
+                strokeLinecap="round"
+              />
+            </svg>
           </div>
           Đơn mua
-        </Link>
+        </NavLink>
       </div>
     </aside>
   );

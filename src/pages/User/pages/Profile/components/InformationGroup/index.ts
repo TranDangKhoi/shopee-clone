@@ -1,3 +1,3 @@
-import InformationGroup from "./InputGroup";
+import InformationGroup from "./InformationGroup";
 
 export default InformationGroup;

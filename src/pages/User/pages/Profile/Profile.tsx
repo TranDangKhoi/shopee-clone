@@ -5,9 +5,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import userApi from "src/apis/user.api";
 import Button from "src/components/Button";
-import { Input } from "src/components/Input";
 import InputFile from "src/components/InputFile";
-import InputNumber from "src/components/InputNumber";
 import { AuthContext } from "src/contexts/auth.context";
 import { TUserSchema, userSchema } from "src/schemas/userSchema";
 import { TErrorApiResponse } from "src/types/utils.types";
@@ -42,7 +40,6 @@ const Profile = () => {
   });
   const {
     handleSubmit,
-    register,
     control,
     setValue,
     watch,
@@ -51,11 +48,7 @@ const Profile = () => {
   } = methods;
 
   const avatar = watch("avatar");
-  const {
-    data: profileData,
-    refetch: profileRefetch,
-    isLoading: profileIsLoading,
-  } = useQuery({
+  const { data: profileData, refetch: profileRefetch } = useQuery({
     queryKey: ["profile"],
     queryFn: () => userApi.getProfile(),
   });
@@ -166,7 +159,7 @@ const Profile = () => {
                 <div className="pt-3 text-gray-700">{profile?.email}</div>
               </div>
             </div>
-            <InformationGroup></InformationGroup>
+            <InformationGroup className="mt-6 flex flex-col flex-wrap sm:flex-row"></InformationGroup>
             <Controller
               control={control}
               name="date_of_birth"
