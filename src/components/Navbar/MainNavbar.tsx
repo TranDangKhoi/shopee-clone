@@ -86,7 +86,7 @@ const MainNavbar = ({ bottomCropped = false }: TMainNavbar) => {
                     Tài khoản của tôi
                   </Link>
                   <Link
-                    to={path.home}
+                    to={path.orderHistory}
                     className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
                   >
                     Đơn mua

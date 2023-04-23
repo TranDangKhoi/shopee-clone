@@ -4,6 +4,6 @@ export enum purchasesStatus {
   waitForConfirmation,
   waitForPickup,
   inProgress,
-  devlivered,
+  delivered,
   cancelled,
 }
