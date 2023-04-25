@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { produce } from "immer";
-import { keyBy } from "lodash";
+import keyBy from "lodash/keyBy";
 import React, { useContext, useEffect, useMemo } from "react";
 import EmptyCartIcon from "src/assets/images/empty-cart.png";
 import { Link, useLocation } from "react-router-dom";

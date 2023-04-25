@@ -1,4 +1,5 @@
-import { isUndefined, omitBy } from "lodash";
+import isUndefined from "lodash/isUndefined";
+import omitBy from "lodash/omitBy";
 import { TQueryConfig } from "src/types/query.type";
 import useQueryParams from "./useQueryParams";
 

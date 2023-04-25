@@ -1,23 +1,18 @@
-import React, { useContext } from "react";
-import { Controller, useForm } from "react-hook-form";
-import Button from "src/components/Button";
-import DateSelect from "../../components/DateSelect";
-import { TUserSchema, userSchema } from "src/schemas/userSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { omit, pick } from "lodash";
-import { Input } from "src/components/Input";
-import { AuthContext } from "src/contexts/auth.context";
-import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
-import { TErrorApiResponse } from "src/types/utils.types";
 import { useMutation } from "@tanstack/react-query";
-import userApi from "src/apis/user.api";
+import omit from "lodash/omit";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import userApi from "src/apis/user.api";
+import Button from "src/components/Button";
 import InputPassword from "src/components/InputPassword";
+import { TUserSchema, userSchema } from "src/schemas/userSchema";
+import { TErrorApiResponse } from "src/types/utils.types";
+import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 
 type TFormData = Pick<TUserSchema, "password" | "new_password" | "confirm_password">;
 const changePasswordSchema = userSchema.pick(["password", "new_password", "confirm_password"]);
 const ChangePassword = () => {
-  const { userProfile } = useContext(AuthContext);
   const {
     handleSubmit,
     reset,

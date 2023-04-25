@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { omit } from "lodash";
+import omit from "lodash/omit";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { sortBy, sortOrder } from "src/constants/params.enum";
 import { path } from "src/constants/path.enum";

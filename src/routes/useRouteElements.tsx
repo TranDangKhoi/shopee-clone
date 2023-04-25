@@ -6,14 +6,6 @@ import AuthenticationLayout from "src/layouts/AuthenticationLayout";
 import CartLayout from "src/layouts/CartLayout";
 import MainLayout from "src/layouts/MainLayout";
 import UserLayout from "src/layouts/UserLayout";
-// import Cart from "src/pages/Cart";
-// import NotFound from "src/pages/NotFound";
-// import ProductDetails from "src/pages/ProductDetails";
-// import Register from "src/pages/Register";
-// import ChangePassword from "src/pages/User/pages/ChangePassword";
-// import OrderHistory from "src/pages/User/pages/OrderHistory";
-// import Profile from "src/pages/User/pages/Profile";
-// import ProductList from "../pages/ProductList";
 
 const Login = lazy(() => import("src/pages/Login"));
 const Cart = lazy(() => import("src/pages/Cart"));

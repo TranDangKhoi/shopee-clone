@@ -5,7 +5,7 @@ import { Input } from "src/components/Input";
 import { registerSchema, TRegisterSchema } from "src/schemas/schema";
 import { useMutation } from "@tanstack/react-query";
 import authApi from "src/apis/auth.api";
-import { omit } from "lodash";
+import omit from "lodash/omit";
 import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { TErrorApiResponse } from "src/types/utils.types";
 import { useContext } from "react";

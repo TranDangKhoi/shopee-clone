@@ -1,10 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import classNames from "classnames";
-import { omit } from "lodash";
+import omit from "lodash/omit";
 import { Controller, useForm } from "react-hook-form";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import Button from "src/components/Button";
-import InputControl from "src/components/InputControl";
 import InputNumber from "src/components/InputNumber";
 import { path } from "src/constants/path.enum";
 import { TCategory } from "src/types/category.type";

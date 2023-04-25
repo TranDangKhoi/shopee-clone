@@ -2,10 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { path } from "src/constants/path.enum";
 
-type TNotFoundProps = {
-  something: string;
-};
-
 const NotFound = () => {
   return (
     <div>
