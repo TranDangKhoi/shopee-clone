@@ -14,7 +14,7 @@ const UserSidebar = () => {
           className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10"
         >
           <img
-            src={getAvatarUrl(userProfile?.avatar)}
+            src={getAvatarUrl(userProfile?.avatar, userProfile?.email)}
             alt=""
             className="h-full w-full object-cover"
           />

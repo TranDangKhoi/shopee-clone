@@ -102,7 +102,7 @@ const MainNavbar = ({ bottomCropped = false }: TMainNavbar) => {
             >
               <div className="mr-2 h-6 w-6 flex-shrink-0">
                 <img
-                  src={getAvatarUrl(userProfile?.avatar)}
+                  src={getAvatarUrl(userProfile?.avatar, userProfile?.email)}
                   alt="avatar"
                   className="h-full w-full rounded-full object-cover"
                 />

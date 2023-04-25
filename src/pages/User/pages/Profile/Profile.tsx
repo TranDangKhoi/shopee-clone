@@ -184,7 +184,7 @@ const Profile = () => {
           <div className="flex flex-col items-center">
             <div className="my-5 flex h-24 w-24 items-center justify-center overflow-hidden">
               <img
-                src={previewImageURL || getAvatarUrl(userProfile?.avatar)}
+                src={previewImageURL || getAvatarUrl(userProfile?.avatar, userProfile?.email)}
                 alt="Something happened"
                 className="h-full w-full rounded-full object-cover"
               />
