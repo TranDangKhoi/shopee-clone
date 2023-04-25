@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 type TStarIconProps = {
-  size: "tiny" | "small" | "medium" | "big";
+  size?: "tiny" | "small" | "medium" | "big";
 };
 const StarIcon = ({ size = "big" }: TStarIconProps) => {
   return (
