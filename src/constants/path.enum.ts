@@ -6,6 +6,7 @@ export enum path {
   profile = "/user/profile",
   login = "/login",
   register = "/register",
+  logout = "/logout",
   productDetail = "/:slug",
   cart = "/cart",
 }
