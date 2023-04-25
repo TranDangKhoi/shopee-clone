@@ -8,3 +8,7 @@ export type TAuthResponse = TSuccessApiResponse<{
   expires: number;
   user: TUser;
 }>;
+
+export type TRefreshTokenResponse = TSuccessApiResponse<{
+  access_token: string;
+}>;

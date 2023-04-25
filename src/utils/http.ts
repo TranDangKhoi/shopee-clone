@@ -1,17 +1,21 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { toast } from "react-toastify";
+import { AUTH_ENUM } from "src/apis/auth.api";
 import { config } from "src/constants/config.enum";
 import { HttpStatusCode } from "src/constants/httpStatusCode.enum";
 import { path } from "src/constants/path.enum";
-import { TAuthResponse } from "src/types/auth-response.types";
+import { TAuthResponse, TRefreshTokenResponse } from "src/types/auth-response.types";
 import { TUser } from "src/types/user.types";
 import {
   clearAuthenInfoFromLS,
   getAccessTokenFromLS,
   getProfileFromLS,
+  getRefreshTokenFromLS,
   saveAccessTokenToLS,
   saveProfileToLS,
+  saveRefreshTokenToLS,
 } from "./auth";
+import { isAxiosUnauthorizedError } from "./isAxiosError";
 
 class Http {
   instance: AxiosInstance;
@@ -21,7 +25,7 @@ class Http {
   // private userProfile: TUser;
   constructor() {
     this.accessToken = getAccessTokenFromLS();
-    this.refreshToken = null;
+    this.refreshToken = getRefreshTokenFromLS();
     // this.userProfile = getProfileFromLS() || null;
     this.instance = axios.create({
       baseURL: config.baseURL,
@@ -48,20 +52,22 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config;
-        if (url === path.login || url === path.register) {
+        if (url === AUTH_ENUM.URL_LOGIN || url === AUTH_ENUM.URL_REGISTER) {
           const data = response.data as TAuthResponse;
           this.accessToken = data.data.access_token;
           this.refreshToken = data.data.refresh_token;
           // this.userProfile = (response.data as TAuthResponse).data.user;
           saveAccessTokenToLS(this.accessToken);
+          saveRefreshTokenToLS(this.refreshToken);
           saveProfileToLS(data.data.user);
-        } else if (url === path.logout) {
+        } else if (url === "/logout") {
           this.accessToken = "";
+          this.refreshToken = "";
           clearAuthenInfoFromLS();
         }
         return response;
       },
-      function (error: AxiosError) {
+      (error: AxiosError) => {
         if (error?.response?.status !== HttpStatusCode.UnprocessableEntity) {
           // const message = error.message;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -69,12 +75,34 @@ class Http {
           const message = data?.message || error.message;
           toast.error(message);
         }
-        if (error.response?.status === HttpStatusCode.Unauthorized) {
+        if (isAxiosUnauthorizedError(error)) {
+          // Lỗi 401 có rất nhiều trường hợp
+          // 1. Token không đúng hoặc token trống
+          // 2. Token hết hạn
+          // v.v...
           clearAuthenInfoFromLS();
         }
         return Promise.reject(error);
       },
     );
+  }
+  private handleRefreshToken() {
+    this.instance
+      .post<TRefreshTokenResponse>(AUTH_ENUM.URL_REFRESHTOKEN, {
+        refresh_token: this.refreshToken,
+      })
+      .then((res) => {
+        const { access_token } = res.data.data;
+        saveAccessTokenToLS(access_token);
+        this.accessToken = access_token;
+        return access_token;
+      })
+      .catch((error) => {
+        clearAuthenInfoFromLS();
+        this.accessToken = "";
+        this.refreshToken = "";
+        throw error;
+      });
   }
 }
 
