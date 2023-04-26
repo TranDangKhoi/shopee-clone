@@ -389,7 +389,7 @@ Simply fixed by replace your current thumbs prop with this
 
 ### How to allow input type=file to select the same file again after i have selected it
 
-As you know in React, your component will not re-render when there's nothing updated. Imagine your website is showing a `input` with `type="file"`, after the users select a file to upload, an error pops up saying that "You can't upload that file because of ...". And oh shit..., the users couldn't have read it, because it closed so quick. So they try to upload it once again but there're no errors appear.
+As you know in React, your component will not re-render when there's nothing updated. Imagine your website is showing a `input` with `type="file"`, after the users select a file to upload, an error pops up saying that "You can't upload that file because of ...". And oh shit..., the users couldn't have read it, because it closed too fast. So they try to upload it once again but there're no errors appear.
 
 It's because the component isn't re-rendering, the value that the input currently holds don't change. It's still holding the old file value - the one that the users tried to upload. So yeah, you as a developer will have to handle that. You will have to somehow let the users be able to upload it again.
 
