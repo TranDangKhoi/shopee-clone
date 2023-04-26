@@ -1,31 +1,32 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
 import { AUTH_ENUM } from "src/apis/auth.api";
 import { config } from "src/constants/config.enum";
 import { HttpStatusCode } from "src/constants/httpStatusCode.enum";
-import { path } from "src/constants/path.enum";
 import { TAuthResponse, TRefreshTokenResponse } from "src/types/auth-response.types";
-import { TUser } from "src/types/user.types";
+import { TErrorApiResponse } from "src/types/utils.types";
 import {
   clearAuthenInfoFromLS,
   getAccessTokenFromLS,
-  getProfileFromLS,
   getRefreshTokenFromLS,
   saveAccessTokenToLS,
   saveProfileToLS,
   saveRefreshTokenToLS,
 } from "./auth";
-import { isAxiosUnauthorizedError } from "./isAxiosError";
+import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from "./isAxiosError";
 
 class Http {
   instance: AxiosInstance;
   private accessToken: string;
   private refreshToken: string;
   private refreshTokenRequest: Promise<string> | null;
+  private TIME_BEFORE_LOOKING_FOR_A_NEW_REFRESH_TOKEN: number;
   // private userProfile: TUser;
   constructor() {
     this.accessToken = getAccessTokenFromLS();
     this.refreshToken = getRefreshTokenFromLS();
+    this.TIME_BEFORE_LOOKING_FOR_A_NEW_REFRESH_TOKEN = 10000;
+    this.refreshTokenRequest = null;
     // this.userProfile = getProfileFromLS() || null;
     this.instance = axios.create({
       baseURL: config.baseURL,
@@ -68,26 +69,50 @@ class Http {
         return response;
       },
       (error: AxiosError) => {
-        if (error?.response?.status !== HttpStatusCode.UnprocessableEntity) {
+        if (
+          ![HttpStatusCode.UnprocessableEntity, HttpStatusCode.Unauthorized].includes(error?.response?.status as number)
+        ) {
           // const message = error.message;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data;
           const message = data?.message || error.message;
           toast.error(message);
         }
-        if (isAxiosUnauthorizedError(error)) {
+        if (isAxiosUnauthorizedError<TErrorApiResponse<{ name: string; message: string }>>(error)) {
+          const config = error.response?.config || ({ headers: {} } as InternalAxiosRequestConfig);
+          const { url } = config;
           // Lỗi 401 có rất nhiều trường hợp
-          // 1. Token không đúng hoặc token trống
-          // 2. Token hết hạn
-          // v.v...
+          // TH1: Token hết hạn
+          if (isAxiosExpiredTokenError(error) && url !== AUTH_ENUM.URL_REFRESHTOKEN) {
+            this.refreshTokenRequest = this.refreshTokenRequest
+              ? this.refreshTokenRequest
+              : this.handleRefreshToken().finally(() => {
+                  // giữ refresh token request trong một khoảng thời gian nhất định rồi mới set lại là null để
+                  // tránh các trường hợp bất đắc dĩ handleRefreshToken() bị invoke 2 lần
+                  setTimeout(() => {
+                    this.refreshTokenRequest = null;
+                  }, this.TIME_BEFORE_LOOKING_FOR_A_NEW_REFRESH_TOKEN);
+                });
+            return this.refreshTokenRequest.then((access_token) => {
+              if (config?.headers) {
+                config.headers.Authorization = access_token;
+              }
+              // Nghĩa là chúng ta tiếp tục request cũ vừa bị lỗi sau khi refresh thành công, chỉ là thay thế header Authorization bằng token mới
+              return this.instance({ ...config, headers: { ...config.headers, Authorization: access_token } });
+            });
+          }
+          // Các trường hợp còn lại:
           clearAuthenInfoFromLS();
+          this.accessToken = "";
+          this.refreshToken = "";
+          toast.error(error.response?.data.data?.message);
         }
         return Promise.reject(error);
       },
     );
   }
   private handleRefreshToken() {
-    this.instance
+    return this.instance
       .post<TRefreshTokenResponse>(AUTH_ENUM.URL_REFRESHTOKEN, {
         refresh_token: this.refreshToken,
       })
