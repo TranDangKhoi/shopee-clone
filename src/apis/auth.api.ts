@@ -11,7 +11,7 @@ export enum AUTH_ENUM {
 const authApi = {
   registerAccount: (body: { email: string; password: string }) =>
     http.post<TAuthResponse>(AUTH_ENUM.URL_REGISTER, body),
-  loginAccount: (body: { email: string; password: string }) => http.post<TAuthResponse>(AUTH_ENUM.URL_REGISTER, body),
+  loginAccount: (body: { email: string; password: string }) => http.post<TAuthResponse>(AUTH_ENUM.URL_LOGIN, body),
   logoutAccount: () => http.post(AUTH_ENUM.URL_LOGOUT),
 };
 
