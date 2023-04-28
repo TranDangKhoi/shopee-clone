@@ -28,6 +28,14 @@ describe("isAxiosUnprocessableEntity", () => {
     expect(
       isAxiosUnprocessableEntity(
         new AxiosError(undefined, undefined, undefined, undefined, {
+          status: HttpStatusCode.NotFound,
+          data: null,
+        } as any),
+      ),
+    ).toBe(false);
+    expect(
+      isAxiosUnprocessableEntity(
+        new AxiosError(undefined, undefined, undefined, undefined, {
           status: HttpStatusCode.UnprocessableEntity,
           data: null,
         } as any),
