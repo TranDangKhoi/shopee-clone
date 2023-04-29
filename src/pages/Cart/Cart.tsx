@@ -14,6 +14,7 @@ import { CartContext } from "src/contexts/cart.context";
 import { TPurchase } from "src/types/purchase.type";
 import { formatCurrency } from "src/utils/formatNumber";
 import { generateSlug } from "src/utils/slugify";
+import { Helmet } from "react-helmet-async";
 
 const Cart = () => {
   const { state } = useLocation();
@@ -143,6 +144,13 @@ const Cart = () => {
   };
   return (
     <div className="bg-neutral-100 py-16">
+      <Helmet>
+        <title>Shopee At Home | Giỏ hàng</title>
+        <meta
+          name="description"
+          content={`Trang giỏ hàng của Shopee At Home`}
+        />
+      </Helmet>
       <div className="container">
         {extendedPurchases.length > 0 ? (
           <>

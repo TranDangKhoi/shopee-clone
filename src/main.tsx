@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/auth.context";
 import { CartProvider } from "./contexts/cart.context";
+import { HelmetProvider } from "react-helmet-async";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -22,12 +23,14 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-          <ToastContainer></ToastContainer>
-        </AuthProvider>
+        <HelmetProvider>
+          <AuthProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+            <ToastContainer></ToastContainer>
+          </AuthProvider>
+        </HelmetProvider>
         <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
       </QueryClientProvider>
     </BrowserRouter>

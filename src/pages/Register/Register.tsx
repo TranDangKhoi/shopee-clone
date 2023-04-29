@@ -12,6 +12,7 @@ import { useContext } from "react";
 import { AuthContext } from "src/contexts/auth.context";
 import Button from "src/components/Button";
 import { path } from "src/constants/path.enum";
+import { Helmet } from "react-helmet-async";
 
 type FormData = TRegisterSchema;
 
@@ -59,6 +60,13 @@ const Register = () => {
 
   return (
     <div className="grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-24 lg:pr-10">
+      <Helmet>
+        <title>Shopee At Home | Đăng ký</title>
+        <meta
+          name="description"
+          content={`Trang đăng ký của Shopee At Home`}
+        />
+      </Helmet>
       <div className="lg:col-span-2 lg:col-start-4">
         <form
           onSubmit={handleSignUp}

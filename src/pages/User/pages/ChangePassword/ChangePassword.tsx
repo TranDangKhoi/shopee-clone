@@ -1,11 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import omit from "lodash/omit";
+import { useContext } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import userApi from "src/apis/user.api";
 import Button from "src/components/Button";
 import InputPassword from "src/components/InputPassword";
+import { AuthContext } from "src/contexts/auth.context";
 import { TUserSchema, userSchema } from "src/schemas/userSchema";
 import { TErrorApiResponse } from "src/types/utils.types";
 import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
@@ -13,6 +16,7 @@ import { isAxiosError, isAxiosUnprocessableEntity } from "src/utils/isAxiosError
 type TFormData = Pick<TUserSchema, "password" | "new_password" | "confirm_password">;
 const changePasswordSchema = userSchema.pick(["password", "new_password", "confirm_password"]);
 const ChangePassword = () => {
+  const { userProfile } = useContext(AuthContext);
   const {
     handleSubmit,
     reset,
@@ -52,6 +56,13 @@ const ChangePassword = () => {
   });
   return (
     <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20">
+      <Helmet>
+        <title>Shopee At Home | Thay đổi mật khẩu</title>
+        <meta
+          name="description"
+          content={`Đổi mật khẩu tài khoản ${userProfile?.email}`}
+        />
+      </Helmet>
       <div className="border-b border-b-gray-200 py-6">
         <h1 className="text-lg font-medium capitalize text-gray-900">Đổi mật khẩu</h1>
         <div className="mt-1 text-sm text-gray-700">

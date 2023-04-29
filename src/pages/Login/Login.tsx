@@ -12,6 +12,7 @@ import { AuthContext } from "src/contexts/auth.context";
 import { TErrorApiResponse } from "src/types/utils.types";
 import { isAxiosUnprocessableEntity } from "src/utils/isAxiosError";
 import { loginSchema, TLoginSchemaType } from "src/schemas/schema";
+import { Helmet } from "react-helmet-async";
 
 type FormData = TLoginSchemaType;
 const Login = () => {
@@ -56,6 +57,13 @@ const Login = () => {
 
   return (
     <div className="grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10">
+      <Helmet>
+        <title>Shopee At Home | Đăng nhập</title>
+        <meta
+          name="description"
+          content="Trang đăng nhập của Shopee At Home"
+        />
+      </Helmet>
       <div className="lg:col-span-2 lg:col-start-4">
         <form
           onSubmit={handleLogin}

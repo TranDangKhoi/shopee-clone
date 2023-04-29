@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import categoryApi from "src/apis/category.api";
 import productApi from "src/apis/product.api";
 import Pagination from "src/components/Pagination";
+import { Helmet } from "react-helmet-async";
 import useQueryConfig from "src/hooks/useQueryConfig";
 import { TProductListConfig } from "src/types/product.type";
 import AsideFilter from "./components/AsideFilter";
@@ -22,6 +23,14 @@ const ProductList = () => {
   });
   return (
     <div className="bg-gray-200 py-6">
+      <Helmet>
+        <title>Shopee At Home | Trang chủ</title>
+        <meta
+          name="description"
+          content="A shopee clone edition used for studying purposes"
+          data-react-helmet="true"
+        />
+      </Helmet>
       <div className="container">
         {productsData && (
           <div className="gap-6 md:grid md:grid-cols-12">

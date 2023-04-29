@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import React, { useState } from "react";
+import { convert } from "html-to-text";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import productApi from "src/apis/product.api";
@@ -103,6 +105,16 @@ const ProductDetails = () => {
   if (!product) return null;
   return (
     <div className="bg-gray-200 py-6">
+      <Helmet>
+        <title>{product.name}</title>
+        <meta
+          name="description"
+          content={`${convert(product.description, {
+            limits: { maxInputLength: 170 },
+            preserveNewlines: false,
+          })}`}
+        />
+      </Helmet>
       <div className="bg-white p-4 shadow">
         <div className="container">
           <div className="lg:grid lg:grid-cols-12 lg:gap-9">

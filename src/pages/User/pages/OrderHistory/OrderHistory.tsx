@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import { createSearchParams, Link } from "react-router-dom";
 import purchaseAPI from "src/apis/purchase.api";
+import { Helmet } from "react-helmet-async";
 import { path } from "src/constants/path.enum";
 import { purchasesStatus } from "src/constants/purchaseStatus.enum";
 import useQueryParams from "src/hooks/useQueryParams";
@@ -48,6 +49,9 @@ export default function HistoryPurchase() {
 
   return (
     <div>
+      <Helmet>
+        <title>Shopee At Home | Đơn mua</title>
+      </Helmet>
       <div className="overflow-x-auto">
         <div className="min-w-[700px]">
           <div className="sticky top-0 flex rounded-t-sm shadow-sm">{purchaseTabsLink}</div>
