@@ -98,7 +98,10 @@ class Http {
                 config.headers.Authorization = access_token;
               }
               // Nghĩa là chúng ta tiếp tục request cũ vừa bị lỗi sau khi refresh thành công, chỉ là thay thế header Authorization bằng token mới
-              return this.instance({ ...config, headers: { ...config.headers, Authorization: access_token } });
+              return this.instance({
+                ...config,
+                headers: { ...config.headers, Authorization: access_token },
+              });
             });
           }
           // Các trường hợp còn lại:
