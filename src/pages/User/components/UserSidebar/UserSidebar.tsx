@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import LockIcon from "src/components/Icon/LockIcon";
 import { path } from "src/constants/path.enum";
 import { AuthContext } from "src/contexts/auth.context";
 import getAvatarUrl from "src/utils/getAvatarUrl";
@@ -65,11 +66,10 @@ const UserSidebar = () => {
           }
         >
           <div className="h-[22px] w-[22px]">
-            <img
-              src="https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4"
-              alt=""
-              className="h-full w-full"
-            />
+            <LockIcon
+              className="h-[22px] w-[22px]"
+              fill="#0E4FB2"
+            ></LockIcon>
           </div>
           Đổi mật khẩu
         </NavLink>

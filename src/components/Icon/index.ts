@@ -6,4 +6,4 @@ import ShopeeLogoIcon from "./ShopeeLogoIcon";
 import EyeCloseIcon from "./EyeCloseIcon";
 import EyeOpenIcon from "./EyeOpenIcon";
 
-export { EarthIcon, ArrowDownIcon, ShopeeLogoIcon, StarIcon, TransparentStarIcon };
+export { EarthIcon, ArrowDownIcon, ShopeeLogoIcon, StarIcon, TransparentStarIcon, EyeCloseIcon, EyeOpenIcon };
