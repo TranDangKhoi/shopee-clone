@@ -107,7 +107,7 @@ const MainNavbar = ({ bottomCropped = false }: TMainNavbar) => {
                   className="h-full w-full rounded-full object-cover"
                 />
               </div>
-              <div>{userProfile?.name}</div>
+              <div>{userProfile?.name || "Chưa có tên"}</div>
             </Popover>
           )}
           {!isAuthenticated && (
