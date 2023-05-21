@@ -18,6 +18,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // eslint-disable-next-line import/no-unresolved
 import { Swiper as SwiperType } from "swiper/types";
 import Product from "../ProductList/components/Product";
+import { isAxiosError } from "axios";
 
 const ProductDetails = () => {
   const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
@@ -54,6 +55,9 @@ const ProductDetails = () => {
         className: "add-to-cart-successfully-toast",
         closeOnClick: false,
       });
+    },
+    onError: () => {
+      toast.error("Vui lòng đăng nhập!");
     },
   });
   const handleCurrentQuantity = (value: number) => {
