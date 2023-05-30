@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import { env } from "process";
 import { toast } from "react-toastify";
 import { AUTH_ENUM } from "src/apis/auth.api";
 import { config } from "src/constants/config.enum";
@@ -29,7 +30,7 @@ class Http {
     this.refreshTokenRequest = null;
     // this.userProfile = getProfileFromLS() || null;
     this.instance = axios.create({
-      baseURL: config.baseURL,
+      baseURL: import.meta.env.VITE_API,
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
