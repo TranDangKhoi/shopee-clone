@@ -1,6 +1,6 @@
 # Shoppe Clone
 
-## How to run this project
+## How to run this project locally
 
 1. Clone this repository
 2. Open the project, and install all the deps and devDeps (This process may takes more than a few minutes):
@@ -12,7 +12,8 @@
 
 - For `pnpm` users, run `pnpm install`
 
-3. Run `yarn dev` or `npm run dev` to start a localhost server, or you can run `yarn dev --host` to host and let other devices get access to the website you're currently hosting
+3. You must declare your own environment variables (Sorry, i can't share the api because of security purposes)
+4. Run `yarn dev` or `npm run dev` to start a localhost server, or you can run `yarn dev --host` to host and let other devices get access to the website you're currently hosting
 
 ## Main features ⚡:
 
