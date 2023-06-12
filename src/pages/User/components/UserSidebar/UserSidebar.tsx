@@ -76,10 +76,10 @@ const UserSidebar = () => {
         <NavLink
           to={path.orderHistory}
           className={({ isActive }) =>
-            `mt-2 flex items-center gap-x-1 capitalize transition-colors ${isActive ? "text-primary" : "text-gray-600"}`
+            `mt-2 flex items-center gap-x-3 capitalize transition-colors ${isActive ? "text-primary" : "text-gray-600"}`
           }
         >
-          <div className="h-[24px] w-[24px]">
+          <div className="h-[22px] w-[22px]">
             <svg
               width={24}
               height={24}
