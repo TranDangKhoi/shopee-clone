@@ -7,7 +7,13 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "storybook-addon-react-router-v6",
+    {
+      name: "@storybook/addon-styling",
+      options: {
+        // If using Vite, @storybook/nextjs, or @storybook/preset-create-react-app with react-scripts@2.0.0 and up? You don't need to set postCss to true.
+        // postCss: true,
+      },
+    },
   ],
   framework: {
     name: "@storybook/react-vite",
