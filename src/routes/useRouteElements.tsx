@@ -30,36 +30,37 @@ function RejectedRoute() {
 export default function useRoutesElement() {
   const routeElements = useRoutes([
     {
-      path: path.home,
-      index: true,
-      element: (
-        <MainLayout>
-          <Suspense>
-            <ProductList></ProductList>
-          </Suspense>
-        </MainLayout>
-      ),
+      path: "",
+      element: <MainLayout></MainLayout>,
+      children: [
+        {
+          path: path.home,
+          index: true,
+          element: (
+            <Suspense>
+              <ProductList></ProductList>
+            </Suspense>
+          ),
+        },
+        {
+          path: path.productDetail,
+          element: (
+            <Suspense>
+              <ProductDetails></ProductDetails>
+            </Suspense>
+          ),
+        },
+        {
+          path: "*",
+          element: (
+            <Suspense>
+              <NotFound></NotFound>
+            </Suspense>
+          ),
+        },
+      ],
     },
-    {
-      path: path.productDetail,
-      element: (
-        <MainLayout>
-          <Suspense>
-            <ProductDetails></ProductDetails>
-          </Suspense>
-        </MainLayout>
-      ),
-    },
-    {
-      path: "*",
-      element: (
-        <MainLayout>
-          <Suspense>
-            <NotFound></NotFound>
-          </Suspense>
-        </MainLayout>
-      ),
-    },
+
     {
       path: "",
       element: <ProtectedRoute></ProtectedRoute>,
@@ -115,24 +116,26 @@ export default function useRoutesElement() {
       element: <RejectedRoute></RejectedRoute>,
       children: [
         {
-          path: path.login,
-          element: (
-            <AuthenticationLayout>
-              <Suspense>
-                <Login></Login>
-              </Suspense>
-            </AuthenticationLayout>
-          ),
-        },
-        {
-          path: path.register,
-          element: (
-            <AuthenticationLayout>
-              <Suspense>
-                <Register></Register>
-              </Suspense>
-            </AuthenticationLayout>
-          ),
+          path: "",
+          element: <AuthenticationLayout></AuthenticationLayout>,
+          children: [
+            {
+              path: path.login,
+              element: (
+                <Suspense>
+                  <Login></Login>
+                </Suspense>
+              ),
+            },
+            {
+              path: path.register,
+              element: (
+                <Suspense>
+                  <Register></Register>
+                </Suspense>
+              ),
+            },
+          ],
         },
       ],
     },

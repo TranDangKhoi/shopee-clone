@@ -1,17 +1,22 @@
-import React from "react";
+import React, { memo } from "react";
+import { Outlet } from "react-router-dom";
 import Footer from "src/components/Footer";
 import { MainNavbar } from "src/components/Navbar";
 type MainLayoutProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
-const MainLayout = ({ children }: MainLayoutProps) => {
+const MainLayoutInner = ({ children }: MainLayoutProps) => {
+  console.log("MainLayout");
   return (
     <>
       <MainNavbar></MainNavbar>
       {children}
+      <Outlet></Outlet>
       <Footer></Footer>
     </>
   );
 };
+
+const MainLayout = memo(MainLayoutInner);
 
 export default MainLayout;
